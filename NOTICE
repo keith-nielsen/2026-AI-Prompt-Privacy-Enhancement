@@ -1,0 +1,10 @@
+Prompt Privacy Enhancement (PPE)
+Copyright 2026 Keith Nielsen
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This repository currently contains design documentation only. Third-party
+documents cited in docs/sources/ are linked, not redistributed (local copies
+are git-ignored). Components the design plans to use (LiteLLM, llama.cpp and
+the parallel-decision fork, GLiNER2, OpenAI Privacy Filter, Presidio) are not
+bundled; their licences are recorded in docs/sources/detector-models.md.

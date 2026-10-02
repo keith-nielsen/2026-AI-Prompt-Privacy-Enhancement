@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this work in your research or deployment, please cite it as below."
+authors:
+  - family-names: Nielsen
+    given-names: Keith
+    orcid: https://orcid.org/0009-0003-7379-3347
+title: "Prompt Privacy Enhancement (PPE) — a testable privacy harness for LLM prompts"
+version: 0.0.0-design
+date-released: 2026-10-02
+repository-code: "https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement"
+license: Apache-2.0
+keywords:
+  - llm-security
+  - privacy
+  - pii
+  - pseudonymisation
+  - data-loss-prevention
+  - llm-gateway
+  - audit
+  - break-glass
+  - post-quantum
+  - governance
