@@ -3,7 +3,7 @@
 GitHub: `keith-nielsen/2026-AI-Prompt-Privacy-Enhancement` · local: `~/Documents/repo/prompt-privacy-enhancement`
 Status: planning (2026-10-02). Nothing built. Sources: [`../sources/`](../sources/README.md).
 Overnight research pass (2026-10-02): [`../research/2026-10-02-research-report.md`](../research/2026-10-02-research-report.md);
-decisions drafted as ADR-0001…0011 in this folder (status *proposed*); [threat model](../threat-model.md);
+decisions drafted as ADR-0001…0012 in this folder (status *proposed*); [threat model](../threat-model.md);
 [controls mapping](../controls-mapping.md). Where this plan and an ADR differ, the ADR is newer.
 
 ## 1. What it is
@@ -17,6 +17,11 @@ in clear text, while keeping answers useful and leaving an audit trail:
   real values in the reply (text, streamed chunks, tool-call arguments).
 - **Record** one audit record per masked value (token, keyed value digest, who, when, which model),
   never plaintext, so a later investigation can answer "did this passport number ever leave?".
+
+**Framing (operator, 2026-10-02 — ADR-0012):** PPE is a practical, testable **harness**: mechanisms,
+invariants, safe defaults, reference profiles as examples, an explicit trade-off for every knob
+(`ppe explain`) and conformance tests adopters run on their own deployment (`ppe verify`). Adopters
+make the policy decisions (roles, deadlines, retention, approvers, drills); PPE never prescribes them.
 
 It is a **protection mechanism, not anonymisation**: masked prompts remain personal data (PDPC Guide
 to Basic Anonymisation; EDPB 01/2025). The docs say so, and the deployer's provider assessment is
@@ -284,8 +289,13 @@ New from the 2026-10-02 research pass (recommendation first):
     max session length (4 h / 12 h proposed), whether the time-locked single-approver emergency path
     is enabled, broker on a separate host/VM.
 18. Case-study hardening H1–H13 — **decided** 2026-10-02: all adopted as requirements of ADR-0011 (and
-    H11 in ADR-0010). Open parameters: post-session review deadline (5 working days proposed), weekly
-    release cap (3 per investigator proposed), drill owner.
+    H11 in ADR-0010). Parameters are **policy, not constants** (operator 2026-10-02): incident-envelope
+    mode so limits never deny incident response; per-identity limits, alerts not denials in normal
+    mode, hard stops only at machine speed; batchable reviews sized to load; drill ownership by
+    assurance tier (external → internal audit → rotating approver); small-org compensating mode.
+19. Framing (ADR-0012) — **decided** 2026-10-02: mechanism not policy; invariants vs knobs; profiles are
+    examples; every knob has a trade-off statement and a proving test. Items above that read like org
+    policy (deadlines, caps, owners, retention) are adopter knobs with defaults.
 
 ## 7. The hard problems (where the real work is)
 

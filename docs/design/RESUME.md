@@ -11,7 +11,7 @@ Nothing is built. Local repo only: `git init` on `main`, **nothing committed**, 
 1. This card.
 1a. [`../research/2026-10-02-research-report.md`](../research/2026-10-02-research-report.md) — the
    overnight research pass: findings, plan changes, decisions still open.
-1b. ADR-0001…0011 in this folder (all *proposed*; 0007 observation plane, 0008 surrogate values,
+1b. ADR-0001…0012 in this folder (read **ADR-0012 first**: it governs how the others are read) (all *proposed*; 0007 observation plane, 0008 surrogate values,
    0009 sealed audit — added after the operator's reviews the same day), [`../threat-model.md`](../threat-model.md) draft 0,
    [`../controls-mapping.md`](../controls-mapping.md) draft 0.
 2. [`PLAN.md`](PLAN.md) — what it is, audience, layout, core design, Kent layering, phases,

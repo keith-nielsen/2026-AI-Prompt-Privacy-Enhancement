@@ -149,8 +149,69 @@ These are requirements of this ADR, not options.
 | H12 | **Canary records**: synthetic sealed records with decoy G1/G2 surrogate values, watched for in egress and observation; any appearance = audit decrypted outside a release. | offline-compromise detection |
 | H13 | **Monitor the monitors**: alarms on key/certificate expiry, TPM health, broker heartbeat, checkpoint gaps. | Equifax |
 
-Open parameters (PLAN §6): N days for review (proposal 5 working days), weekly release cap
-(proposal 3 per investigator), drill owner.
+### Operational parameters are adopter-set (operator, 2026-10-02; see ADR-0012)
+
+> Everything in this section is a **capability with example settings**. Deployers choose their own
+> values, roles and procedures; [ADR-0012](ADR-0012-mechanism-not-policy.md) lists each knob with its
+> trade-off and the test that proves it.
+
+The operator rejected fixed numbers: review time depends on incident count and batching; release
+volume "totally depends on incident volume" and can be very bursty during an active security
+event, and limits "must not become a valid denial source"; drill ownership depends on the people
+available and the corporate structure. External audit is ideal but not realistic for every
+organisation. So H6, H8 and H10 become **policy with safe defaults**, and the design must never let
+a limit block legitimate incident response.
+
+**H6 — velocity limits that can't be turned into denial of service**
+
+- **Incident mode.** A quorum (the same 2 approvers) can declare an *incident envelope*: incident id,
+  reason, a named set of investigators, scope ceiling (modes, periods, filters, export), and a
+  window (default 24 h, renewable by quorum). Inside the envelope, investigators open and renew
+  sessions **without new approvals per session**, up to the envelope's ceiling; the per-investigator
+  and weekly caps don't apply; every session is still sealed-logged and reviewed (H8).
+- **Normal mode.** Volume limits are **alerts, not denials**: exceeding a baseline raises an opaque
+  alert to approvers. The only hard denials are: (a) **machine-speed ceilings** (e.g. requests per
+  minute far above any human rate — the AI-speed attack signature), (b) role/policy violations,
+  (c) an approver veto.
+- **Limits are per identity, never global.** One requester (or an attacker flooding requests)
+  consumes only their own budget; unenrolled or unauthenticated callers consume nothing;
+  denied/expired requests count against the requester only. So no one can exhaust capacity
+  others need.
+- **Approver-fatigue protection** (the MFA-bombing pattern): identical or overlapping pending
+  requests are merged into one approval prompt; a requester's flood is collapsed and flagged, not
+  forwarded as many prompts.
+
+**H8 — post-session review sized to load, batchable**
+
+- Review deadline is a policy value per session class:
+
+| Session class | Review | Default deadline |
+|---|---|---|
+| live-only, view-only, inside an incident envelope | **batch** (one signed review covers many sessions) | envelope close + policy days |
+| live-only, view-only, normal mode | batch | policy days (deployer sets; e.g. weekly batch) |
+| historical, any export, emergency path | **individual** | shorter policy deadline |
+
+- Batch review = approvers sign one summary covering a set of session ids (counts, scopes, anomalies
+  highlighted; details openable through the decrypter).
+- Overdue review **never blocks during a declared incident**. It accrues as "review debt" (opaque
+  alert). Outside incidents, debt older than the deadline blocks *new normal-mode* releases for that
+  investigator only, never incident-envelope sessions.
+
+**H10 — drill ownership (examples of how adopters may assign it)**
+
+| Example | Drill owner | Evidence |
+|---|---|---|
+| A (ideal) | external auditor / assessor | signed drill report |
+| B | internal audit or second-line risk function | signed drill report |
+| C (small org) | a rotating approver who did not design the drill + the deployer's accountable executive | signed drill report |
+
+The minimum rule in every tier: the drill owner is never an investigator in that drill. Drill runs
+are sealed and checkpointed, so an external reviewer engaged *later* can verify past drills after
+the fact, even if they weren't present.
+
+**Fewer than 3 eligible people**: the mechanism offers `release_mode: 1 approver + time-lock` with
+notification to a contact the adopter names, live-only, no export; `ppe explain` reports it as a
+weaker setting and states what is given up.
 
 ## Consequences
 
