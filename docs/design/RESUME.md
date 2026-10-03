@@ -1,25 +1,101 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status: RESEARCHED, awaiting operator review (overnight pass 2026-10-02)
+## Status (2026-10-03): PHASE 1 CORE BUILT AND PUBLISHED — next is phase 2 (the proxy)
 
-Nothing is built. Local repo only: `git init` on `main`, **nothing committed**, no GitHub repo yet
-(intended: `keith-nielsen/2026-AI-Prompt-Privacy-Enhancement`; local dir
-`~/Documents/repo/prompt-privacy-enhancement`). Commit or create on GitHub only when the operator asks.
+- GitHub (public, Apache-2.0): https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement
+  — `main` = `922a99e` (also on branch `phase-1-core`; design history on `docs/design-research-adrs`).
+  Local: `~/Documents/repo/prompt-privacy-enhancement`, branch `main`, clean.
+- Profile index `keith-nielsen/keith-nielsen` (`README.md`, branch `master`) lists PPE between Kent and
+  VMM, status "Phase 1 core · detectors, swap/restore, sealed audit". Update it when status changes.
+- Commit/push only when the operator asks (they have, for each step so far). Branch first, then
+  fast-forward `main` so the published README matches the code.
+
+## Quick start (verify the build before changing anything)
+
+```bash
+cd ~/Documents/repo/prompt-privacy-enhancement
+~/ai-env/bin/uv venv --python 3.12 .venv   # only if .venv is missing
+~/ai-env/bin/uv pip install --python .venv/bin/python -e ".[dev]"
+.venv/bin/ruff check src tests && .venv/bin/ruff format --check src tests && .venv/bin/mypy && .venv/bin/pytest
+.venv/bin/ppe verify        # expect 10/10
+.venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
+```
+
+Expected at `922a99e`: ruff + strict mypy clean, **56 tests pass**, **10/10 self-checks**.
 
 ## Read first (in order)
 
 1. This card.
-1a. [`../research/2026-10-02-research-report.md`](../research/2026-10-02-research-report.md) — the
-   overnight research pass: findings, plan changes, decisions still open.
-1b. ADR-0001…0012 in this folder (read **ADR-0012 first**: it governs how the others are read) (all *proposed*; 0007 observation plane, 0008 surrogate values,
-   0009 sealed audit — added after the operator's reviews the same day), [`../threat-model.md`](../threat-model.md) draft 0,
-   [`../controls-mapping.md`](../controls-mapping.md) draft 0.
-2. [`PLAN.md`](PLAN.md) — what it is, audience, layout, core design, Kent layering, phases,
-   §6 deferred decisions, **§7 the hard problems** (swap/restore, retention, audit).
-3. [`../sources/README.md`](../sources/README.md) — index of primary sources, hashes, what is still
-   unread; one note per source with quotes and implications.
+2. [`ADR-0012`](ADR-0012-mechanism-not-policy.md) — governs how every other ADR is read (mechanism,
+   not policy; invariants vs knobs; trade-offs; proving tests).
+3. [`PLAN.md`](PLAN.md) — layout, phases, §6 decisions (list below), §7 hard problems.
+4. ADR-0001…0011 (all status *proposed*; the operator has decided many items, recorded in PLAN §6).
+5. [`../research/`](../research/) — research report + break-glass case studies;
+   [`../threat-model.md`](../threat-model.md), [`../controls-mapping.md`](../controls-mapping.md);
+   [`../sources/README.md`](../sources/README.md).
 
-## Operator's direction (keep)
+## What exists (phase 1)
+
+`src/prompt_privacy/`: `core/` (types, checksums incl. SG NRIC/FIN M-series, Stage 0 shadow text,
+normalise, keys, surrogates, vault, engine), `detectors/` (12 secret rules, structured patterns,
+operator dictionary, overlap resolution), `audit/` (2-of-2 sealed envelope, hybrid ML-KEM-768+X25519
+HPKE from `cryptography` 50, padding buckets, hash-chained log; dev token `"1234"` via Argon2id,
+refused outside `lab`), `corpus/` (synthetic generator, fixed seed, evasion variants, known gaps),
+`bench.py`, `knobs.py` (ADR-0012 catalogue → `ppe explain`), `policy.py` + `schemas/` + `policies/`
+(lab/personal/team examples), `selftest.py` (`ppe verify`), `cli/main.py` (`ppe scan|mask|corpus|
+bench|explain|verify|audit keygen|append|verify|open`). Bench output: `bench/2026-10-02-stage1-rules.txt`.
+
+Findings while building (keep): phone false positives from dates/ISBNs/order numbers → setting
+`detection.phone_context` (optional: recall 1.000 / precision ~0.92 — default, recall first;
+required: recall ~0.85 / precision 1.000); R3 round trip needs **format transfer** (a surrogate is a
+canonical value rendered into each occurrence's format); `ruff format` once wrote literal bidi /
+zero-width characters into source → code points + `tests/test_source_hygiene.py` (Trojan Source guard).
+
+## Not built yet
+
+Phase 2 proxy (OpenAI + Anthropic wire formats, SSE streaming restore R5, ingress/egress/observe
+listeners, Claude Code compatibility per `sources/claude-code-gateway.md`); zone verification L1–L3;
+signed C2SP checkpoints; retention / crypto-shredding job; per-class swap forms; observation plane and
+sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parallel-decision arbiter
+(GPU bench needs operator permission); break-glass broker; LiteLLM advisory callback; Kent wiring.
+
+## Open decisions (PLAN §6 — recommendation first)
+
+2. `on_error` in hardened: keep local if a loopback target exists, else block — confirm.
+3. Default "special" (keep-local) classes for `sg-pdpa`: health, financial detail, biometric,
+   children, legal matter — confirm.
+4. Audit retention: 12 months of period-key life (deployer writes the rationale).
+5. Kent conversation id: Hermes session id in `x-ppe-conversation-id`, forwarded by LiteLLM, trusted
+   only from LiteLLM's peer credentials.
+6. Names: PyPI `prompt-privacy-enhancement`, import `prompt_privacy`, CLI `ppe` (in use) — confirm.
+7. Topology: egress guard + advisory LiteLLM callback (ADR-0006) — confirm.
+8. Arbiter hosting: dedicated small GGUF on its own fork llama-server (recommended) vs Kent's main
+   llama-server — decide after the bench.
+9. `suppress_model_fp`: lab/standard only, never hardened (recommended) vs never.
+10. Provider credentials: pass-through (recommended stand-alone) vs PPE holds keys.
+11. Non-Latin-script content until a measured model exists: keep local / block in hardened.
+12. Meaning/origin of "Jev" in "Jev-style parallel decisions".
+13. Observation: bulk-volume alert baselines; whether Gents declare `data_classes`.
+14. Surrogates: SG phone reserved range (ask IMDA); default `min_guarantee` per profile;
+    `announce: system_note` (bench decides).
+15. Kent audit key custody (HSM / smart card / air-gapped laptop); period length (monthly/quarterly).
+16. Second-token escrow or 2-of-3 across auditors; production finding counters (proposal: never).
+17. Break-glass example defaults: approver roster ≥ 3, session 4 h / max 12 h, emergency path on/off,
+    broker on a separate host/VM (adopter knobs per ADR-0012).
+
+## Next steps (recommended order)
+
+1. Phase 2 proxy, test-first: Anthropic Messages + OpenAI Chat/Responses wire formats, streaming
+   restore (R5) with chunk-boundary holdback, `x-claude-code-session-id` as conversation key, error
+   bodies in the client's format with opaque refs; test with Claude Code against a fake upstream
+   (no real cloud calls).
+2. Signed C2SP checkpoints + `ppe audit verify` signature check; retention/shredding job.
+3. Zone verification (L1 address/no-proxy/attestation; L2 `SO_PEERCRED`) for the observe/egress hops.
+4. With operator permission when the GPU is free: Stage 2 span models + parallel-decision arbiter bench.
+
+## History
+
+### Operator's direction (keep)
 
 - **Stand-alone users first.** Many more people will screen prompts to cloud providers without Kent
   than with it. Judge every design choice by the stand-alone user; Kent is one integration
@@ -29,7 +105,7 @@ Nothing is built. Local repo only: `git init` on `main`, **nothing committed**, 
 - Repo naming: GitHub `2026-AI-<Title-Case>`, local dir lowercase without the prefix.
 - Licence assumption: Apache-2.0 like Kent (confirm when starting).
 
-## How we got here (context not in the other files)
+### How we got here (context not in the other files)
 
 - Started as Kent's "egress guard" TODO (harness-kent `TODO.md`, Features), which closes Kent's
   2026-09-28 audit finding F-08 (no DLP/redaction before prompts leave the host). Generalised into a
@@ -52,21 +128,7 @@ Nothing is built. Local repo only: `git init` on `main`, **nothing committed**, 
   metrics and written policies; the Basic Anonymisation guide's pseudonym rules and breach scenarios
   shape the key and incident design. Agent-specific PDPC guidance is promised but not issued.
 
-## Phase 1 core — built 2026-10-02 (uncommitted at time of writing)
-
-`src/prompt_privacy/`: `core/` (types, checksums incl. SG NRIC/FIN M-series, Stage 0 shadow, normalise,
-keys, surrogates, vault, engine), `detectors/` (secrets, structured patterns, dictionary, overlap
-resolution), `audit/` (hybrid ML-KEM-768+X25519 HPKE keys via `cryptography` 50, sealed envelope,
-hash-chained log, dev token "1234" via Argon2id), `corpus/` (synthetic generator), `bench.py`,
-`knobs.py` (ADR-0012 catalogue → `ppe explain`), `selftest.py` (`ppe verify`), `cli/`.
-Findings while building: (1) phone false positives from dates/ISBNs/order numbers → context-word
-setting `detection.phone_context` (optional = recall 1.000 / precision ~0.92; required = recall ~0.85 /
-precision 1.000), default optional (recall first); (2) R3 needs format transfer (a surrogate is a
-canonical value rendered into each occurrence's format); (3) the formatter wrote literal bidi/zero-width
-characters into source → replaced by code points + Trojan Source guard test.
-Next: commit; phase 2 proxy (streaming restore R5, wire formats); signed checkpoints; retention.
-
-## Overnight pass 2026-10-02 (planning only — nothing built, run or benchmarked)
+### Overnight pass and same-day reviews, 2026-10-02 (planning only)
 
 Operator answers that night: local zone = **loopback only**; added baseline = **NIST / US federal**;
 "parallel decision mode" = `thecodacus/llama.cpp@parallel-decision` (`POST /v1/decision`);
@@ -96,25 +158,15 @@ session (live tail / monitoring datasource), auto-close revokes and re-arms. No 
 Fifth follow-up: real-world validation → `research/2026-10-02-break-glass-case-studies.md` (defeated /
 lockout / after-the-fact cases; PQ and AI trends) with hardening H1–H13 — **all adopted** by the operator (now requirements in ADR-0011).
 
-Nothing committed (resume-card rule). Suggested first commit when the operator approves: `docs/`
-and `.gitignore` as "docs: research pass, ADR-0001..0006, threat model, controls mapping".
 
-## First steps when resuming
+Later on 2026-10-02/03: ADR-0012 (mechanism, not policy) adopted; break-glass parameters became adopter
+knobs; repo published (public) with README/LICENSE/SECURITY/CONTRIBUTING/CITATION; phase 1 core built,
+committed (`922a99e`) and pushed; profile index updated twice.
 
-1. ~~Swap/restore family~~ → ADR-0002 (proposed). ~~Retention~~ → ADR-0003. ~~Audit~~ → ADR-0004.
-   Operator reviews ADR-0001…0006 and PLAN §6 items 2–12; mark ADRs accepted or amend.
-2. Write `schemas/policy.schema.json` and `schemas/audit-record.schema.json` from ADR-0004/0006.
-3. ~~Threat model draft~~ → `docs/threat-model.md` draft 0 (egress guard).
-4. Read the still-unread sources listed in `sources/README.md` (CSA final now read; EDPB 01/2025 and
-   ENISA primary text, PDPA sections, PDPC Key Concepts guidelines, SP 800-53r5 primary text).
-5. Stand-alone plug-in survey: Claude Code done (`sources/claude-code-gateway.md`); still open:
-   Codex CLI, Cursor (client- vs server-side base URL?), Continue, OpenAI SDK clients; other gateways.
-6. Build the synthetic corpus (SG/EU/US + adversarial variants) — it gates every model choice.
-7. When the GPU is free and the operator allows: bench GLiNER2-PII, OpenAI Privacy Filter, and the
-   parallel-decision arbiter (fork build) per ADR-0005; then skeleton and phase 1.
+## Working agreements
 
-## Working agreements carried over
-
-Test before claiming; mark anything untested. No make-work for the operator: draft first, operator
-corrects. Planning answers stop without offers. No real personal data anywhere in the repo (synthetic
-corpus only).
+Test before claiming; mark anything untested. Draft first, operator corrects. When asking for a
+decision, list every option in the reply (not just IDs and a file path). Planning mode means docs only:
+never run models or touch local services (Kent's llama-server :8081 runs overnight tests; LiteLLM
+:4000). No real personal data anywhere in the repo (synthetic only). Never put invisible/bidi
+characters in source. Ship mechanisms + defaults + trade-offs + tests; adopters set policy.
