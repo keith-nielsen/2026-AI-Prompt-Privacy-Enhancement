@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement/schemas/policy.schema.json",
+  "title": "PPE policy (phase 1 subset of the ADR-0012 knob catalogue)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profile"],
+  "properties": {
+    "profile": {"enum": ["lab", "personal", "team", "regulated", "high-assurance"]},
+    "detection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "phone_context": {"enum": ["optional", "required"]},
+        "dictionary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["term", "type"],
+            "properties": {"term": {"type": "string", "minLength": 1}, "type": {"enum": ["PERSON", "TERM"]}}
+          }
+        }
+      }
+    },
+    "swap": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {"form": {"enum": ["surrogate", "token"]}}
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "second_part": {"enum": ["dev_passphrase", "passphrase", "usb_token", "hsm"]},
+        "pq_wraps": {"enum": ["hybrid"]}
+      }
+    },
+    "on_error": {"enum": ["keep_local", "block", "pass_and_log"]}
+  },
+  "allOf": [
+    {
+      "if": {"not": {"properties": {"profile": {"const": "lab"}}}},
+      "then": {
+        "properties": {
+          "audit": {"properties": {"second_part": {"not": {"const": "dev_passphrase"}}}},
+          "on_error": {"not": {"const": "pass_and_log"}}
+        }
+      }
+    }
+  ]
+}

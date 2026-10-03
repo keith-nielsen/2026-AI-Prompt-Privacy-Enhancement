@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement/schemas/audit-envelope.schema.json",
+  "title": "PPE sealed audit envelope v2 (ADR-0010). The only clear fields; the record is inside ct.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "alg", "seq", "prev", "kid_m", "kid_u", "w_m", "w_u", "nonce", "ct"],
+  "properties": {
+    "v": {"const": 2},
+    "alg": {"const": "hpke-mlkem768x25519-hkdfsha256-aes256gcm+aes256gcm"},
+    "seq": {"type": "integer", "minimum": 0},
+    "prev": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "kid_m": {"type": "string"},
+    "kid_u": {"type": "string", "description": "\"dev-1234\" marks the development token stand-in"},
+    "w_m": {"type": "string", "description": "HPKE wrap of share 1 to the machine key (base64url)"},
+    "w_u": {"type": "string", "description": "HPKE wrap of share 2 to the token key (base64url)"},
+    "nonce": {"type": "string"},
+    "ct": {"type": "string", "description": "AES-256-GCM of the padded record (256/1024/4096/16384 B buckets)"}
+  }
+}

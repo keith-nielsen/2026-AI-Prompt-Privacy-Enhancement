@@ -52,6 +52,20 @@ Nothing is built. Local repo only: `git init` on `main`, **nothing committed**, 
   metrics and written policies; the Basic Anonymisation guide's pseudonym rules and breach scenarios
   shape the key and incident design. Agent-specific PDPC guidance is promised but not issued.
 
+## Phase 1 core — built 2026-10-02 (uncommitted at time of writing)
+
+`src/prompt_privacy/`: `core/` (types, checksums incl. SG NRIC/FIN M-series, Stage 0 shadow, normalise,
+keys, surrogates, vault, engine), `detectors/` (secrets, structured patterns, dictionary, overlap
+resolution), `audit/` (hybrid ML-KEM-768+X25519 HPKE keys via `cryptography` 50, sealed envelope,
+hash-chained log, dev token "1234" via Argon2id), `corpus/` (synthetic generator), `bench.py`,
+`knobs.py` (ADR-0012 catalogue → `ppe explain`), `selftest.py` (`ppe verify`), `cli/`.
+Findings while building: (1) phone false positives from dates/ISBNs/order numbers → context-word
+setting `detection.phone_context` (optional = recall 1.000 / precision ~0.92; required = recall ~0.85 /
+precision 1.000), default optional (recall first); (2) R3 needs format transfer (a surrogate is a
+canonical value rendered into each occurrence's format); (3) the formatter wrote literal bidi/zero-width
+characters into source → replaced by code points + Trojan Source guard test.
+Next: commit; phase 2 proxy (streaming restore R5, wire formats); signed checkpoints; retention.
+
 ## Overnight pass 2026-10-02 (planning only — nothing built, run or benchmarked)
 
 Operator answers that night: local zone = **loopback only**; added baseline = **NIST / US federal**;

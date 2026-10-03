@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "prompt-privacy-enhancement"
+version = "0.0.1.dev0"
+description = "Testable privacy harness for LLM prompts: detect, swap with surrogates, restore, sealed audit."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.12"
+authors = [{ name = "Keith Nielsen" }]
+dependencies = [
+    "cryptography>=50",   # HPKE with ML-KEM-768 + X25519 hybrid, AES-GCM, HMAC
+    "argon2-cffi>=25.1",  # dev token stand-in derivation (ADR-0010)
+    "pyyaml>=6",
+    "jsonschema>=4.23",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "hypothesis>=6.100", "ruff>=0.6", "mypy>=1.11", "types-PyYAML", "types-jsonschema"]
+
+[project.scripts]
+ppe = "prompt_privacy.cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/prompt_privacy"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"schemas" = "prompt_privacy/_schemas"
+"policies" = "prompt_privacy/_policies"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106"]  # synthetic fake secrets in tests
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["src"]

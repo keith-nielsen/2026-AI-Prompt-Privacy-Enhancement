@@ -1,0 +1,11 @@
+# Team profile: small team / Kent-like single host (example settings).
+profile: team
+detection:
+  phone_context: optional
+  dictionary: []                # add client names, code names, staff names here
+swap:
+  form: surrogate
+audit:
+  second_part: usb_token
+  pq_wraps: hybrid
+on_error: keep_local

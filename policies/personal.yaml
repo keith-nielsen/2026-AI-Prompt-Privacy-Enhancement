@@ -1,0 +1,10 @@
+# Personal profile: one person, stand-alone proxy on a laptop (example settings).
+profile: personal
+detection:
+  phone_context: optional
+swap:
+  form: surrogate
+audit:
+  second_part: passphrase
+  pq_wraps: hybrid
+on_error: keep_local

@@ -6,3 +6,8 @@ dist/
 build/
 *.egg-info/
 .pytest_cache/
+/corpus-out/
+/.ppe-dev/
+.hypothesis/
+.ruff_cache/
+.mypy_cache/

@@ -1,0 +1,11 @@
+# Lab / development profile (ADR-0012 reference profile, an example, not a prescription).
+# Everything written under it is marked "profile: lab".
+profile: lab
+detection:
+  phone_context: optional
+swap:
+  form: surrogate
+audit:
+  second_part: dev_passphrase   # the "1234" stand-in for the USB token (ADR-0010); lab only
+  pq_wraps: hybrid
+on_error: pass_and_log          # lab only

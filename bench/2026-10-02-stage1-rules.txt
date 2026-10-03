@@ -1,0 +1,44 @@
+Stage 1 (rules) on synthetic corpus: 2000 items, seed 20261002, phone_context=optional
+
+type      support   recall  precision    FP
+CARD          278    1.000      1.000     0
+EMAIL        1192    1.000      1.000     0
+IBAN          312    1.000      1.000     0
+IPV4          337    1.000      1.000     0
+IPV6           64    1.000      1.000     0
+NRIC          441    1.000      1.000     0
+PHONE        1251    1.000      0.917   113
+SECRET        588    1.000      1.000     0
+
+variant            recall      n
+anthropic           1.000     66
+aws                 1.000    227
+env                 1.000    163
+fullwidth           1.000    103
+github              1.000     70
+lowercase           1.000     82
+pem                 1.000     62
+plain               1.000   3570
+zero_width          1.000    120
+
+not counted above (reported, not hidden):
+  CARD/base64 known gap (missed): 20
+  CARD/spelled_digits known gap (missed): 48
+  EMAIL/base64 known gap (missed): 59
+  IBAN/base64 known gap (missed): 34
+  NRIC/base64 known gap (missed): 22
+  NRIC/spelled_digits known gap (missed): 27
+  NRIC/split known gap (missed): 156
+  PERSON needs span model (Stage 2): 1251
+Stage 1 (rules) on synthetic corpus: 2000 items, seed 20261002, phone_context=required
+
+type      support   recall  precision    FP
+CARD          278    1.000      1.000     0
+EMAIL        1192    1.000      1.000     0
+IBAN          312    1.000      1.000     0
+IPV4          337    1.000      1.000     0
+IPV6           64    1.000      1.000     0
+NRIC          441    1.000      1.000     0
+PHONE        1251    0.850      1.000     0
+SECRET        588    1.000      1.000     0
+

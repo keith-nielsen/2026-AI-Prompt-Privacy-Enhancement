@@ -1,15 +1,34 @@
 # Prompt Privacy Enhancement (PPE)
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-design%20phase-lightgrey)](docs/design/PLAN.md)
+[![Status](https://img.shields.io/badge/Status-phase%201%20core%20(no%20proxy%20yet)-yellow)](docs/design/PLAN.md)
 [![ADRs](https://img.shields.io/badge/ADRs-0001--0012-informational)](docs/design/)
 
 **A practical, testable privacy harness for LLM traffic.** PPE sits on the paths between your
 prompts and your models and keeps identifiers and secrets from leaving your machine in clear text,
 while keeping answers useful and leaving tamper-evident, attacker-proof evidence of what happened.
 
-> **Status: design phase.** This repository holds the plan, decision records, threat model,
-> controls mapping and research. No code yet. Nothing here is a certified control.
+> **Status: phase 1 core.** The deterministic detectors, surrogate swap/restore, the fully sealed
+> 2-of-2 post-quantum audit log, the synthetic corpus, the benchmark and the `ppe` CLI work and are
+> tested. The proxy that puts them on real traffic (phase 2), the span models and the arbiter are not
+> built yet. Nothing here is a certified control.
+
+## Try it (phase 1)
+
+```bash
+uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[dev]"
+.venv/bin/pytest                      # unit, property and adversarial tests
+.venv/bin/ppe verify                  # conformance self-tests (synthetic data only)
+.venv/bin/ppe bench                   # Stage 1 detection rates per type on the synthetic corpus
+.venv/bin/ppe explain --policy policies/lab.yaml   # what a configuration protects and gives up
+echo "NRIC S1234567D, card 4111 1111 1111 1111" | .venv/bin/ppe scan       # values never printed
+echo "NRIC S1234567D, card 4111 1111 1111 1111" | .venv/bin/ppe mask       # surrogates
+.venv/bin/ppe audit keygen --dev-token && .venv/bin/ppe audit append '{"event":"demo"}' \
+  && .venv/bin/ppe audit verify && .venv/bin/ppe audit open --dev-token   # "1234" = dev token stand-in
+```
+
+Benchmark numbers come from a synthetic corpus written alongside the detectors. Treat them as a
+regression floor, not as evidence of real-world accuracy (see `bench/`).
 
 ## What it does (by design)
 
