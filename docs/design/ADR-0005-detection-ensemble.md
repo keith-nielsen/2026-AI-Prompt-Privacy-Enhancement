@@ -106,8 +106,8 @@ changes. The bench reports reliability diagrams per class.
 
 | Stage | Target (to be measured) | Notes |
 |---|---|---|
-| 0 + 1 | < 5 ms per 10 KB | pure Python/regex; Rust/hyperscan later if needed |
-| 2a ‖ 2b | tens of ms per KB on CPU (unmeasured) | parallel processes; long tool outputs → the 128k-context model |
+| 0 + 1 | < 5 ms per 10 KB (**measured 2026-10-03: 9.4 ms**, super-linear at 100 KB) | pure Python/regex; Rust/hyperscan later if needed |
+| 2a ‖ 2b | ~~tens of ms per KB on CPU~~ **measured 2026-10-03: 0.5–1.5 s per KB on 3 Zen 2 cores** — see the amendment below | parallel processes; long tool outputs → the 128k-context model |
 | 3a ‖ 3b | ~100 ms class on GPU per README (RTX 3060, 9–12B); CPU small-model latency unknown | one batched call each |
 | verdict cache | most of an agent loop | key = HMAC(k_tok[e], normalised message); stores findings, not values |
 
@@ -135,6 +135,50 @@ target exists) else `block`; `pass_and_log` only in `lab`. Never "pass silently"
 An optional GLiNER Guard / Prompt Guard pass contributes `injection_signal` to the audit and
 metrics. It never blocks by itself (evasion results: Hackett et al. 2025) and never lowers
 protection.
+
+## Amendment 2026-10-03 — measured CPU cost; inline/async split; model files (draft, for review)
+
+Evidence: [`bench/2026-10-03-stage2-cpu.md`](../../bench/2026-10-03-stage2-cpu.md). On a Ryzen 7
+3700X (3 cores): Privacy Filter via privacy-filter.cpp q8 = 78 ms per message, 470 ms per KB, 4.7 s
+per 10 KB; GLiNER2-PII = 387 ms per message, 1.4 s per KB (ONNX int8 no faster). Memory is flat
+at 1.5–1.8 GB with the right runtime. The encoder cost is near the hardware bound, so better
+software will not close a 10–50× gap; a GPU or a much faster CPU would.
+
+Proposed changes:
+
+1. **Inline on every request:** Stage 0/1 rules, operator dictionary, keep-local policy
+   (< 1 ms per KB once Stage 1 is fixed).
+2. **Inline span model only for small text** — the user-written part of a request, up to
+   `detection.inline_span_max_bytes` (knob; example default 2 KB ≈ 0.5–1 s worst case on this host).
+   First choice on CPU: **OpenAI Privacy Filter via privacy-filter.cpp** (2× faster than GLiNER2
+   here, linear memory, 128k context); GLiNER2-PII second (labels configurable, but slower).
+3. **Large inputs (tool outputs, files): span models run asynchronously** in the observation lane
+   (ADR-0007). They never delay the request; findings raise an alert and are written to the
+   conversation's verdict cache and dictionary, so every later turn catches the same identifier
+   inline with Stage 1. Trade-off, stated plainly: the first occurrence of a model-only finding in a
+   large input can leave before it is detected.
+4. **Hardware is an adopter knob** (ADR-0012): `detection.span_device` = cpu | gpu, and the inline
+   threshold scales with measured throughput (`ppe bench --perf` reports the local number).
+5. **Never use HF transformers eager attention for long inputs on CPU** (Privacy Filter: full T × T
+   tensor; OOM ≈ 16k tokens). Runtimes must window or band natively; every detector process runs
+   under a memory limit (systemd `MemoryMax=`, `MemorySwapMax=0`) so a runaway is killed instead of
+   pushing co-resident services into swap.
+
+### Model files (mechanism; adopters choose the place)
+
+- Config takes **file paths, never hub ids**: `models.dir` plus per-model file name and pinned
+  SHA-256. PPE never downloads at runtime and never writes into `models.dir`.
+- Load-time check: every file's SHA-256 matches its pin (mismatch → `on_error`).
+- `models.require_read_only` (knob): at start-up PPE checks the mount of `models.dir`
+  (`statvfs` → `ST_RDONLY`). Example defaults: `hardened` refuses to start on a writable directory;
+  `standard` warns; `lab` ignores.
+- Installer: downloads with `--local-dir` into a writable source directory, verifies SHA-256
+  against the publisher's metadata, sets files read-only, writes the pins into the config.
+- **Kent (installer-side, not core — PLAN §4):** when the installer detects Kent, `models.dir` =
+  `/srv/kent/models`, Kent's read-only remount (`ro,nosuid,nodev,noexec`) of the models directory,
+  whatever the source directory is on that host. Downloads go to the writable source behind the
+  mount (resolved with `findmnt`); pins are verified through the read-only path. `noexec` is fine:
+  model files are read and memory-mapped, never executed; runtime libraries stay outside `models.dir`.
 
 ## Consequences
 
