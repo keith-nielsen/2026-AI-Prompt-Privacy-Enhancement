@@ -1,0 +1,39 @@
+# Results that were printed to the console only (2026-10-03/04), transcribed verbatim.
+
+## bench_one.py gliner2 1 thread (core 7), first smoke run
+{"model": "gliner2", "threads": 1, "load_s": 8.8, "rss_loaded_mb": 1786, "lat": {"msg_160B": {"ms": 773, "hits": 4, "bytes": 168}, "1KB": {"ms": 2910, "hits": 14, "bytes": 1024}, "10KB": {"ms": 31497, "hits": 207, "bytes": 10240}, "100KB": {"ms": 328377, "hits": 1919, "bytes": 102400}}, "rss_peak_mb": 1926, "rss_base_mb": 16}
+maxrss_mb=2957
+
+## bench_one.py pf_torch 3 threads — killed at 33 GB RSS (HF eager full TxT attention); not repeated.
+## bench_one.py pf_onnx_int8 / pf_onnx_q4 3 threads — crashed at load (363 MB RSS); cause not investigated.
+
+## bench_onnx.py (okasi GLiNER2 ONNX int8, 7 labels), 3 threads
+{"model": "gliner2_onnx_q8", "threads": 3, "load_s": 7.0, "lat": {"msg_160B": {"ms": 448, "hits": 3}, "1KB": {"ms": 1529, "hits": 9}, "10KB": {"ms": 17484, "hits": 165}, "100KB": {"ms": 174429, "hits": 1681}}, "rss_mb": 1512}
+
+## prof.py (okasi ONNX int8, 3 threads)
+msg tokens (1, 140) words 68 preprocess_ms 1 onnx_ms 370 span_scores (1, 7, 68, 8)
+1500ch tokens (1, 774) words 322 preprocess_ms 1 onnx_ms 2650 span_scores (1, 7, 322, 8)
+
+## enc.py (GLiNER2 DeBERTa encoder only, PyTorch, 3 threads)
+encoder DebertaV2Model params_M 278 embedding_M 192
+fp32 encoder ms  T=140: 394  T=512: 1355  T=774: 2390
+int8 encoder ms  T=140: 204  T=512: 1298  T=774: 2080
+
+## bench_gliner_variants.py 3 threads (2026-10-04)
+{"threads": 3, "msg_10labels_ms": 380, "msg_3labels_ms": 337, "msg_1label_ms": 327, "10KB_long_10labels_bs1_ms": 18740, "10KB_long_10labels_bs8_ms": 22227, "10KB_long_3labels_bs8_ms": 21368, "int8_msg_10labels_ms": 218, "int8_10KB_long_10labels_bs8_ms": 17613, "rss_mb": 1952}
+
+## privacy-filter.cpp pf-bench, privacy-filter-q8.gguf, cpu, 3 iters, lengths 60,401,3846,39879
+# PF_NTHREADS=1 (core 7): load 1.10s (+1621 MiB), weights 1549 MiB, window 4096
+|       60 |       210.1 |      286 |         2 |     1629 |
+|      401 |      1362.2 |      294 |        15 |     1645 |
+|     3846 |     13575.8 |      283 |       162 |     1816 |
+|    39879 |    267752.6 |      149 |       166 |     1825 |
+# PF_NTHREADS=3 (cores 5-7)
+|       60 |        77.7 |      772 |         2 |     1629 |
+|      401 |       470.1 |      853 |        15 |     1645 |
+|     3846 |      4692.0 |      820 |       162 |     1816 |
+|    39879 |    91938.6 |      434 |       166 |     1825 |
+# columns: tokens | forward ms | tok/s | compute MiB | RSS MiB ; peak RSS 1825 MiB. f16 runs stopped (no native f16 on Zen 2).
+
+## PPE Stage 1 rules (detect(), 1 core, core 4)
+msg 0.14 ms 4 findings | 1KB 0.8 ms 15 | 10KB 9.44 ms 164 | 100KB 201.38 ms 1465
