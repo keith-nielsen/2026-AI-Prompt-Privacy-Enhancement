@@ -1,0 +1,6 @@
+{"model": "gliner2", "threads": 3, "load_s": 8.1, "rss_loaded_mb": 1785, "lat": {"msg_160B": {"ms": 387, "hits": 4, "bytes": 168}, "1KB": {"ms": 1417, "hits": 14, "bytes": 1024}, "10KB": {"ms": 15005, "hits": 207, "bytes": 10240}, "100KB": {"ms": 156383, "hits": 1919, "bytes": 102400}}, "rss_peak_mb": 1924, "rss_base_mb": 16}
+  maxrss_mb=2956
+  maxrss_mb=363
+  maxrss_mb=363
+  maxrss_mb=18446744073709551615
+  maxrss_mb=346

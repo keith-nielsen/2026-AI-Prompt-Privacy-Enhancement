@@ -11,3 +11,8 @@ build/
 .hypothesis/
 .ruff_cache/
 .mypy_cache/
+
+# bench harness inputs/outputs (regenerable)
+/bench/harness/corpus.jsonl
+/bench/harness/*.jsonl
+/bench/harness/*.log

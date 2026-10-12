@@ -1,0 +1,7 @@
+{"kind": "throughput", "target_tokens": 512, "prompt_n": 739, "prompt_ms": 1908, "prompt_tok_s": 387.3, "gen_n": 1, "gen_ms": 0, "gen_tok_s": 1000000.0, "wall_s": 1.9}
+{"kind": "throughput", "target_tokens": 2048, "prompt_n": 2898, "prompt_ms": 6029, "prompt_tok_s": 480.7, "gen_n": 1, "gen_ms": 0, "gen_tok_s": 1000000.0, "wall_s": 6.1}
+{"kind": "throughput", "target_tokens": 8192, "prompt_n": 10864, "prompt_ms": 22584, "prompt_tok_s": 481.1, "gen_n": 1, "gen_ms": 0, "gen_tok_s": 1000000.0, "wall_s": 22.7}
+{"kind": "throughput", "target_tokens": 16384, "prompt_n": 22229, "prompt_ms": 48121, "prompt_tok_s": 461.9, "gen_n": 1, "gen_ms": 0, "gen_tok_s": 1000000.0, "wall_s": 48.3}
+{"kind": "throughput", "target_tokens": 32768, "prompt_n": 43914, "prompt_ms": 101201, "prompt_tok_s": 433.9, "gen_n": 1, "gen_ms": 0, "gen_tok_s": 1000000.0, "wall_s": 101.4}
+{"kind": "throughput", "target_tokens": 64, "prompt_n": 151, "prompt_ms": 1139, "prompt_tok_s": 132.6, "gen_n": 512, "gen_ms": 19909, "gen_tok_s": 25.7, "wall_s": 21.4}
+{"kind": "throughput", "target_tokens": 16384, "prompt_n": 22142, "prompt_ms": 48110, "prompt_tok_s": 460.2, "gen_n": 512, "gen_ms": 32914, "gen_tok_s": 15.6, "wall_s": 81.1}
