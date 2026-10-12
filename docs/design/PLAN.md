@@ -210,6 +210,8 @@ Kent owns the wiring (install module, config, credentials, conformance, bench); 
 | egress (Squid) | ADR-0001/0006: provider domains reachable only from PPE's account; LiteLLM's account loses direct egress to `api.anthropic.com` |
 | credentials | `ppe_token_key`, `ppe_audit_key` as systemd credentials of `kent-litellm` (root-owned, 0600 source, `LoadCredential=`); key ids recorded in the install manifest |
 | new module `install/services/presidio/` | **Registry moved** (Jun 2026): `ghcr.io/data-privacy-stack/presidio-analyzer` (MCR path frozen). ADR-0005 may replace Presidio by PPE's own rules + GLiNER2-PII/OpenAI Privacy Filter services. Presidio Analyzer container, digest-pinned, own account, `127.0.0.1:5002`, no egress, read-only, no capabilities (same pattern as SearXNG) |
+| model files | installer detects Kent → `models.dir = /srv/kent/models` (Kent's `ro,nosuid,nodev,noexec` remount of the models directory), whatever the source directory; downloads land in the writable source behind the mount (`findmnt`), SHA-256 pins verified through the read-only path; detector services run with `MemoryMax=` and `MemorySwapMax=0` because Kent's llama-server keeps its MoE experts in RAM and uses 5 of 8 cores (ADR-0005 amendment) |
+| restricted zone (ADR-0013) | `kent --grant-restricted DIR`; `kent-restricted` gateway key (local tiers only) chosen by the launcher; bwrap network namespace for restricted sessions; label in `stack_registry` set by the root brokers and inherited by Gents; label check in `kentlib.gateway_chat`, `kent-poll-learnings`, `assess`, `qa-audit`; Hermes `pre_tool_call` outward-action hook; no egress proxy for restricted Gents |
 | identity | PPE reads the caller from LiteLLM's `UserAPIKeyAuth` set by `kent_gateway.user_api_key_auth` (operator / kent / gent-<id>) |
 | conversation id | Hermes session id passed as a header by Kent's gateway client, or set by `kent_gateway` from request metadata; ties into v0.2.0 trace correlation. Until then: request-scoped tokens |
 | audit store | `/var/lib/kent-ppe/audit.jsonl` (owner `litellm`, group `kent-operators` read, append-only); never shipped to Loki; `kent ppe lookup` wraps the CLI for operators |
@@ -296,6 +298,31 @@ New from the 2026-10-02 research pass (recommendation first):
 19. Framing (ADR-0012) — **decided** 2026-10-02: mechanism not policy; invariants vs knobs; profiles are
     examples; every knob has a trade-off statement and a proving test. Items above that read like org
     policy (deadlines, caps, owners, retention) are adopter knobs with defaults.
+20. Span models after the CPU bench (ADR-0005 amendment, `bench/2026-10-03-stage2-cpu.md`) — **open**:
+    rules inline on everything; span model inline only for small user text
+    (`detection.inline_span_max_bytes`, example 2 KB) with the Privacy Filter via privacy-filter.cpp;
+    large tool outputs scanned asynchronously, findings fed back to the verdict cache/dictionary
+    (recommended) vs span models inline on everything (seconds per 10 KB on CPU) vs GPU only.
+21. Model files — **operator direction 2026-10-03**: model weights live in the host's designated
+    models directory (this host: `/media/administrator/DATA/models`), never the HF cache; config takes
+    paths + SHA-256 pins; on Kent the installer uses the read-only remount `/srv/kent/models`
+    whatever the source directory (section 4). Open: whether `hardened` refuses a writable model
+    directory (proposed) or only warns.
+22. Restricted zone (ADR-0013, draft 2026-10-05) — **open**. Operator direction: catch Kent/Gent
+    automation that copies data out of restricted areas (not a malicious owner). Proposed: restricted
+    paths, sticky session labels (restricted session = local tiers only, no direct network, writes only
+    in the zone, label inherited by Gents/escalations/assessments), signed content inventory,
+    fingerprints, canaries, `pre_tool_call` outward-action checks, `ppe verify --restricted`.
+    Open: declassify approvers (1 or 2), outward tools refuse vs approve-each, per-file vs per-chunk
+    inventory, scan scope. Kent findings are tracked privately with Kent; not repeated in the public PPE docs.
+23. Large-file action per profile (2026-10-04 discussion) — **open**: after rules, column/key
+    detection and the content-hash verdict cache, data-like large inputs are held for review /
+    kept local (recommended on Kent and in hardened) / sent and reviewed async (recommended for
+    stand-alone `standard`). Operator leans to Kent's local model for large-file review
+    (short-answer questions only; `bench/2026-10-03-kent-model-review.md`).
+24. MAS AI Risk Management Guidelines gaps (`sources/mas-ai-risk-management.md`) — **open**: sealed
+    prompt/response capture as an adopter knob with break-glass access (§5.23(d) vs ADR-0010);
+    AI-inventory export (fn 25); explicit, tested kill switch (§5.3, §5.23(b)).
 
 ## 7. The hard problems (where the real work is)
 

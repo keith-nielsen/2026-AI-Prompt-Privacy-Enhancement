@@ -1,14 +1,59 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-03): PHASE 1 CORE BUILT AND PUBLISHED — next is phase 2 (the proxy)
+## Status (2026-10-12, before a reboot): PHASE 1 BUILT; DESIGN WORK SINCE IS **UNCOMMITTED**
 
 - GitHub (public, Apache-2.0): https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement
-  — `main` = `922a99e` (also on branch `phase-1-core`; design history on `docs/design-research-adrs`).
-  Local: `~/Documents/repo/prompt-privacy-enhancement`, branch `main`, clean.
+  — `main` = `fd9ad9b` (code at `922a99e`, also on branch `phase-1-core`; design history on
+  `docs/design-research-adrs`). Local: `~/Documents/repo/prompt-privacy-enhancement`, branch `main`.
+- **Uncommitted on disk (survives reboot; commit only when the operator asks):**
+  `bench/2026-10-03-stage2-cpu.md`, `bench/2026-10-03-kent-model-review.md`, `bench/harness/`
+  (scripts + README to rebuild the bench env), `bench/results/2026-10-03/` (raw results),
+  `docs/design/ADR-0013-restricted-zone-and-sticky-labels.md`, ADR-0005 amendment, PLAN §4 rows +
+  §6 items 20–22, `docs/sources/mas-ai-risk-management.md`, `docs/sources/README.md` (items 20–24),
+  `docs/controls-mapping.md` (MAS section), `.gitignore`, this card. MAS PDFs are in
+  `docs/sources/pdf/` (git-ignored by design). `git status` shows the full list.
+- **Lost with /tmp on reboot (rebuildable, see `bench/harness/README.md`):** bench venv (pinned in
+  `bench/harness/requirements-bench.txt`), privacy-filter.cpp build (commit `735a6c2`), synthetic
+  corpus (`ppe corpus --out corpus.jsonl`, sha256 `3a4f7aa9…`, byte-identical).
+- Model files: `/media/administrator/DATA/models` only (Kent: read-only remount `/srv/kent/models`),
+  never `~/.cache`. Every local model test: `systemd-run --user --scope -q -p MemoryMax=4G
+  -p MemorySwapMax=0 nice -n 19 taskset -c 5-7 …` (an uncapped HF run once pushed Kent's model into swap).
+- Kent's production llama-server = `kent-llama.service`, **127.0.0.1:8080** (Q4 MTP model, `-ncmoe 40
+  -t 5`, `--parallel 2`); :8081 was the operator's separate test instance. Touch neither, nor LiteLLM
+  :4000, without the operator's go.
 - Profile index `keith-nielsen/keith-nielsen` (`README.md`, branch `master`) lists PPE between Kent and
   VMM, status "Phase 1 core · detectors, swap/restore, sealed audit". Update it when status changes.
 - Commit/push only when the operator asks (they have, for each step so far). Branch first, then
   fast-forward `main` so the published README matches the code.
+
+## Where the thinking is (2026-10-03 → 10-09) — read before building phase 2
+
+1. **CPU span models are too slow inline** (`bench/2026-10-03-stage2-cpu.md`): Privacy Filter via
+   privacy-filter.cpp q8 = 78 ms/message, 470 ms/KB, 4.7 s/10 KB on 3 cores (1.8 GB flat);
+   GLiNER2-PII 1.4–2.9 s/KB (ONNX int8 / labels / batching don't help: DeBERTa encoder near the
+   hardware bound). HF transformers Privacy Filter on CPU = full T×T attention (83 GiB at 40k tokens):
+   never use it for long inputs. Stage 1 rules: 9.4 ms/10 KB (target < 5 ms) and super-linear at
+   100 KB — **fix**. ADR-0005 amendment (draft): rules inline on everything; span model inline only
+   for small user text; large inputs async/keep-local; model files by path + SHA-256 pins.
+2. **Kent's model as large-file reviewer** (`bench/2026-10-03-kent-model-review.md`): reads 387–481
+   tok/s, writes 25.7 tok/s (15.6 at 22k depth). Listing identifiers: 10 KB 145 s, 40 KB > 15 min;
+   recall 0.57–1.0 — one document lost **all** names, cards, IBANs (deterministic). Use it only for
+   short-answer questions (names-only, special-category yes/no); untested.
+3. **40 KB files**: each reviewed once (content-hash verdict cache); structural column/key rules for
+   CSV/JSON; quick triage; then hold / keep-local / send-and-review-async per profile. Operator wants
+   **pre-screening** of local files → signed content inventory.
+4. **Enforcement target (operator 2026-10-05):** not a malicious owner/root, but **Kent/Gent
+   automation making a poor decision** and copying data out of restricted areas → **ADR-0013** (draft):
+   restricted zone, sticky session labels (restricted session = local tiers only via a separate
+   gateway key, no direct network, writes only in the zone, label inherited by Gents/escalations/
+   assessments), fingerprints, canaries, `pre_tool_call` outward-action checks, signed inventory,
+   `ppe verify --restricted` bad-agent suite. Kent issues found are tracked privately with Kent
+   (local copy: `docs/private/`, git-ignored).
+5. **MAS Guidelines on AI Risk Management** (7 Oct 2026; effective 7 Oct 2027, §5–6 by 7 Oct 2028),
+   `docs/sources/mas-ai-risk-management.md`: names DLP on AI inputs, data classification, leakage
+   testing, agent monitoring — direct fit. Gaps to design: sealed prompt/response capture (§5.23(d)
+   vs ADR-0010), AI-inventory export (fn 25), explicit kill switch (§5.3/5.23(b)). Next read: IMDA
+   Model AI Governance Framework for Agentic AI (MAS's interim agent reference).
 
 ## Quick start (verify the build before changing anything)
 
@@ -29,7 +74,8 @@ Expected at `922a99e`: ruff + strict mypy clean, **56 tests pass**, **10/10 self
 2. [`ADR-0012`](ADR-0012-mechanism-not-policy.md) — governs how every other ADR is read (mechanism,
    not policy; invariants vs knobs; trade-offs; proving tests).
 3. [`PLAN.md`](PLAN.md) — layout, phases, §6 decisions (list below), §7 hard problems.
-4. ADR-0001…0011 (all status *proposed*; the operator has decided many items, recorded in PLAN §6).
+4. ADR-0001…0011 and ADR-0013 (all status *proposed*; the operator has decided many items, recorded in
+   PLAN §6). ADR-0005 carries a 2026-10-03 amendment (draft).
 5. [`../research/`](../research/) — research report + break-glass case studies;
    [`../threat-model.md`](../threat-model.md), [`../controls-mapping.md`](../controls-mapping.md);
    [`../sources/README.md`](../sources/README.md).
@@ -82,16 +128,31 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 16. Second-token escrow or 2-of-3 across auditors; production finding counters (proposal: never).
 17. Break-glass example defaults: approver roster ≥ 3, session 4 h / max 12 h, emergency path on/off,
     broker on a separate host/VM (adopter knobs per ADR-0012).
+20. Span models after the CPU bench: rules inline + span model inline only for small user text
+    (≤ ~2 KB, Privacy Filter via privacy-filter.cpp) + async/keep-local for large inputs (recommended)
+    vs span models inline on everything vs GPU only. Operator leans to Kent's model for large files.
+21. Model files: `hardened` refuses a writable model directory (recommended) vs warns only.
+22. ADR-0013: declassify approvers (scanner only / 1 / 2 — recommended 2 in hardened); outward tools
+    from restricted sessions refuse (recommended) vs approve each; inventory per chunk (recommended)
+    vs per file; scan scope (which folders).
+23. Large-file action per profile: hold / keep local (recommended on Kent + hardened) / send and
+    review async (recommended stand-alone standard).
+24. MAS gaps: sealed prompt/response capture as an adopter knob (proposed); inventory export; kill switch.
 
 ## Next steps (recommended order)
 
+0. Operator review of the uncommitted drafts (ADR-0005 amendment, ADR-0013, MAS note); commit on a
+   branch when asked. Fix Stage 1 super-linear scaling (cheap, independent).
 1. Phase 2 proxy, test-first: Anthropic Messages + OpenAI Chat/Responses wire formats, streaming
    restore (R5) with chunk-boundary holdback, `x-claude-code-session-id` as conversation key, error
    bodies in the client's format with opaque refs; test with Claude Code against a fake upstream
    (no real cloud calls).
 2. Signed C2SP checkpoints + `ppe audit verify` signature check; retention/shredding job.
 3. Zone verification (L1 address/no-proxy/attestation; L2 `SO_PEERCRED`) for the observe/egress hops.
-4. With operator permission when the GPU is free: Stage 2 span models + parallel-decision arbiter bench.
+4. With operator go (Kent idle): short-answer review test on Kent's model at 10/40 KB (names-only +
+   special-category yes/no per chunk) — the measurement that decides item 20/23.
+5. Content-hash verdict cache + structural (column/key) detector — useful whichever action is chosen.
+6. Read IMDA Model AI Governance Framework for Agentic AI (MAS fn 11) against ADR-0013.
 
 ## History
 
@@ -163,10 +224,17 @@ Later on 2026-10-02/03: ADR-0012 (mechanism, not policy) adopted; break-glass pa
 knobs; repo published (public) with README/LICENSE/SECURITY/CONTRIBUTING/CITATION; phase 1 core built,
 committed (`922a99e`) and pushed; profile index updated twice.
 
+2026-10-03 → 10-09 (this session, details in "Where the thinking is"): CPU bench of GLiNER2 and the
+Privacy Filter (one incident: uncapped HF run → Kent swap; operator ran swapoff/swapon; memory-cap rule
+since); models moved to `/media/administrator/DATA/models`; Kent-model throughput/extraction test
+(after the operator's own GPU safety test finished); 40 KB-file and pre-screening discussion;
+ADR-0013 from a read-only map of `harness-kent` at `147ea99`; MAS AI risk management guidelines
+added to sources and controls mapping.
+
 ## Working agreements
 
 Test before claiming; mark anything untested. Draft first, operator corrects. When asking for a
 decision, list every option in the reply (not just IDs and a file path). Planning mode means docs only:
-never run models or touch local services (Kent's llama-server :8081 runs overnight tests; LiteLLM
-:4000). No real personal data anywhere in the repo (synthetic only). Never put invisible/bidi
+never run models or touch local services (Kent's llama-server :8080, the operator's test instances
+such as :8081, LiteLLM :4000). Model tests: memory-capped and pinned (see Status). No real personal data anywhere in the repo (synthetic only). Never put invisible/bidi
 characters in source. Ship mechanisms + defaults + trade-offs + tests; adopters set policy.

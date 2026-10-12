@@ -54,3 +54,24 @@ the primary SP 800-53r5 catalogue before v0.1.0 (see [sources/nist.md](sources/n
 | Identify and anonymise confidential data in input and output | IMDA PETs for GenAI Annex A | core | — |
 </content>
 </invoke>
+
+## MAS Guidelines on AI Risk Management (7 Oct 2026; effective 7 Oct 2027) — added 2026-10-09
+
+See [sources/mas-ai-risk-management.md](sources/mas-ai-risk-management.md). Guidelines, not a Notice;
+applied proportionately to risk materiality.
+
+| Requirement | Source | PPE feature | Evidence |
+|---|---|---|---|
+| Prohibit confidential/client information in public AI tools (basic tier minimum) | MAS AIRG §2.5(b); fn 22; Response §6.7 | egress guard: detectors, swap/restore, keep-local, block (ADR-0002, 0005, 0006) | policy file; `ppe verify`; bench per class |
+| Data and cybersecurity controls even for low-materiality copilots | MAS AIRG §2.2(b) fn 12 | same; profiles `personal`/`team` | `ppe explain` knob report |
+| Mitigate unidentified / shadow AI with technical controls (network monitoring, DLP) | MAS AIRG §4.4 fn 22; Response §6.7 | provider domains reachable only through PPE (ADR-0001, 0006); observation plane (ADR-0007) | Squid/firewall config; coverage report |
+| Data classification guiding use of data in AI | MAS AIRG §5.4(d) | data classes, zones, special classes; restricted zone + labels (ADR-0013) | policy file; inventory |
+| Secure the inputs and outputs of AI; data protection | MAS AIRG §5.4(e) | swap/restore, sealed audit (ADR-0002, 0010) | unit/property tests |
+| Prevent leakage of sensitive data via prompt injection | MAS Response §10.8; AIRG §1.10(a)(b) | ratchet rule (ADR-0005); sticky labels, outward-action checks, canaries (ADR-0013) | `ppe verify --restricted` |
+| Test guardrail effectiveness incl. data leakage | MAS AIRG §5.15 fn 46; §5.22(b) | `ppe bench` (detection, restore), conformance suite | bench reports |
+| DLP and logging operational before go-live | MAS AIRG §5.16(a), §5.22(a) | `ppe verify`, `ppe doctor` | verify/doctor report |
+| Third-party plugins/APIs: restrict data exposure | MAS AIRG §5.16(c) | egress guard on every cloud call | config |
+| Monitor agent information flows, actions, tools used | MAS AIRG §5.23(a); Response §12.8 | observation plane + sensors (ADR-0007); outward-action hook (ADR-0013) | sealed ledger; coverage |
+| Access to AI systems/config controlled and logged; prompt/response logging may be considered | MAS AIRG §5.23(d); Response §10.45 | sealed audit (ADR-0010); prompt capture as adopter knob, sealed, break-glass access (ADR-0011, 0012) — **to design** | sealed records |
+| Agent identifiers, tool access and guardrails in the AI inventory | MAS AIRG §4.7 fn 25 | export of PPE config/manifest (models, zones, data classes, guardrails) — **to design** | export file |
+| Kill switch / override for high-risk AI | MAS AIRG §5.3, §5.23(b) | `on_error` fail-closed; block-all profile switch — **to design as an explicit control** | runbook + test |
