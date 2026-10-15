@@ -160,7 +160,13 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
    (duplicates, obs-fold, huge headers), client disconnect mid-stream, slow upstream/timeouts, large
    bodies (max 64 MiB), concurrency, fuzzing; (d) GIL cost of large-prompt scans on stream latency.
 3. Finish phase 2 in **PLAN §5 order** (operator 2026-10-16; masking stays in phase 4, after the
-   LiteLLM adapter and span models): (a) exhaustive proxy tests, (b) operator runs the Claude Code
+   LiteLLM adapter and span models): (a) exhaustive proxy tests — **first pass done 2026-10-16**
+   (`tests/proxy/test_adversarial.py`, 48 tests: 27 ambiguous/refused framing + target cases → 400
+   and nothing upstream; 9 accepted cases re-framed cleanly; CONNECT; client/upstream disconnect;
+   stalls; 8 MiB body; 413 over limit; 50 concurrent streams; duplicate headers; 300-case mutation
+   fuzz; JSON/bytes fuzz of the observer). Fixed from it: absolute-form target gave 500, dot
+   segments were forwarded (now 400). Not yet: slowloris/idle-connection limits, header-count/size
+   knobs, long-running soak, coverage-guided fuzzing (atheris), GIL cost of large scans; (b) operator runs the Claude Code
    exit check, (c) reply-flow observation, (d) OpenAI Chat/Responses formats, (e) exposure ledger
    (`ppe report exposure`), (f) sensor API + loopback observe leg (may pair with phase 3).
    Phase 4 masking then brings streaming restore (R5) with chunk-boundary holdback, error bodies in

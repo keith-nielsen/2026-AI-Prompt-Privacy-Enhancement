@@ -155,11 +155,30 @@ def _forward_headers(request: web.Request) -> list[tuple[str, str]]:
     ]
 
 
+def _target(settings: Settings, request: web.Request) -> URL | None:
+    """Origin-form targets only; no dot segments (raw or %-encoded); the result stays on the upstream."""
+    raw = request.raw_path
+    if request.method == "CONNECT" or not raw.startswith("/"):
+        return None
+    if any(seg in (".", "..") for seg in request.path.split("/")):
+        return None
+    base = URL(settings.upstream)
+    target = URL(settings.upstream.rstrip("/") + raw, encoded=True)
+    if (target.scheme, target.host, target.port) != (base.scheme, base.host, base.port):
+        return None
+    return target
+
+
 async def _handle(request: web.Request) -> web.StreamResponse:
     settings, session = request.app[_KEY_SETTINGS], request.app[_KEY_SESSION]
     req_id = secrets.token_hex(8)
+    try:
+        target = _target(settings, request)
+    except ValueError:
+        target = None
+    if target is None:
+        return _error(400, "invalid_request_error", f"ppe: request target refused (ref {req_id})")
     body = await request.read()
-    target = URL(settings.upstream.rstrip("/") + request.raw_path, encoded=True)
     request.app[_KEY_OBSERVER].submit(
         Request(
             req_id,
