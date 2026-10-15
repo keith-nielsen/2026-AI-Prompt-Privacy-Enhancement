@@ -12,7 +12,9 @@
   - `3ec6e72` docs: ADR-0005 amendment, ADR-0013 (draft), PLAN §4 rows + §6 items 20–24,
     `docs/sources/mas-ai-risk-management.md`, sources index, controls mapping (MAS), this card.
   - MAS PDFs are in `docs/sources/pdf/` (git-ignored by design).
-- Code is unchanged since `922a99e`: no phase 2 code exists yet.
+- **v0.1.0.dev1 (pre-alpha)** released 2026-10-16: phase 1 + Stage 1 scaling fix + phase 2a shadow
+  proxy. Kent weakness details were redacted from the public docs before the first push of the
+  design work (operator decision); full text in `docs/private/` (git-ignored).
 - **Lost with /tmp on reboot (rebuildable, see `bench/harness/README.md`):** bench venv (pinned in
   `bench/harness/requirements-bench.txt`), privacy-filter.cpp build (commit `735a6c2`), synthetic
   corpus (`ppe corpus --out corpus.jsonl`, sha256 `3a4f7aa9…`, byte-identical).

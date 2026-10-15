@@ -1,19 +1,27 @@
 # Prompt Privacy Enhancement (PPE)
 
+[![Pre-alpha](https://img.shields.io/badge/Maturity-pre--alpha-red)](#prompt-privacy-enhancement-ppe)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-phase%201%20core%20(no%20proxy%20yet)-yellow)](docs/design/PLAN.md)
-[![ADRs](https://img.shields.io/badge/ADRs-0001--0012-informational)](docs/design/)
+[![Status](https://img.shields.io/badge/Status-phase%202a%20(shadow--mode%20proxy)-yellow)](docs/design/PLAN.md)
+[![ADRs](https://img.shields.io/badge/ADRs-0001--0013-informational)](docs/design/)
 
 **A practical, testable privacy harness for LLM traffic.** PPE sits on the paths between your
 prompts and your models and keeps identifiers and secrets from leaving your machine in clear text,
 while keeping answers useful and leaving tamper-evident, attacker-proof evidence of what happened.
 
-> **Status: phase 1 core.** The deterministic detectors, surrogate swap/restore, the fully sealed
-> 2-of-2 post-quantum audit log, the synthetic corpus, the benchmark and the `ppe` CLI work and are
-> tested. The proxy that puts them on real traffic (phase 2), the span models and the arbiter are not
-> built yet. Nothing here is a certified control.
+> [!WARNING]
+> **Pre-alpha.** Interfaces, file formats, the audit record format and defaults will change without
+> notice or migration. Do not rely on PPE to protect real personal data or secrets yet: shadow mode
+> observes, it does not mask.
 
-## Try it (phase 1)
+> **Status: v0.1.0.dev1, phase 2a.** The deterministic detectors, surrogate swap/restore,
+> the fully sealed 2-of-2 post-quantum audit log, the synthetic corpus, the benchmark and the `ppe`
+> CLI work and are tested. `ppe serve` is a loopback proxy for the Anthropic Messages API in
+> **shadow mode**: it forwards traffic unchanged and records sealed findings; it does **not** mask
+> yet (masking is phase 4). Not yet validated with a real client against a real provider. The span
+> models and the arbiter are not built yet. Nothing here is a certified control.
+
+## Try it
 
 ```bash
 uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[dev]"
@@ -25,6 +33,15 @@ echo "NRIC S1234567D, card 4111 1111 1111 1111" | .venv/bin/ppe scan       # val
 echo "NRIC S1234567D, card 4111 1111 1111 1111" | .venv/bin/ppe mask       # surrogates
 .venv/bin/ppe audit keygen --dev-token && .venv/bin/ppe audit append '{"event":"demo"}' \
   && .venv/bin/ppe audit verify && .venv/bin/ppe audit open --dev-token   # "1234" = dev token stand-in
+```
+
+Shadow-mode proxy (forwards unchanged, records sealed findings; loopback only):
+
+```bash
+.venv/bin/ppe audit keygen --dev-token          # once
+.venv/bin/ppe serve                             # 127.0.0.1:8787 -> https://api.anthropic.com
+ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude # any Anthropic Messages client
+.venv/bin/ppe audit verify && .venv/bin/ppe audit open --dev-token
 ```
 
 Benchmark numbers come from a synthetic corpus written alongside the detectors. Treat them as a

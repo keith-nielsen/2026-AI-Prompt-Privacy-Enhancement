@@ -5,8 +5,8 @@ authors:
     given-names: Keith
     orcid: https://orcid.org/0009-0003-7379-3347
 title: "Prompt Privacy Enhancement (PPE) — a testable privacy harness for LLM prompts"
-version: 0.0.0-design
-date-released: 2026-10-02
+version: 0.1.0.dev1 (pre-alpha)
+date-released: 2026-10-16
 repository-code: "https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement"
 license: Apache-2.0
 keywords:
