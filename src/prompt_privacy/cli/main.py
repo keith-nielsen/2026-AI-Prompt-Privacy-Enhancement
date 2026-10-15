@@ -1,4 +1,4 @@
-"""`ppe` command line (phase 1): scan, mask, corpus, bench, explain, verify, audit."""
+"""`ppe` command line: scan, mask, corpus, bench, explain, verify, audit, serve (phase 2a, shadow mode)."""
 
 from __future__ import annotations
 
@@ -152,6 +152,35 @@ def cmd_audit_open(a: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_serve(a: argparse.Namespace) -> int:
+    try:
+        from prompt_privacy.proxy.app import RefusedConfig, Settings, check_listen, serve
+        from prompt_privacy.proxy.observe import Observer
+    except ImportError as e:
+        print(f"ppe serve needs the 'serve' extra (pip install 'prompt-privacy-enhancement[serve]'): {e}")
+        return 2
+    from prompt_privacy.audit.keys import AuditPublicKey
+    from prompt_privacy.audit.log import AuditLog
+
+    host, _, port = a.listen.rpartition(":")
+    settings = Settings(upstream=a.upstream, conversation_header=a.conversation_header)
+    try:
+        check_listen(host)
+        settings.check()
+    except RefusedConfig as e:
+        print(f"refused: {e}")
+        return 2
+    d = Path(a.dir)
+    audit = AuditLog(
+        Path(a.log),
+        AuditPublicKey((d / "machine.pub").read_bytes()),
+        AuditPublicKey((d / "token.pub").read_bytes()),
+        a.profile,
+    )
+    serve(settings, Observer(audit), host, int(port))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="ppe", description="Prompt Privacy Enhancement")
     p.add_argument("--version", action="version", version=__version__)
@@ -211,6 +240,19 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--machine-key", default=".ppe-dev/audit/machine.key")
     s.add_argument("--dev-token", action="store_true")
     s.set_defaults(fn=cmd_audit_open)
+
+    s = sub.add_parser(
+        "serve", help="loopback proxy, shadow mode: forwards unchanged, records sealed findings"
+    )
+    s.add_argument("--listen", default="127.0.0.1:8787", help="loopback address:port only")
+    s.add_argument("--upstream", default="https://api.anthropic.com")
+    s.add_argument("--conversation-header", default="x-claude-code-session-id")
+    s.add_argument(
+        "--dir", default=".ppe-dev/audit", help="holds machine.pub and token.pub (ppe audit keygen)"
+    )
+    s.add_argument("--log", default=".ppe-dev/audit/audit.jsonl")
+    s.add_argument("--profile", default="lab")
+    s.set_defaults(fn=cmd_serve)
     return p
 
 

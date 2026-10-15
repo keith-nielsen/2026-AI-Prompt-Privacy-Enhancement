@@ -1,17 +1,18 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-12, before a reboot): PHASE 1 BUILT; DESIGN WORK SINCE IS **UNCOMMITTED**
+## Status (2026-10-16): PHASE 1 BUILT; DESIGN WORK SINCE COMMITTED LOCALLY, **NOT PUSHED**
 
 - GitHub (public, Apache-2.0): https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement
   — `main` = `fd9ad9b` (code at `922a99e`, also on branch `phase-1-core`; design history on
-  `docs/design-research-adrs`). Local: `~/Documents/repo/prompt-privacy-enhancement`, branch `main`.
-- **Uncommitted on disk (survives reboot; commit only when the operator asks):**
-  `bench/2026-10-03-stage2-cpu.md`, `bench/2026-10-03-kent-model-review.md`, `bench/harness/`
-  (scripts + README to rebuild the bench env), `bench/results/2026-10-03/` (raw results),
-  `docs/design/ADR-0013-restricted-zone-and-sticky-labels.md`, ADR-0005 amendment, PLAN §4 rows +
-  §6 items 20–22, `docs/sources/mas-ai-risk-management.md`, `docs/sources/README.md` (items 20–24),
-  `docs/controls-mapping.md` (MAS section), `.gitignore`, this card. MAS PDFs are in
-  `docs/sources/pdf/` (git-ignored by design). `git status` shows the full list.
+  `docs/design-research-adrs`). Local: `~/Documents/repo/prompt-privacy-enhancement`.
+- **Local branch `design/2026-10-stage2-restricted-zone-mas`** (2 commits ahead of `main`, no
+  upstream; push/merge only when the operator asks):
+  - `b913b99` bench: `bench/2026-10-03-stage2-cpu.md`, `bench/2026-10-03-kent-model-review.md`,
+    `bench/harness/` (scripts + README to rebuild the bench env), `bench/results/2026-10-03/`.
+  - `3ec6e72` docs: ADR-0005 amendment, ADR-0013 (draft), PLAN §4 rows + §6 items 20–24,
+    `docs/sources/mas-ai-risk-management.md`, sources index, controls mapping (MAS), this card.
+  - MAS PDFs are in `docs/sources/pdf/` (git-ignored by design).
+- Code is unchanged since `922a99e`: no phase 2 code exists yet.
 - **Lost with /tmp on reboot (rebuildable, see `bench/harness/README.md`):** bench venv (pinned in
   `bench/harness/requirements-bench.txt`), privacy-filter.cpp build (commit `735a6c2`), synthetic
   corpus (`ppe corpus --out corpus.jsonl`, sha256 `3a4f7aa9…`, byte-identical).
@@ -141,18 +142,35 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-0. Operator review of the uncommitted drafts (ADR-0005 amendment, ADR-0013, MAS note); commit on a
-   branch when asked. Fix Stage 1 super-linear scaling (cheap, independent).
-1. Phase 2 proxy, test-first: Anthropic Messages + OpenAI Chat/Responses wire formats, streaming
-   restore (R5) with chunk-boundary holdback, `x-claude-code-session-id` as conversation key, error
-   bodies in the client's format with opaque refs; test with Claude Code against a fake upstream
-   (no real cloud calls).
-2. Signed C2SP checkpoints + `ppe audit verify` signature check; retention/shredding job.
-3. Zone verification (L1 address/no-proxy/attestation; L2 `SO_PEERCRED`) for the observe/egress hops.
-4. With operator go (Kent idle): short-answer review test on Kent's model at 10/40 KB (names-only +
+0. Operator review of the drafts on the design branch (ADR-0005 amendment, ADR-0013, MAS note);
+   push/merge when asked.
+1. ~~**Immediate (A): Stage 1 scaling fix.**~~ Done 2026-10-16 (uncommitted): linear now, 58 tests
+   green; see `bench/2026-10-03-stage2-cpu.md` "Stage 1 findings". Open: 10 KB at 6.8 ms vs 5 ms
+   target (`build_shadow` fast path).
+2. **Phase 2a, `ppe serve` pass-through + shadow mode: core built 2026-10-16 (uncommitted).** Stack
+   = **aiohttp 3.14.5** (operator decision 2026-10-16; optional extra `serve`; "exhaustive testing
+   either way"). `src/prompt_privacy/proxy/app.py` (relay) + `observe.py` (sealed `observe` records,
+   keyed digests, `digest_key` record, per-conversation dedup, block cache, coverage gaps);
+   `tests/proxy/test_proxy.py` (24 tests, fake upstream on loopback; streaming and gzip tests
+   mutation-checked); `ppe serve` smoke-tested on spare ports. Invariants: loopback listen only,
+   https for non-loopback upstream, compiled parser required, no redirects, no shared cookie jar.
+   **Still open in 2a:** (a) exit check, Claude Code through it via `ANTHROPIC_BASE_URL` — real cloud
+   call, operator runs it; (b) reply-flow observation (tee SSE, scan after the stream); (c) the
+   exhaustive test pass: smuggling/malformed-request corpus against the listener, header edge cases
+   (duplicates, obs-fold, huge headers), client disconnect mid-stream, slow upstream/timeouts, large
+   bodies (max 64 MiB), concurrency, fuzzing; (d) GIL cost of large-prompt scans on stream latency.
+3. Finish phase 2 in **PLAN §5 order** (operator 2026-10-16; masking stays in phase 4, after the
+   LiteLLM adapter and span models): (a) exhaustive proxy tests, (b) operator runs the Claude Code
+   exit check, (c) reply-flow observation, (d) OpenAI Chat/Responses formats, (e) exposure ledger
+   (`ppe report exposure`), (f) sensor API + loopback observe leg (may pair with phase 3).
+   Phase 4 masking then brings streaming restore (R5) with chunk-boundary holdback, error bodies in
+   the client's format with opaque refs.
+4. Signed C2SP checkpoints + `ppe audit verify` signature check; retention/shredding job.
+5. Zone verification (L1 address/no-proxy/attestation; L2 `SO_PEERCRED`) for the observe/egress hops.
+6. With operator go (Kent idle): short-answer review test on Kent's model at 10/40 KB (names-only +
    special-category yes/no per chunk) — the measurement that decides item 20/23.
-5. Content-hash verdict cache + structural (column/key) detector — useful whichever action is chosen.
-6. Read IMDA Model AI Governance Framework for Agentic AI (MAS fn 11) against ADR-0013.
+7. Content-hash verdict cache + structural (column/key) detector — useful whichever action is chosen.
+8. Read IMDA Model AI Governance Framework for Agentic AI (MAS fn 11) against ADR-0013.
 
 ## History
 
