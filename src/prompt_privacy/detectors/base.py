@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from bisect import bisect_left
 from collections.abc import Iterable, Sequence
 
 from prompt_privacy.core.shadow import build_shadow
@@ -69,8 +70,14 @@ def detect(
 
 def resolve_overlaps(findings: Sequence[Finding]) -> list[Finding]:
     ranked = sorted(findings, key=lambda f: (_PRIORITY[f.type], -(f.end - f.start), f.start))
+    # Kept spans are disjoint, so sorted by start they are also sorted by end: only the kept span
+    # starting just before f.end can overlap f (O(log n) per finding instead of a scan).
+    starts: list[int] = []
     kept: list[Finding] = []
     for f in ranked:
-        if not any(f.overlaps(k) for k in kept):
-            kept.append(f)
-    return sorted(kept, key=lambda f: f.start)
+        i = bisect_left(starts, f.end)
+        if i and kept[i - 1].end > f.start:
+            continue
+        starts.insert(i, f.start)
+        kept.insert(i, f)
+    return kept

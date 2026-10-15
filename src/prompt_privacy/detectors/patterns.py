@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import ipaddress
 import re
+from bisect import bisect_left
 from collections.abc import Iterator
 
 from prompt_privacy.core.checksums import iban_valid, luhn_valid, nric_valid
@@ -62,9 +63,12 @@ def find_structured(
         except ValueError:
             continue
         yield m.start(), m.end(), EntityType.IPV6
+    # finditer spans are disjoint and in order: only the date starting just before m.end() can overlap.
     blocked = [(m.start(), m.end()) for m in _DATETIME.finditer(shadow)]
+    blocked_starts = [b for b, _ in blocked]
     for m in _PHONE.finditer(shadow):
-        if any(m.start() < e and b < m.end() for b, e in blocked):
+        i = bisect_left(blocked_starts, m.end())
+        if i and blocked[i - 1][1] > m.start():
             continue
         context = shadow[max(0, m.start() - _CONTEXT_WINDOW) : m.start()]
         if plausible_phone(m.group(), context, phone_context):
