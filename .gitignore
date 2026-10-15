@@ -16,3 +16,6 @@ build/
 /bench/harness/corpus.jsonl
 /bench/harness/*.jsonl
 /bench/harness/*.log
+
+# operator-private notes (e.g. findings about other projects); never published
+docs/private/
