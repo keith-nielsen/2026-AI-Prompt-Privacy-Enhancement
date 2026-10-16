@@ -1,0 +1,34 @@
+M01 killed     1.4s  M-series FIN check letter wrong               E       AssertionError: assert (True and False)
+M02 killed     1.5s  Luhn doubles the wrong digits                 FAILED tests/conformance/test_claims_engine.py::test_c07_ordinary_code_has_no_findings[ime
+M03 killed     1.5s  IBAN accepts mod-97 == 0                      E       AssertionError: assert not True
+M04 killed     3.9s  NRIC checksum not required                    E       AssertionError: assert [('NRIC', 'S1234567A')] == []
+M05 killed     1.7s  card Luhn not required                        FAILED tests/conformance/test_claims_engine.py::test_c08_random_ids_rarely_look_like_cards
+M06 killed     1.4s  zero-width/bidi no longer stripped            E           AssertionError: S123​4567D
+M07 killed     3.9s  secrets lose overlap priority                 E       AssertionError: assert ['aws_access_...te_key_block'] == ['aws_access_...te_key_bl
+M08 SURVIVED  27.5s  assistant history freshly detected (R3)       
+M09 killed     1.9s  token TYPE label not checked (R2)             E       AssertionError: assert (2 == 1)
+M10 killed     1.8s  surrogate may equal a real value              E       AssertionError: assert ('S1234567D' not in {'T8984334R', 'T9119134I'} and 'T911913
+M11 killed     1.8s  NRIC surrogate may be valid (G2)              E           AssertionError: assert not True
+M12 killed     1.8s  card surrogate may pass Luhn (G2)             E           AssertionError: assert not True
+M13 killed     1.8s  NANP surrogate outside 555-01xx (G1)          E           AssertionError: assert (True and '55523' == '55501'
+M14 killed     1.0s  header not bound to ciphertext (enc side)     FAILED tests/audit/test_envelope.py::test_round_trip_and_header_only_in_clear
+M15 killed     0.9s  token share alone = DEK (2-of-2 broken)       FAILED tests/audit/test_envelope.py::test_round_trip_and_header_only_in_clear
+M16 killed     1.4s  chain linkage not verified                    E       AssertionError: assert not True
+M17 killed     1.0s  dev token accepted in any profile             FAILED tests/audit/test_envelope.py::test_dev_token_refused_outside_lab - Fai...
+M18 killed     1.4s  machine key perms not enforced                FAILED tests/conformance/test_claims_audit.py::test_c27_private_key_files_must_be_0600
+M19 killed     1.4s  token key perms not enforced                  FAILED tests/conformance/test_claims_audit.py::test_c27_private_key_files_must_be_0600
+M20 killed    21.4s  no per-conversation dedup                     FAILED tests/proxy/test_proxy.py::test_findings_are_sealed_digested_and_deduplicated_per_c
+M21 killed     1.5s  digest not bound to type                      E       AssertionError: assert 'b94a28bb21cfce8b1dea2ca98247aa19' != 'b94a28bb21cfce8b1dea
+M22 killed     9.0s  hop-by-hop request headers forwarded          FAILED tests/proxy/test_adversarial.py::test_accepted_requests_are_reframed_cleanly[chunk_
+M23 killed    22.8s  listen on any address                         FAILED tests/proxy/test_proxy.py::test_listen_refuses_non_loopback[0.0.0.0]
+M24 killed    23.3s  cleartext http to cloud upstream              FAILED tests/proxy/test_proxy.py::test_upstream_rules[http://api.anthropic.com-False]
+M25 killed    22.8s  pure-Python parser accepted                   FAILED tests/proxy/test_proxy.py::test_pure_python_parser_is_refused - Failed...
+M26 killed     7.4s  dot segments forwarded                        E           AssertionError: b'HTTP/1.1 200 OK\r
+M27 killed    22.2s  responses decompressed in transit             FAILED tests/proxy/test_proxy.py::test_compressed_body_passes_compressed - gz...
+M28 killed    26.1s  splice order wrong (offsets corrupt)          E       AssertionError: assert 'Ms Tan, ID s...0+14155552671' == 'Ms Tan, ID s...+14155552
+M29 killed     1.8s  email domain case not normalised              E       AssertionError: assert 'Jane.Tan@ACME-Corp.TEST' == 'Jane.Tan@acme-corp.test'
+M30 killed     4.0s  dates no longer block phones                  E       AssertionError: assert [('PHONE', '2026-10-04 14')] == []
+M31 killed    21.7s  assistant turns scanned as prompt             FAILED tests/proxy/test_proxy.py::test_findings_are_sealed_digested_and_deduplicated_per_c
+M32 SURVIVED  26.9s  finer padding buckets (more size leakage)     
+
+mutation score: 30/32 killed
