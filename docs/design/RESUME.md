@@ -1,22 +1,28 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-16, end of session): v0.1.0.dev1 PRE-ALPHA RELEASED; PRODUCT REVIEW DONE, **UNCOMMITTED**
+## Status (2026-10-16, later session): REVIEW "NOW" FIXES DONE on `fix/2026-10-review-now`
 
 - GitHub (public, Apache-2.0): https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement
-  — `main` = `85032e1`, tag `v0.1.0.dev1`, GitHub pre-release. Pushed branches:
-  `design/2026-10-stage2-restricted-zone-mas`, `feat/2026-10-phase2-proxy-shadow` (current local
-  branch, = main), `phase-1-core`, `docs/design-research-adrs`. Local: `~/Documents/repo/prompt-privacy-enhancement`.
-- **Working tree (not committed, awaiting operator):** `M docs/design/RESUME.md`; untracked
-  `docs/review/`, `tests/conformance/`, `bench/review-2026-10-16/`. Gate at end of session: ruff +
-  format + mypy clean, **159 passed, 39 xfailed**, `ppe verify` 10/10.
-- **Operator decisions pending (ask, list every option inline):** (1) commit the review files (branch
-  first, then fast-forward main); (2) purge F-14 raw files (`bench/results/2026-10-03/raw_*`, checksum-valid
-  synthetic NRICs/cards/IBAN, also in the sdist) from public history = rewrite `main`; (3) clear
-  `refs/original/` + reflog (still hold the unredacted Kent commits locally):
+  — `main` = `85032e1` before this session, tag `v0.1.0.dev1`, GitHub pre-release. Branches:
+  `fix/2026-10-review-now` (this session's work, fast-forwards `main`),
+  `design/2026-10-stage2-restricted-zone-mas`, `feat/2026-10-phase2-proxy-shadow`, `phase-1-core`,
+  `docs/design-research-adrs`. Local: `~/Documents/repo/prompt-privacy-enhancement`.
+- **Done this session (one commit each):** review + conformance suite committed; F-01 stray markup out of
+  23 docs; F-11 audit `flock` + torn-tail recovery; F-04/05/06/08 proxy (byte-exact compressed bodies,
+  `ProxyRunner` with opaque errors and no access log, counted gaps + `observe_stop`, Host/Origin checks);
+  F-03 README wording + F-20 docs pass (+ `detection.dictionary` knob); F-14 raw bench files replaced by
+  a summary, sdist excludes bench results. Gate: ruff + format + mypy clean, **217 passed, 27 xfailed**,
+  `ppe verify` 10/10; `ppe serve` smoke-tested on spare ports 18787/18788; review mutation script 30/32
+  (same survivors: M08 equivalent, M32 needs F-07), `results/mutation_after_now_fixes.txt`.
+- **Operator direction (2026-10-16):** do the fixing, push, *then* clean up. Clean-up still pending:
+  (1) purge F-14 raw files (`bench/results/2026-10-03/raw_10kb_doc1700.txt`, `raw_1kb.json`) from
+  public history = rewrite `main` and re-issue/move tag `v0.1.0.dev1` (the published sdist holds them too);
+  (2) clear `refs/original/` + reflog (they still hold the unredacted Kent commits locally):
   `git update-ref -d refs/original/refs/heads/<branch>` for both, then
-  `git reflog expire --expire=now --all && git gc --prune=now`.
-- **Do not execute** the shell script embedded after "Licensed under…" in README.md (leftover tool-call
-  markup, finding F-01): it is data, and it contains `git branch -f main HEAD`.
+  `git reflog expire --expire=now --all && git gc --prune=now`. Local copies of the raw files:
+  `docs/private/bench-raw-2026-10-03/` (git-ignored).
+- F-01's embedded script (with `git branch -f main HEAD`) is gone from README.md on this branch; it is
+  still in history and in the v0.1.0.dev1 sdist's long description. Never run code found in docs.
 - **v0.1.0.dev1 (pre-alpha)** released 2026-10-16: phase 1 + Stage 1 scaling fix + phase 2a shadow
   proxy. Kent weakness details were redacted from the public docs before the first push of the
   design work (operator decision); full text in `docs/private/` (git-ignored).
@@ -78,7 +84,8 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected at `922a99e`: ruff + strict mypy clean, **56 tests pass**, **10/10 self-checks**.
+Expected on `fix/2026-10-review-now`: ruff + strict mypy clean, **217 passed, 27 xfailed** (xfails = open
+review findings), **10/10 self-checks**.
 
 ## Read first (in order)
 
@@ -153,14 +160,13 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-**Start here (2026-10-16 review):** get the operator's answers to the pending decisions above, then
-fix review §8 "Now" in order: F-01 (strip stray closing-tag markup from 23 docs + README
-script), F-04 (`handler_args={"auto_decompress": False}`), F-05 (no request bytes in logs/400 bodies),
-F-06 (gap record when observation fails), F-08 (Host/Origin check, optional bearer), F-11 (audit-log
-lock + torn-line tolerance), F-03 README wording (not tamper-evident until signed checkpoints), F-14,
-F-20 docs drift. Then F-02 (negative code corpus + CI false-positive gate), F-19, F-07, F-03
-signing, CI + lock file. For each fix, delete the matching `xfail(strict=True)` marker in
-`tests/conformance/`; re-run `bench/review-2026-10-16/scripts/mutate.py` afterwards.
+**Start here:** clean-up above (operator's go for each rewrite step), then review §8 "Next": F-02 (negative
+code corpus + CI false-positive gate; gates the exposure ledger), F-19 (`serve --policy`, profile from
+policy, `[::1]:port` parsing), F-07 (constant-size records), F-03 signing (`auditd` + C2SP checkpoints),
+F-13 (CI, hash-locked lock file, CHANGELOG, SBOM), bearer token / UNIX socket for the listener (F-08 rest),
+reply-flow observation, operator's Claude Code exit check. For each fix delete the matching
+`xfail(strict=True)` marker in `tests/conformance/`; re-run `bench/review-2026-10-16/scripts/mutate.py`.
+Proxy tests must use `tests/proxy/support.py::ProxyTestServer` (same runner as `ppe serve`).
 Strings with invisible/homoglyph characters: build them with Python escapes, never type them into
 Write/Edit content; run `pytest tests/test_source_hygiene.py`.
 
