@@ -125,7 +125,6 @@ def test_c29_tamper_evident_against_truncation_and_rewrite(tmp_path: Path, attac
     assert not verify_chain(path).ok
 
 
-@pytest.mark.xfail(strict=True, reason="F-11: no file lock; each writer keeps its own seq/prev")
 def test_c30_two_writers_keep_the_chain_valid(tmp_path: Path) -> None:
     """C-30 (invariant 7 'integrity chain always on'): e.g. `ppe serve` plus `ppe audit append`."""
     m, u = AuditKeyPair.generate(), AuditKeyPair.generate()
@@ -137,7 +136,6 @@ def test_c30_two_writers_keep_the_chain_valid(tmp_path: Path) -> None:
     assert verify_chain(tmp_path / "a.jsonl").ok
 
 
-@pytest.mark.xfail(strict=True, reason="F-11: a torn final line raises JSONDecodeError in verify and reopen")
 def test_c31_torn_final_line_is_reported_not_fatal(tmp_path: Path) -> None:
     """C-31 (robustness of evidence): a crash mid-append leaves a partial line; verify reports it and the
     writer can resume (today `ppe audit verify` and `ppe serve` both crash)."""

@@ -479,6 +479,9 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   (`verify` returns BROKEN with a "torn tail" reason, and the writer truncates it after recording a
   `recovered` event); in the end, a single `auditd` writer.
 - **Evidence:** C-30, C-31.
+- **Status (2026-10-16): fixed** (`flock` per append, chain state read from the file's tail, torn
+  tail cut and replaced by a sealed `recovered` record; `verify` reports "torn tail"). C-30/C-31 pass. The
+  single `auditd` writer stays with F-03.
 
 ### F-12 · Medium · Testing method gaps · M
 - **What:** mutation score 21/31 (§5); circular checksum tests; detection scored only on the
