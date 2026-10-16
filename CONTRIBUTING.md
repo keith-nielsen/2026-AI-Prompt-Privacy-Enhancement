@@ -29,7 +29,11 @@ uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[de
 .venv/bin/ppe verify
 ```
 
-A knob without a proving test isn't done (ADR-0012). Source files must not contain invisible or
+A knob without a proving test isn't done (ADR-0012). A fix for a review finding removes its
+`xfail(strict=True)` marker in `tests/conformance/` and never weakens the assertion. Proxy tests serve
+the app through `tests/proxy/support.py::ProxyTestServer` (the runner `ppe serve` uses); the proxy
+refuses traffic under any other runner. `bench/review-2026-10-16/scripts/validate_now_fixes.py <tree>`
+re-checks the 2026-10-16 fixes end to end against any source tree. Source files must not contain invisible or
 bidi control characters (`tests/test_source_hygiene.py`, Trojan Source guard); write `"\u200b"`.
 
 ## Decision records

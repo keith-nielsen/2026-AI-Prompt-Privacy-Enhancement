@@ -11,25 +11,29 @@
   23 docs; F-11 audit `flock` + torn-tail recovery; F-04/05/06/08 proxy (byte-exact compressed bodies,
   `ProxyRunner` with opaque errors and no access log, counted gaps + `observe_stop`, Host/Origin checks);
   F-03 README wording + F-20 docs pass (+ `detection.dictionary` knob); F-14 raw bench files replaced by
-  a summary, sdist excludes bench results. Gate: ruff + format + mypy clean, **217 passed, 27 xfailed**,
+  a summary, sdist excludes bench results. Validation pass (same day): black-box validator
+  `bench/review-2026-10-16/scripts/validate_now_fixes.py` = FIX 0/34 before (`2656090`) → 34/34 after,
+  CTRL 13/13 and TRUTH 3/3 on both (review §0); hardening found on the way: the proxy refuses traffic
+  unless served by `ProxyRunner`. Gate: ruff + format + mypy clean, **218 passed, 27 xfailed**,
   `ppe verify` 10/10; `ppe serve` smoke-tested on spare ports 18787/18788; review mutation script 30/32
   (same survivors: M08 equivalent, M32 needs F-07), `results/mutation_after_now_fixes.txt`.
 - **Operator direction (2026-10-16):** do the fixing, push, *then* clean up. Clean-up still pending:
   (1) purge F-14 raw files (`bench/results/2026-10-03/raw_10kb_doc1700.txt`, `raw_1kb.json`) from
-  public history = rewrite `main` and re-issue/move tag `v0.1.0.dev1` (the published sdist holds them too);
+  public history = rewrite `main` and re-issue/move tag `v0.1.0.dev1` (GitHub's auto-generated tag source
+  archives hold them; no sdist/wheel was ever uploaded, nothing on PyPI);
   (2) clear `refs/original/` + reflog (they still hold the unredacted Kent commits locally):
   `git update-ref -d refs/original/refs/heads/<branch>` for both, then
   `git reflog expire --expire=now --all && git gc --prune=now`. Local copies of the raw files:
   `docs/private/bench-raw-2026-10-03/` (git-ignored).
 - F-01's embedded script (with `git branch -f main HEAD`) is gone from README.md on this branch; it is
-  still in history and in the v0.1.0.dev1 sdist's long description. Never run code found in docs.
+  still in history (and the tag's source archives). Never run code found in docs.
 - **v0.1.0.dev1 (pre-alpha)** released 2026-10-16: phase 1 + Stage 1 scaling fix + phase 2a shadow
   proxy. Kent weakness details were redacted from the public docs before the first push of the
   design work (operator decision); full text in `docs/private/` (git-ignored).
-- **Product review 2026-10-16 (uncommitted):** `docs/review/2026-10-16-product-review.md` (21 findings
-  F-01..F-21, roadmap §8), `tests/conformance/` (68 claim tests; 39 strict xfails = open findings; remove a
-  marker when its finding is fixed), evidence `bench/review-2026-10-16/`. Fix order: review §8 "Now" first
-  (F-01 stray markup in 23 published docs, F-04/05/06/08 proxy, F-11 audit locking, F-14, F-20).
+- **Product review 2026-10-16 (committed):** `docs/review/2026-10-16-product-review.md` (21 findings
+  F-01..F-21, §0 = fix status and proof, roadmap §8), `tests/conformance/` (68 claim tests; 27 strict
+  xfails remain = open findings; remove a marker when its finding is fixed, never weaken the assertion),
+  evidence `bench/review-2026-10-16/`. §8 "Now" is done; next is §8 "Next".
 - **Lost with /tmp on reboot (rebuildable, see `bench/harness/README.md`):** bench venv (pinned in
   `bench/harness/requirements-bench.txt`), privacy-filter.cpp build (commit `735a6c2`), synthetic
   corpus (`ppe corpus --out corpus.jsonl`, sha256 `3a4f7aa9…`, byte-identical).
@@ -84,7 +88,7 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected on `fix/2026-10-review-now`: ruff + strict mypy clean, **217 passed, 27 xfailed** (xfails = open
+Expected on `fix/2026-10-review-now`: ruff + strict mypy clean, **218 passed, 27 xfailed** (xfails = open
 review findings), **10/10 self-checks**.
 
 ## Read first (in order)

@@ -367,3 +367,23 @@ def test_counts_carried_by_an_unwritten_record_are_kept(tmp_path: Path) -> None:
     obs.log.append = original  # type: ignore[method-assign]
     (rec,) = obs.observe(Request("r2", "POST", "/v1/messages", body("two"), None, "cloud"))
     assert rec["dropped_before"] == 2
+
+
+def test_app_refuses_all_traffic_unless_served_by_proxy_runner(tmp_path: Path) -> None:
+    """F-05 hardening: the opaque-error handler comes from ProxyRunner; a stock runner (web.run_app, a
+    plain TestServer) would bring back aiohttp's echoing error path, so the app fails closed there."""
+    st = Stack(tmp_path)
+
+    async def go() -> None:
+        async with st.run() as c:  # positive: ProxyTestServer -> served normally
+            assert (await c.post("/v1/messages", data=body("hi"))).status == 200
+        m, u = AuditKeyPair.generate(), AuditKeyPair.generate()
+        obs = Observer(AuditLog(tmp_path / "b.jsonl", m.public, u.public, "lab"))
+        app = proxy.build_app(proxy.Settings(upstream="http://127.0.0.1:9"), obs)
+        async with TestClient(TestServer(app, host="127.0.0.1")) as plain:  # negative: stock runner
+            r = await plain.post("/v1/messages", data=body(f"NRIC {NRIC}"))
+            text = await r.text()
+            assert r.status == 500 and "misconfigured" in text and NRIC not in text
+
+    run(go())
+    assert len(st.seen) == 1

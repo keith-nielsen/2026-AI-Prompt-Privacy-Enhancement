@@ -19,8 +19,9 @@ class Knob:
     give_up: dict[str, str]  # option -> what you give up
     test: str
     adr: str
-    implemented: bool = True
+    implemented: bool = True  # the setting is read and acts
     lab_only: tuple[str, ...] = ()
+    partly: str = ""  # for unimplemented knobs: the part that runs already, with a fixed behaviour
 
 
 KNOBS: tuple[Knob, ...] = (
@@ -141,9 +142,10 @@ KNOBS: tuple[Knob, ...] = (
             "model_legs": "data sources invisible",
             "model_legs+sources": "more sensors, more (sealed) records",
         },
-        "tests/proxy (cloud leg, Anthropic Messages: built); choosing a mode needs `serve --policy`",
+        "tests/proxy, tests/conformance C-37/C-39 (the model_legs behaviour on the cloud leg)",
         "ADR-0007",
         implemented=False,
+        partly="`ppe serve` always observes the cloud leg (Anthropic Messages)",
     ),
     Knob(
         "breakglass.release_mode",
@@ -197,7 +199,13 @@ def explain(policy: dict[str, Any]) -> str:
         if isinstance(value, list):  # e.g. dictionary terms: sensitive, never printed
             value = "terms" if value else "empty"
             shown = f"{value} ({len(get(policy, k.path) or [])} entries)"
-        state = "" if k.implemented else "  [designed, not built yet]"
+        state = (
+            ""
+            if k.implemented
+            else f"  [setting not read yet; built: {k.partly}]"
+            if k.partly
+            else "  [designed, not built yet]"
+        )
         lines.append(f"{k.path} = {shown}{state}   ({k.adr})")
         lines.append(f"    protects: {k.gain.get(value, '?')}")
         lines.append(f"    gives up: {k.give_up.get(value, '?')}")
