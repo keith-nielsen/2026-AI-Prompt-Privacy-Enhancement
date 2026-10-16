@@ -52,18 +52,18 @@ same matching rules:
 
 | type | support | PPE optional R / P / F1 | PPE required R / P / F1 | Presidio ≥0 R / P / F1 | Presidio ≥0.5 R / P / F1 |
 |---|---:|---|---|---|---|
-| CARD | 12,867 | 0.118 / 0.761 / 0.205 | same | 0.118 / 0.773 / 0.205 | same |
-| EMAIL | 53,930 | 0.994 / 0.998 / 0.996 | same | 0.992 / 0.998 / 0.995 | same |
+| CARD | 12,867 | 0.118 / 0.762 / 0.205 | same | 0.118 / 0.773 / 0.205 | same |
+| EMAIL | 53,930 | 0.995 / 0.998 / 0.996 | same | 0.992 / 0.998 / 0.995 | same |
 | IPV4 | 6,078 | 1.000 / 0.655 / 0.791 | same | 1.000 / 0.655 / 0.791 | same |
-| IPV6 | 3,139 | 0.907 / 0.985 / 0.944 | same | 0.908 / 0.985 / 0.945 | same |
-| PHONE | 30,353 | 0.917 / 0.535 / 0.675 | **0.822 / 0.993 / 0.900** | 0.943 / 0.484 / 0.639 | 0.617 / 0.610 / 0.613 |
+| IPV6 | 3,139 | 0.905 / 0.985 / 0.944 | same | 0.908 / 0.985 / 0.945 | same |
+| PHONE | 30,353 | 0.917 / 0.535 / 0.676 | **0.822 / 0.993 / 0.900** | 0.943 / 0.484 / 0.639 | 0.617 / 0.610 / 0.613 |
 | **micro, shared types** | 106,367 | 0.864 / 0.766 / 0.812 | **0.837 / 0.957 / 0.893** | 0.870 / 0.729 / 0.794 | 0.777 / 0.840 / 0.807 |
 
 R = typed recall (overlap), P = typed precision. Strict recall is within 0.011 of overlap recall for
 every row above (`head-to-head.txt`).
 
-- **Pattern types are at parity.** Recall on email, IP and card agrees to within 0.002, and
-  precision too, except card (0.761 vs 0.773). Both card detectors require a valid Luhn check, and
+- **Pattern types are at parity.** Recall on email, IP and card agrees to within 0.003, and
+  precision too, except card (0.762 vs 0.773). Both card detectors require a valid Luhn check, and
   88% of the dataset's card numbers fail it (see the Nemotron write-up), so both find 0.118. Both
   also match IPv4 addresses inside URLs labelled `url` (3,041 and 3,039 spans).
 - **Phone is where they differ.** Presidio's defaults find more phone numbers (recall 0.943), but
@@ -76,11 +76,11 @@ every row above (`head-to-head.txt`).
 
 | | PPE optional | PPE required | Presidio ≥0 | Presidio ≥0.5 |
 |---|---|---|---|---|
-| micro over own claimed types (R / P / F1) | 0.785 / 0.769 / 0.777 | 0.760 / 0.957 / 0.848 | 0.820 / 0.559 / 0.664 | 0.802 / 0.576 / 0.670 |
+| micro over own claimed types (R / P / F1) | 0.785 / 0.769 / 0.777 | 0.761 / 0.957 / 0.848 | 0.820 / 0.559 / 0.664 | 0.802 / 0.576 / 0.670 |
 | micro over every mapped type (R / P / F1) | 0.158 / 0.769 / 0.262 | 0.153 / 0.957 / 0.264 | 0.803 / 0.559 / 0.659 | 0.786 / 0.576 / 0.665 |
 | any-type coverage, 850,340 gold spans | 0.142 | 0.111 | **0.747** | 0.666 |
-| system spans | 121,570 | 94,643 | 949,280 | 748,177 |
-| … overlapping no gold span | 541 (0.4%) | 348 (0.4%) | 146,162 (15.4%) | 136,785 (18.3%) |
+| system spans | 121,620 | 94,696 | 949,280 | 748,177 |
+| … overlapping no gold span | 542 (0.4%) | 350 (0.4%) | 146,162 (15.4%) | 136,785 (18.3%) |
 
 The all-mapped row has the same denominator (586,978 mapped gold spans) for every system. PPE's
 rules claim nothing for names, places, dates, organisations, URLs or SSNs, so most of those spans
@@ -125,14 +125,16 @@ budget a span model must stay within if PPE's precision is to be kept.
   so the test uses `example.com`.
 - **Mutation check** (`bench/results/2026-10-16-nemotron-pii/mutation.txt`): the unmutated tree must
   pass first (a control run, added after an earlier attempt reported 18/18 when the test environment
-  could not even import its tests). Then 20 faults, each caught by a named test, including Presidio
+  could not even import its tests). Then 24 faults, each caught by a named test, including Presidio
   IPv6 labelled IPv4, a model name accepted, the suffix list fetched over the network (pointed at a
   refused loopback port, so nothing leaves the host), ratios rounded twice and F1 from rounded ratios.
-  Without Presidio, 19/19 with the network fault marked not run.
+  Without Presidio, 23/23 with the network fault marked not run.
 - **Same PPE numbers as the committed run.** Re-scored after the label map was extended: every
-  per-type count for PPE's types, every per-label coverage count and the whole confusion table are
+  per-type count for PPE's types, every per-label coverage count and the whole confusion table were
   identical to the 104aa84 results; only the all-mapped micro changed (0.785 → 0.158 recall), as it
-  must once names, places and dates are counted.
+  must once names, places and dates are counted. The PPE results were regenerated once more after
+  the three detector fixes from the Gretel run (IBAN followed by a word, non-ASCII e-mail, IPv6 inside
+  a word; `2026-10-16-gretel-pii-finance.md`); the PPE figures above are from that run.
 - **Threshold consistency.** Every count in the ≥0.5 report is at most the ≥0 count; support is
   equal; the system configuration is identical apart from `min_score`.
 - **Deterministic.** Two full Presidio runs (100,000 documents each) gave identical counts in every
@@ -145,7 +147,7 @@ budget a span model must stay within if PPE's precision is to be kept.
   computes every ratio from the raw counts and rounds once; every ratio quoted above was recomputed
   from the counts, which caught two cells (PPE e-mail recall 0.995 → 0.994, URL F1 0.489 → 0.490)
   printed by the earlier double rounding.
-- **No dataset text in the results** (`bench/harness/leak_scan.py`, output `leak_scan.txt`): no run
+- **No dataset text in the results** (`bench/harness/leak_scan.py nemotron-pii …`, output `leak_scan.txt`): no run
   of 35 or more characters of any document appears in any result file, once the 55 label names (the
   published schema, which some documents use as record keys) are masked. A planted 60-character
   excerpt was caught (exit 1) before and after masking. The 1,077 gold values that occur in the files
@@ -159,5 +161,6 @@ budget a span model must stay within if PPE's precision is to be kept.
 PIIBench (arXiv 2604.15776) reports Presidio F1 0.1385 on its own data, labels and matching rules;
 that number does not compare with the tables above. Like-for-like comparison holds only for systems
 run through this harness against this pin and label map, and `compare_reports.py` refuses reports
-from different pins or limits. Next: the same comparison on Gretel `synthetic_pii_finance_multilingual`
-and, for secrets, Samsung CredData.
+from different pins or limits. The same comparison on Gretel `synthetic_pii_finance_multilingual`:
+[`2026-10-16-gretel-pii-finance.md`](2026-10-16-gretel-pii-finance.md). Next, for secrets: Samsung
+CredData.

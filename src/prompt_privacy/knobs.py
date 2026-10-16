@@ -31,15 +31,15 @@ KNOBS: tuple[Knob, ...] = (
         "optional",
         {
             "optional": "every phone-shaped number in SG/NANP/UK form is protected (synthetic bench recall "
-            "1.000; Nemotron-PII 0.917)",
+            "1.000; Nemotron-PII 0.917; Gretel finance, 7 languages, 0.729)",
             "required": "no false positives on order/reference numbers (synthetic bench precision 1.000; "
             "Nemotron-PII 0.993)",
         },
         {
             "optional": "some order/reference numbers are swapped too (synthetic precision ~0.92; "
             "Nemotron-PII 0.535: medical record, customer and account numbers)",
-            "required": "numbers with no nearby context word leak, e.g. CSV phone columns (synthetic recall "
-            "~0.85; Nemotron-PII 0.822)",
+            "required": "numbers with no nearby context word leak, e.g. CSV phone columns; the context words "
+            "are English (synthetic recall ~0.85; Nemotron-PII 0.822; Gretel finance 0.594, French 0.218)",
         },
         "ppe bench --phone-context optional|required; ppe evaluate run nemotron-pii --phone-context …",
         "ADR-0005",

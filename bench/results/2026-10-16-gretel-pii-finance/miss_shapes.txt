@@ -1,0 +1,83 @@
+shape classes of mapped gold spans (gretel-pii-finance test, limit=None, phone_context=optional)
+
+api_key (90)
+  generic-len32+ MISSED                         25
+  vendor-prefix found                           25
+  generic-len64+ MISSED                         12
+  generic-len16+ MISSED                         10
+  generic-len0+ MISSED                           8
+  vendor-prefix MISSED                           7
+  generic-len16+ found                           2
+  generic-len64+ found                           1
+
+credit_card_number (120)
+  luhn-invalid MISSED                           59
+  luhn-valid found                              54
+  digits=12 MISSED                               5
+  masked MISSED                                  1
+  digits=10 MISSED                               1
+
+email (1422)
+  plain found                                 1375
+  no-at MISSED                                  41
+  plain MISSED                                   6
+
+iban (203)
+  mod97-valid,compact found                    151
+  mod97-invalid,grouped MISSED                  24
+  mod97-invalid,compact MISSED                  15
+  mod97-valid,compact MISSED                     7
+  mod97-invalid,compact found                    3
+  mod97-invalid,grouped found                    2
+  mod97-valid,grouped found                      1
+
+ipv4 (162)
+  plain found                                  160
+  plain MISSED                                   1
+  leading-zero MISSED                            1
+
+ipv6 (134)
+  plain found                                  109
+  plain MISSED                                  25
+
+password (101)
+  generic-len16+ MISSED                         48
+  generic-len0+ MISSED                          47
+  generic-len16+ found                           3
+  generic-len0+ found                            3
+
+phone_number (946)
+  intl+,digits=11 found                        254
+  national,digits=10 found                     182
+  intl+,digits=12 found                        127
+  national,digits=11 found                     109
+  national,digits=10 MISSED                    109
+  intl+,digits=11 MISSED                        50
+  national,digits=0 MISSED                      19
+  national,digits=9 MISSED                      14
+  national,digits=15 MISSED                     10
+  intl+,digits=13 found                          8
+  intl+,digits=12 MISSED                         7
+  national,digits=8 MISSED                       7
+  national,digits=14 MISSED                      7
+  national,digits=13 MISSED                      7
+  intl+,digits=10 found                          5
+  national,digits=2 MISSED                       3
+  intl+,digits=15 MISSED                         3
+  national,digits=6 MISSED                       2
+  intl+,digits=6 MISSED                          2
+  national,digits=16 MISSED                      2
+  national,ext,digits=16 MISSED                  2
+  national,digits=12 MISSED                      2
+  intl+,digits=10 MISSED                         2
+  national,digits=4 MISSED                       2
+  national,digits=12 found                       2
+  national,digits=3 MISSED                       1
+  national,digits=9 found                        1
+  intl+,digits=4 MISSED                          1
+  national,ext,digits=15 found                   1
+  national,ext,digits=14 found                   1
+  national,digits=11 MISSED                      1
+  intl+,digits=9 MISSED                          1
+  intl+,digits=16 MISSED                         1
+  national,digits=5 MISSED                       1

@@ -33,9 +33,9 @@ credit_debit_card (12867)
   digits=26 MISSED                               1
 
 email (53930)
-  plain found                                53630
+  plain found                                53645
   no-at MISSED                                 273
-  plain MISSED                                  25
+  plain MISSED                                  10
   no-at found                                    2
 
 fax_number (6423)
@@ -66,8 +66,8 @@ ipv4 (6078)
   plain MISSED                                   1
 
 ipv6 (3139)
-  plain found                                 2847
-  plain MISSED                                 292
+  plain found                                 2842
+  plain MISSED                                 297
 
 password (6985)
   generic-len0+ MISSED                        5765
