@@ -8,8 +8,8 @@ from pathlib import Path
 import pytest
 
 from prompt_privacy.evaluation import datasets
-from prompt_privacy.evaluation.datasets import NEMOTRON_PII, DataFile, fetch_file, nemotron_doc, parse_spans
-from prompt_privacy.evaluation.scoring import CANONICAL_TYPES, Span
+from prompt_privacy.evaluation.datasets import NEMOTRON_PII, DataFile, fetch_file, parse_spans, row_doc
+from prompt_privacy.evaluation.scoring import CANONICAL_TYPES, Scorer, Span, table
 
 
 def test_pins_are_exact() -> None:
@@ -46,7 +46,7 @@ def test_parse_spans_rejects(raw: str) -> None:
 
 def test_doc_keeps_only_slice_keys() -> None:
     row = {"uid": "a", "text": "hello", "spans": "[]", "locale": "us", "domain": "health"}
-    d = nemotron_doc(row, ("locale",))
+    d = row_doc(replace(NEMOTRON_PII, slice_keys=("locale",)), row)
     assert d.tags == (("locale", "us"),) and d.gold == ()
 
 
@@ -238,3 +238,31 @@ def test_cli_presidio_needs_a_model_path(tmp_path: Path, monkeypatch: pytest.Mon
 
     data_dir = _pinned_standin(tmp_path, monkeypatch)
     assert main(["evaluate", "run", "nemotron-pii", "--data-dir", str(data_dir), "--system", "presidio"]) == 2
+
+
+def test_out_of_range_spans_are_dropped_and_counted_only_where_declared() -> None:
+    raw = '[{"start": 0, "end": 4, "label": "name"}, {"start": 2, "end": 99, "label": "name"}]'
+    gretel = datasets.GRETEL_PII_FINANCE
+    row = {"index": 7, "generated_text": "Anna Berg", "pii_spans": raw, "language": "Swedish"}
+    d = row_doc(gretel, row)
+    assert d.gold == (Span(0, 4, "name"),) and d.dropped == ("name",) and d.tags == (("language", "Swedish"),)
+    with pytest.raises(ValueError, match="outside a text"):
+        row_doc(replace(gretel, out_of_range="reject"), row)
+    with pytest.raises(ValueError, match="out_of_range"):
+        row_doc(replace(gretel, out_of_range="ignore"), row)
+    sc = Scorer(gretel.label_map)
+    sc.add(d, [])
+    r = sc.report()
+    assert r["gold_dropped_out_of_range"] == {"name": 1} and r["by_label"]["name"]["support"] == 1
+    assert "gold spans dropped (outside their text, not scored): {'name': 1}" in table(r)
+    clean = Scorer(gretel.label_map)
+    clean.add(row_doc(gretel, {**row, "pii_spans": "[]"}), [])
+    assert "gold_dropped_out_of_range" not in clean.report()
+
+
+def test_json_spans_are_parsed_as_json_only() -> None:
+    assert parse_spans('[{"start": 0, "end": 2, "label": "x"}]', 5, "json") == (Span(0, 2, "x"),)
+    with pytest.raises(ValueError):
+        parse_spans("[{'start': 0, 'end': 2, 'label': 'x'}]", 5, "json")  # a Python literal is not JSON
+    with pytest.raises(ValueError, match="unknown syntax"):
+        parse_spans("[]", 5, "yaml")

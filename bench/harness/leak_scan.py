@@ -1,6 +1,6 @@
 """Check that result files hold no text from a pinned dataset before they are committed.
 
-    .venv/bin/python bench/harness/leak_scan.py <data-dir> FILE [FILE ...]
+    .venv/bin/python bench/harness/leak_scan.py <dataset> <data-dir> FILE [FILE ...]
 
 Two searches over the dataset's test split:
 1. every distinct gold value of 4+ characters, as a substring of each file;
@@ -21,7 +21,6 @@ from pathlib import Path
 
 from prompt_privacy.evaluation import datasets
 
-DS = datasets.NEMOTRON_PII
 W, STRIDE = 24, 12
 
 
@@ -34,13 +33,14 @@ def kind(v: str) -> str:
 
 
 def main() -> None:
-    data_dir, files = Path(sys.argv[1]), [Path(p) for p in sys.argv[2:]]
+    ds = datasets.DATASETS[sys.argv[1]]
+    data_dir, files = Path(sys.argv[2]), [Path(p) for p in sys.argv[3:]]
     texts = {f: f.read_text() for f in files}
-    path = datasets.verify(DS, data_dir, "test")
+    path = datasets.verify(ds, data_dir, "test")
     values: set[str] = set()
     labels: set[str] = set()
     docs: list[str] = []
-    for doc in datasets.load(DS, path, None):
+    for doc in datasets.load(ds, path, None):
         docs.append(doc.text)
         labels.update(g.label for g in doc.gold)
         values.update(v for g in doc.gold if len(v := doc.text[g.start : g.end]) >= 4)
@@ -55,8 +55,8 @@ def main() -> None:
         windows = (t[i : i + W] for i in range(0, len(t) - W + 1, STRIDE))
         runs.update(w for w in windows if w in shingles and len(set(w)) >= 8)  # not padding or rules
     print(
-        f"{len(docs)} documents, {len(values)} distinct gold values (4+ chars), {len(files)} files; "
-        f"{len(labels)} label names masked for the run search"
+        f"{ds.name}: {len(docs)} documents, {len(values)} distinct gold values (4+ chars), "
+        f"{len(files)} files; {len(labels)} label names masked for the run search"
     )
     hits: Counter[tuple[str, str]] = Counter()
     by_len: dict[int, set[str]] = {}

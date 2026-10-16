@@ -44,7 +44,8 @@ SHA-256 verified against the Hugging Face API on 2026-10-03.
 | `okasi/bench_onnx.py <threads>`, `okasi/prof.py` | GLiNER2 ONNX int8 speed; preprocessing vs forward split | capped |
 | `kent_review_bench.py --dry-run / --throughput / --run` | Kent's llama-server: token speeds, identifier extraction, injection | `KENT_LLAMA_URL` (default `http://127.0.0.1:8080`); refuses unless all slots idle; run with `watchdog.sh` |
 | `watchdog.sh <pid> <swap_baseline_mb> <log>` | kills `<pid>` if swap grows > 1 GB | `setsid -f watchdog.sh …` |
-| `nemotron_miss_shapes.py <data-dir> [limit]` (2026-10-16) | shape classes of found/missed Nemotron-PII gold spans, counts only | from the repo root; no model, CPU only |
+| `miss_shapes.py <dataset> <data-dir> <out> [limit]` (2026-10-16; was `nemotron_miss_shapes.py`) | shape classes of found/missed gold spans of PPE's types (checksum valid, digit count, prefix family), counts only | from the repo root; no model, CPU only |
+| `leak_scan.py <dataset> <data-dir> FILE…` (2026-10-16) | before committing results: every gold value of 4+ characters and every 35+ character run of document text, searched for in the files (label names masked); exit 1 on a run | plant an excerpt in a scratch file first and check it is caught |
 | `mutate_evaluation.py` (2026-10-16) | breaks the scorer, downloader, parser, check digits, surrogates, detector and Presidio wrapper one at a time; every fault must fail a test. A control run on the unmutated tree must pass first | from the repo root; restores every file. With `pvenv/bin/python` and `PPE_PRESIDIO_MODEL`, also the Presidio-gated fault (capped) |
 | `compare_reports.py OUT REPORT…` (2026-10-16) | head-to-head of `ppe evaluate run --json` reports on the same dataset pin: shared claimed types rebuilt from raw counts, own-scope and all-mapped micros, per-label coverage | refuses reports from different pins or limits, or without raw counts |
 
