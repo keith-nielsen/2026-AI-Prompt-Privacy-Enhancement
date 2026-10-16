@@ -1,0 +1,55 @@
+tree: <repo>
+commit: c700921 docs: resume card after the review "Now" fixes; mutation run 30/32
+
+F01.ctl.pattern-flags-sample       CTRL  PASS  
+F01.fix.no-markup-in-docs          FIX   PASS  0 file(s) with markup
+F01.fix.no-script-in-readme        FIX   PASS  
+F03.fix.no-overclaim               FIX   PASS  
+F03.fix.limit-stated               FIX   PASS  
+F20.fix.security-current           FIX   PASS  
+F20.fix.contributing-current       FIX   PASS  
+F20.fix.readme-adr-index           FIX   PASS  last ADR ADR-0013
+F20.fix.plan-and-threat-model-status FIX   PASS  
+F20.fix.built-vs-designed-table    FIX   PASS  
+F20.fix.every-setting-has-a-knob   FIX   PASS  []
+F20.fix.explain-hides-dictionary-terms FIX   PASS  True False
+F20.truth.adr0002-rfc4648-base32   TRUTH PASS  True True
+F20.fix.adr0002-amendment          FIX   PASS  
+F20.truth.adr0010-dev-token-only-in-lab TRUTH PASS  [True, True, True, True]
+F20.ctl.dev-token-accepted-in-lab  CTRL  PASS  
+F11.fix.four-concurrent-writers    FIX   PASS  OK: 200 record(s)
+F11.ctl.verify-detects-reorder     CTRL  PASS  
+F03.truth.tail-truncation-not-detected TRUTH PASS  README limit: truncation passes verify until signed checkpoints exist
+F11.fix.torn-tail-reported         FIX   PASS  BROKEN: 3 record(s) torn tail: 25 bytes after record 2 (an append was cut short)
+F11.fix.writer-recovers-torn-tail  FIX   PASS  append rc=0, verify=OK: 5 record(s), last events=['recovered', 'after-crash']
+F04.ctl.identity-body-forwarded    CTRL  PASS  status 200
+F05.ctl.planted-value-reached-upstream CTRL  PASS  
+F04.fix.gzip-forwarded-byte-exact  FIX   PASS  status 200, sent 113 B, upstream got 113 B
+F04.fix.bomb-forwarded-as-sent     FIX   PASS  status 200
+F05.ctl.parser-error-path-reached  CTRL  PASS  nul-in-header:400, bad-chunk-size:400, bad-request-line:400, obs-fold:400
+F05.fix.no-value-in-error-bodies   FIX   PASS  echoed by: []
+F08.fix.foreign-host-refused       FIX   PASS  status 421
+F08.fix.foreign-origin-refused     FIX   PASS  status 403
+F08.fix.missing-host-refused       FIX   PASS  status 421
+F08.fix.refused-requests-not-forwarded FIX   PASS  0 forwarded
+F08.ctl.loopback-host-accepted     CTRL  PASS  status 200
+F05.fix.no-value-in-serve-output   FIX   PASS  0 occurrence(s) in serve's stderr
+F06.ctl.serve-exits-on-sigterm     CTRL  PASS  exit 0
+F06.ctl.plain-request-observed     CTRL  PASS  
+F04.fix.gzip-body-observed-inside  FIX   PASS  record: scanned=True, reason=None, types=['NRIC']
+F04.fix.bomb-decoding-bounded-gap  FIX   PASS  record reason=decoded_too_large
+F06.fix.oversized-model-recorded   FIX   PASS  record=present
+F06.fix.deep-json-recorded-as-gap  FIX   PASS  reason=too_deep
+F06.fix.identifier-in-model-withheld FIX   PASS  model=<withheld:11>
+F06.fix.identifier-in-path-withheld FIX   PASS  path=<withheld:22>
+F06.ctl.unwritable-request-not-recorded CTRL  PASS  
+F06.fix.unrecorded-request-counted FIX   PASS  failed_before=1
+F06.fix.shutdown-record-written    FIX   PASS  1 observe_stop record(s)
+F05.fix.no-value-in-audit-records  FIX   PASS  
+F11.ctl.serve-log-verifies         CTRL  PASS  
+F14.ctl.scanner-flags-generated-valid-id CTRL  PASS  ['NRIC']
+F14.fix.no-generated-valid-ids-committed FIX   PASS  0 found
+F14.ctl.sdist-builds-with-sources  CTRL  PASS  
+F14.fix.sdist-excludes-bench-results FIX   PASS  0 result file(s) in sdist
+
+CTRL: 13/13 pass  FIX: 34/34 pass  TRUTH: 3/3 pass

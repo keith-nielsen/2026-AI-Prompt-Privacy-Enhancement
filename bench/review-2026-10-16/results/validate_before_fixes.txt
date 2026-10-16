@@ -1,0 +1,55 @@
+tree: <worktree of 2656090>
+commit: 2656090 docs: product review 2026-10-16, conformance suite, review evidence
+
+F01.ctl.pattern-flags-sample       CTRL  PASS  
+F01.fix.no-markup-in-docs          FIX   FAIL  25 file(s) with markup
+F01.fix.no-script-in-readme        FIX   FAIL  
+F03.fix.no-overclaim               FIX   FAIL  
+F03.fix.limit-stated               FIX   FAIL  
+F20.fix.security-current           FIX   FAIL  
+F20.fix.contributing-current       FIX   FAIL  
+F20.fix.readme-adr-index           FIX   FAIL  last ADR ADR-0013
+F20.fix.plan-and-threat-model-status FIX   FAIL  
+F20.fix.built-vs-designed-table    FIX   FAIL  
+F20.fix.every-setting-has-a-knob   FIX   FAIL  ['detection.dictionary']
+F20.fix.explain-hides-dictionary-terms FIX   FAIL  False False
+F20.truth.adr0002-rfc4648-base32   TRUTH PASS  True True
+F20.fix.adr0002-amendment          FIX   FAIL  
+F20.truth.adr0010-dev-token-only-in-lab TRUTH PASS  [True, True, True, True]
+F20.ctl.dev-token-accepted-in-lab  CTRL  PASS  
+F11.fix.four-concurrent-writers    FIX   FAIL  BROKEN: 1 record(s) sequence gap at record 1 (found 0)
+F11.ctl.verify-detects-reorder     CTRL  PASS  
+F03.truth.tail-truncation-not-detected TRUTH PASS  README limit: truncation passes verify until signed checkpoints exist
+F11.fix.torn-tail-reported         FIX   FAIL  json.decoder.JSONDecodeError: Unterminated string starting at: line 1 column 23 (char 22)
+F11.fix.writer-recovers-torn-tail  FIX   FAIL  append rc=1, verify=, last events=[]
+F04.ctl.identity-body-forwarded    CTRL  PASS  status 200
+F05.ctl.planted-value-reached-upstream CTRL  PASS  
+F04.fix.gzip-forwarded-byte-exact  FIX   FAIL  status 200, sent 113 B, upstream got 301 B
+F04.fix.bomb-forwarded-as-sent     FIX   FAIL  status 413
+F05.ctl.parser-error-path-reached  CTRL  PASS  nul-in-header:400, bad-chunk-size:400, bad-request-line:400, obs-fold:400
+F05.fix.no-value-in-error-bodies   FIX   FAIL  echoed by: ['nul-in-header', 'bad-chunk-size', 'bad-request-line', 'obs-fold']
+F08.fix.foreign-host-refused       FIX   FAIL  status 200
+F08.fix.foreign-origin-refused     FIX   FAIL  status 200
+F08.fix.missing-host-refused       FIX   FAIL  status 200
+F08.fix.refused-requests-not-forwarded FIX   FAIL  3 forwarded
+F08.ctl.loopback-host-accepted     CTRL  PASS  status 200
+F05.fix.no-value-in-serve-output   FIX   FAIL  4 occurrence(s) in serve's stderr
+F06.ctl.serve-exits-on-sigterm     CTRL  PASS  exit 0
+F06.ctl.plain-request-observed     CTRL  PASS  
+F04.fix.gzip-body-observed-inside  FIX   FAIL  record: scanned=None, reason=None, types=[]
+F04.fix.bomb-decoding-bounded-gap  FIX   FAIL  record reason=None
+F06.fix.oversized-model-recorded   FIX   FAIL  record=missing
+F06.fix.deep-json-recorded-as-gap  FIX   FAIL  reason=None
+F06.fix.identifier-in-model-withheld FIX   FAIL  model=m-S1234567D
+F06.fix.identifier-in-path-withheld FIX   FAIL  path=/v1/messages/S1234567D
+F06.ctl.unwritable-request-not-recorded CTRL  PASS  
+F06.fix.unrecorded-request-counted FIX   FAIL  failed_before=None
+F06.fix.shutdown-record-written    FIX   FAIL  0 observe_stop record(s)
+F05.fix.no-value-in-audit-records  FIX   FAIL  
+F11.ctl.serve-log-verifies         CTRL  PASS  
+F14.ctl.scanner-flags-generated-valid-id CTRL  PASS  ['NRIC']
+F14.fix.no-generated-valid-ids-committed FIX   FAIL  14 found
+F14.ctl.sdist-builds-with-sources  CTRL  PASS  
+F14.fix.sdist-excludes-bench-results FIX   FAIL  16 result file(s) in sdist
+
+CTRL: 13/13 pass  FIX: 0/34 pass  TRUTH: 3/3 pass

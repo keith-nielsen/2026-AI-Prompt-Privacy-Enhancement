@@ -25,6 +25,7 @@ def test_explain_names_every_knob_and_flags_unbuilt() -> None:
     for k in knobs.KNOBS:
         assert k.path in text
     assert "[designed, not built yet]" in text
+    assert "observe.mode = model_legs  [setting not read yet; built: `ppe serve` always observes" in text
 
 
 def test_explain_summarises_the_dictionary_without_printing_terms() -> None:

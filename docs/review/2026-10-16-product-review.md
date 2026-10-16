@@ -13,6 +13,82 @@ Finding ids F-nn and claim ids C-nn are used throughout and in the test markers.
 
 ---
 
+## 0. Fix status and validation (updated 2026-10-16, after the §8 "Now" fixes)
+
+Sections 1-10 are the review as written against `85032e1` and are kept as that record. This section
+tracks what has been fixed since, and the proof.
+
+**How the fixes were validated.** Three independent lines of evidence:
+
+1. **Black-box before/after run.** `scripts/validate_now_fixes.py <tree>` drives a source tree only
+   through its public surfaces: the `ppe` CLI, a real `ppe serve` process in front of a raw loopback
+   upstream, and the tree's files. It runs the same 50 checks against the pre-fix tree (`2656090`) and
+   the fixed tree. Check kinds: **FIX** = the fixed behaviour (must fail before and pass after);
+   **CTRL** = a control proving the harness works (the planted value really reached the upstream, the
+   parser-error path was really hit, the scanner really flags a generated valid NRIC; must pass on both);
+   **TRUTH** = a documented statement checked against behaviour (must pass on both).
+
+   | | before (`2656090`) | after (fixed tree) |
+   |---|---|---|
+   | FIX | **0 / 34** | **34 / 34** |
+   | CTRL | 13 / 13 | 13 / 13 |
+   | TRUTH | 3 / 3 | 3 / 3 |
+
+   Raw output: `results/validate_before_fixes.txt`, `results/validate_after_fixes.txt`.
+2. **The review's own claim tests, unmodified.** The original `tests/conformance` from `2656090`, run
+   there with `--runxfail`: C-30, C-31, C-34, C-36, C-37 (both variants), C-38, C-44, C-46, C-47, C-48 and
+   C-49 fail (13 failures). On the fixed tree all of them pass with their markers removed. The only
+   changes to the conformance files since the review are: the 11 markers removed; the proxy harness
+   serving through `ProxyTestServer` (the runner `ppe serve` uses); C-43 restated (see F-04); one published
+   sample IMEI allow-listed in C-46. No assertion was weakened (`git diff 2656090 -- tests/conformance`).
+3. **Mutation checks on the new tests.** Each fix was reverted in turn and at least one test failed
+   (access-log override, `auto_decompress`, opaque-error handler, Host check, Origin check, decode cap,
+   field withholding, carried counts, flock). The review's mutation script still scores 30/32 with the
+   same two explained survivors (`results/mutation_after_now_fixes.txt`).
+
+| Finding | Status | Validator checks (FIX / CTRL / TRUTH) | Tests |
+|---|---|---|---|
+| F-01 | **Fixed** (CI part open, F-13) | `F01.*` 2 / 1 / 0 | C-44 |
+| F-03 | **Wording fixed**; signing open | `F03.*` 2 / 0 / 1 (`tail-truncation-not-detected`: the README's stated limit is accurate) | C-29 still xfail |
+| F-04 | **Fixed** | `F04.*` 4 / 1 / 0 | C-34, C-43 (restated), `tests/proxy/test_review_fixes.py` |
+| F-05 | **Fixed**, plus a hardening found while validating | `F05.*` 3 / 2 / 0 | C-36, fuzz test, stock-runner refusal test |
+| F-06 | **Fixed**, with the notes below | `F06.*` 6 / 3 / 0 | C-37, `test_review_fixes.py` |
+| F-08 | **Host/Origin fixed**; bearer token and UNIX socket open | `F08.*` 4 / 1 / 0 | C-38, Host parser cases |
+| F-11 | **Fixed** | `F11.*` 3 / 2 / 0 | C-30, C-31, `tests/audit/test_log_writers.py` |
+| F-14 | **Fixed going forward**; history open | `F14.*` 2 / 2 / 0 | C-46 |
+| F-20 | **Fixed** | `F20.*` 8 / 1 / 2 (ADR-0002 alphabet, ADR-0010 dev-token rail) | C-47, C-48, C-49, explain tests |
+
+**Where the result differs from the fix as written, or goes beyond it**
+- **F-01:** "add C-44 to CI": C-44 runs with the test suite; there is no CI yet (F-13).
+- **F-04 / C-43:** C-43's original form (413 for a small gzip body that decodes past 64 MiB) required the
+  relay to decode, which C-34 forbids. It now checks that the bomb is forwarded as sent, the observer's
+  copy stops at the cap with a `decoded_too_large` gap, and a raw body over the cap still gets 413.
+- **F-05:** the protection lives in `ProxyRunner`'s protocol handler, so it depended on how the app was
+  launched: `build_app()` served by a stock runner (`web.run_app`, a plain `TestServer`) brought back
+  aiohttp's echoing error path. Found while validating; the app now refuses every request (opaque 500)
+  unless served by `ProxyRunner`. Consequence: the review's probe scripts (`probe_proxy.py`,
+  `probe_logs.py`, `perf_proxy.py`) build the proxy on a plain `TestServer`, so they document the pre-fix
+  state only; use `validate_now_fixes.py` for the current state. The log filter on aiohttp/asyncio
+  loggers is process-global and installed by `ppe serve` only.
+- **F-06:** "parse with a depth limit": nesting is bounded by the interpreter's recursion limit, and
+  deeper input becomes a `too_deep` gap; there is no separate configurable limit. "Expose health
+  counters": totals at shutdown (the `observe_stop` record and one stderr line) and `Observer.health()`;
+  no live endpoint (a local path on the proxy would shadow upstream paths). Gap records are bounded, not
+  fixed-size (F-07 covers record sizes). Found while validating: before the fix, an identifier in the URL
+  path or `model` was written verbatim into the sealed record (`results/validate_before_fixes.txt`,
+  `F06.fix.identifier-in-*`); it is now withheld and counted as exposure.
+- **F-11:** the writer cuts the torn fragment, then appends the `recovered` record (the reverse order of
+  the fix text: the new record has to chain to the last complete one). On an append-only file
+  (`chattr +a`, ADR-0004) `ftruncate` is refused, so the torn tail stays for `verify` to report (Linux
+  semantics; not tested here, since setting the attribute needs root).
+- **F-14:** the raw files are model outputs (Kent's model), so they are summarised, not regenerated at
+  test time. History still holds them (`main` up to `85032e1`; GitHub's auto-generated source archives for
+  tag `v0.1.0.dev1`). No sdist or wheel was ever uploaded (the release has no assets; nothing on PyPI).
+- **F-20:** `observe.mode` stays "not read" (F-19), but `ppe explain` now says what runs: "[setting not
+  read yet; built: `ppe serve` always observes the cloud leg (Anthropic Messages)]".
+
+---
+
 ## 1. Verdict
 
 PPE is a **well-conceived, unusually rigorous design** with a **small, clean, honest pre-alpha
@@ -284,26 +360,26 @@ an ADR as design, not yet built (documented, so not a defect of the code, but th
 | C-27 | Private key files 0600 enforced | ADR-0003/0010 | PASS |
 | C-28 | Chain detects modify, reorder, delete, insert | ADR-0004, invariant 7 | PASS |
 | C-29 | Tamper-evident against truncation and rewrite | README | **FAIL F-03** |
-| C-30 | Chain stays valid with two writers | invariant 7 | **FAIL F-11** |
-| C-31 | Torn final line reported, not fatal | robustness | **FAIL F-11** |
+| C-30 | Chain stays valid with two writers | invariant 7 | **FAIL F-11** → **PASS** (fixed 2026-10-16) |
+| C-31 | Torn final line reported, not fatal | robustness | **FAIL F-11** → **PASS** (fixed 2026-10-16) |
 | C-32 | Observation digest bound to type | ADR-0009 | PASS |
 | C-33 | Opening the audit is itself audited | ADR-0010 | DESIGN (not built) |
-| C-34 | Proxy forwards traffic unchanged (incl. compressed requests) | README, app docstring | **FAIL F-04** |
+| C-34 | Proxy forwards traffic unchanged (incl. compressed requests) | README, app docstring | **FAIL F-04** → **PASS** (fixed 2026-10-16) |
 | C-35 | TLS to upstream verified | threat model §5 | PASS (self-signed refused, 502) |
-| C-36 | No protected value in logs or errors | invariant 1 | **FAIL F-05** |
-| C-37 | Every request yields a record or a counted gap | ADR-0007, app docstring | **FAIL F-06** |
-| C-38 | Host allowlist and Origin rejection | ADR-0001, threat model T4 | **FAIL F-08** |
+| C-36 | No protected value in logs or errors | invariant 1 | **FAIL F-05** → **PASS** (fixed 2026-10-16) |
+| C-37 | Every request yields a record or a counted gap | ADR-0007, app docstring | **FAIL F-06** → **PASS** (fixed 2026-10-16) |
+| C-38 | Host allowlist and Origin rejection | ADR-0001, threat model T4 | **FAIL F-08** → **PASS** (fixed 2026-10-16) |
 | C-39 | Investigator with both parts can test a value or session | observe.py, ADR-0009 | PASS |
 | C-40 | No `x-ppe-*` headers; opaque error refs | ADR-0010 | PASS |
 | C-41 | A slow observer never delays the request | app docstring | PASS for the request itself; concurrent streams stall (F-18) |
 | C-42 | `[::1]:PORT` listen form usable | ADR-0001 | **FAIL F-19** |
-| C-43 | Decompression bomb bounded | threat model §5 D | PASS (100-200 MiB bomb gives 413, nothing forwarded) |
-| C-44 | Published docs free of stray markup | quality | **FAIL F-01** |
+| C-43 | Decompression bomb bounded | threat model §5 D | PASS (100-200 MiB bomb gives 413, nothing forwarded) → restated 2026-10-16 (§0): bomb forwarded as sent, observer stops at the cap → **PASS** |
+| C-44 | Published docs free of stray markup | quality | **FAIL F-01** → **PASS** (fixed 2026-10-16) |
 | C-45 | `ppe serve` runs the configuration `ppe explain` describes | ADR-0012 §5 | **FAIL F-19** |
-| C-46 | No generated checksum-valid identifiers committed | corpus/generator.py | **FAIL F-14** |
-| C-47 | SECURITY/CONTRIBUTING describe the current state | SECURITY.md | **FAIL F-20** |
-| C-48 | README ADR index current | README | **FAIL F-20** |
-| C-49 | Every policy setting has a knob, trade-off and test | knobs.py, ADR-0012 | **FAIL F-20** (`detection.dictionary`) |
+| C-46 | No generated checksum-valid identifiers committed | corpus/generator.py | **FAIL F-14** → **PASS** (fixed 2026-10-16) |
+| C-47 | SECURITY/CONTRIBUTING describe the current state | SECURITY.md | **FAIL F-20** → **PASS** (fixed 2026-10-16) |
+| C-48 | README ADR index current | README | **FAIL F-20** → **PASS** (fixed 2026-10-16) |
+| C-49 | Every policy setting has a knob, trade-off and test | knobs.py, ADR-0012 | **FAIL F-20** (`detection.dictionary`) → **PASS** (fixed 2026-10-16) |
 | C-50 | Docs free of invisible/bidi characters | CONTRIBUTING | PASS |
 | C-51 | Version consistent and pre-alpha marked | release | PASS |
 | — | Wheel works outside the repo; resources packaged | packaging | PASS |
@@ -311,6 +387,8 @@ an ADR as design, not yet built (documented, so not a defect of the code, but th
 | — | Bench and corpus numbers reproduce | bench | PASS |
 
 Tally: of 51 claim ids, **26 PASS, 23 FAIL, 2 DESIGN**, plus three unnumbered checks (all PASS).
+After the 2026-10-16 fixes: **37 PASS, 12 FAIL, 2 DESIGN**. Still failing: C-07, C-08 (F-02), C-09 (F-15),
+C-14 (F-10), C-18 (F-09), C-19, C-20 (F-17), C-21 (F-16), C-25 (F-07), C-29 (F-03), C-42, C-45 (F-19).
 
 ### 6.1 Mutation score after the conformance suite
 
@@ -337,7 +415,8 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
 - **Fix:** delete the trailing markup from all 23 files and add C-44 to CI. Delete the two exact lines
   only, not "from the first stray line to the end": `docs/controls-mapping.md` continues with the MAS
   section after them. The README's embedded block runs from the stray lines to the end of the file.
-- **Status (2026-10-16): fixed.** Markup removed from all 23 files; C-44 passes.
+- **Status (2026-10-16): fixed.** Markup removed from all 23 files; C-44 passes and runs with the test
+  suite (there is no CI yet, F-13). Validated in §0.
 
 ### F-02 · High · Stage 1 precision on source code · M
 - **What:** 4.2 MB of third-party Python (335 files) gave 566 findings, about 133 per MB, essentially none
@@ -426,6 +505,7 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   aiohttp/asyncio log records down to template + exception type. C-36 passes; a new fuzz test plants an
   NRIC in the path, a header and the body of 200 mutated requests and checks every response and log line.
   The fuzz caught one more path on the way: the access log, which the test server enables by default.
+  Hardening found while validating: the app refuses all traffic unless served by `ProxyRunner` (§0).
 
 ### F-06 · Medium · Observation can be evaded silently · S
 - **What:** the request still flows, but **no record and no counted gap** is written when:
@@ -449,7 +529,8 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   reason code (`too_deep`, `observer_error:<Type>`); `model` and `path` are bounded, scanned like the body
   (identifiers there now count as exposure, query string included) and withheld when long or holding a
   finding; requests that could not be recorded at all are counted and carried (once) into the next record;
-  an `observe_stop` record with totals is written at shutdown. C-37 passes.
+  an `observe_stop` record with totals is written at shutdown. C-37 passes. Depth limit and health
+  counters as built: see §0.
 
 ### F-07 · Medium · Padding buckets leak event type and identifier volume · S-M
 - **What:** the padded ciphertext (base64) is 363 B for `digest_key`, 1,387 B for observe with 0-5
@@ -503,8 +584,8 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   `recovered` event); in the end, a single `auditd` writer.
 - **Evidence:** C-30, C-31.
 - **Status (2026-10-16): fixed** (`flock` per append, chain state read from the file's tail, torn
-  tail cut and replaced by a sealed `recovered` record; `verify` reports "torn tail"). C-30/C-31 pass. The
-  single `auditd` writer stays with F-03.
+  tail cut, then a sealed `recovered` record appended; `verify` reports "torn tail"). C-30/C-31 pass. The
+  single `auditd` writer stays with F-03; `chattr +a` interaction: see §0.
 
 ### F-12 · Medium · Testing method gaps · M
 - **What:** mutation score 21/31 (§5); circular checksum tests; detection scored only on the
@@ -547,8 +628,9 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   results, review results and `docs/private` are excluded from the sdist; CONTRIBUTING's rule names
   published sample values and forbids committing generated checksum-valid ones; the published sample
   IMEI is allow-listed in C-46, which passes. The files remain in public history (`main` up to
-  `85032e1`, tag `v0.1.0.dev1`) and in the published v0.1.0.dev1 sdist: purging them is a rewrite of
-  `main`, deferred by the operator to a clean-up step after the fixes.
+  `85032e1`, and GitHub's auto-generated source archives for tag `v0.1.0.dev1`; no sdist or wheel was
+  ever uploaded): purging them is a rewrite of `main`, deferred by the operator to a clean-up step after
+  the fixes.
 
 ### F-15 · Medium · Detection gaps: partial-span leak, plus unbuilt Stage 0 normalisations · S / M
 - **What:**
@@ -605,7 +687,7 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   and phase 2 progress updated; README gains "Built and designed" and the ADR-0013 index; threat model
   status updated; amendment notes in ADR-0001/0002/0006/0010 (profile names, base32 alphabet, no path
   prefix); knob `detection.dictionary` added (and `ppe explain` now summarises list values instead of
-  printing dictionary terms); observe knob's test reference updated. C-47/48/49 pass.
+  printing dictionary terms); `ppe explain` states what part of `observe.mode` runs. C-47/48/49 pass.
 
 ### F-21 · Low · Robustness and minor-leak nits · S
 - **What:**
@@ -622,13 +704,14 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
 
 ## 8. Enhancements and roadmap
 
-### Now (before anyone else runs v0.1.0.dev1)
-1. F-01: strip the stray markup (and republish the README); add C-44 to CI.
-2. F-04, F-05, F-06, F-08 (Host/Origin): small, contained proxy fixes with tests already written.
-3. F-11: `flock` plus torn-tail handling.
-4. F-03 wording: README "hash-chained; signed checkpoints planned" until they exist.
-5. F-14: replace the raw bench files; decide on history.
+### Now (before anyone else runs v0.1.0.dev1) — done 2026-10-16 except where noted (§0)
+1. F-01: strip the stray markup (and republish the README); add C-44 to CI. *Done; CI is F-13.*
+2. F-04, F-05, F-06, F-08 (Host/Origin): small, contained proxy fixes with tests already written. *Done.*
+3. F-11: `flock` plus torn-tail handling. *Done.*
+4. F-03 wording: README "hash-chained; signed checkpoints planned" until they exist. *Done.*
+5. F-14: replace the raw bench files; decide on history. *Replaced; history purge pending (operator).*
 6. F-20: docs pass (SECURITY/CONTRIBUTING status, PLAN status, README index, built-vs-designed table).
+   *Done.*
 
 ### Next (to finish phase 2 with a useful observation plane)
 7. **F-02 precision on code, with a negative corpus and a CI gate.** This is the gating item for the
@@ -697,6 +780,10 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
    | `selfscan.py` | dogfood scan of the repo |
    | `perf_proxy.py` | latency, throughput, GIL |
    | `mutate.py` | 32 targeted mutants |
+   | `validate_now_fixes.py` | added after the fixes: black-box before/after validation (§0) |
+
+   The probe scripts build the proxy on a plain aiohttp `TestServer`. Since the F-05 hardening the fixed
+   proxy refuses to serve under that runner, so these scripts reproduce the pre-fix evidence only.
 
 3. Coverage, pip-audit, a wheel build and clean install, and the bench and corpus reproduction:
    `results/other_checks.txt`.

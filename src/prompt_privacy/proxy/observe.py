@@ -48,7 +48,8 @@ class Seen:
 
 @dataclass
 class Request:
-    """What the proxy hands over: the body bytes plus routing facts (no headers beyond these)."""
+    """What the proxy hands over: the body bytes plus routing facts. The only request headers passed
+    are the conversation id and Content-Encoding (to decode a bounded copy)."""
 
     req_id: str
     method: str
@@ -65,8 +66,8 @@ class Observer:
     log: AuditLog
     k_dig: bytes = field(default_factory=lambda: secrets.token_bytes(32))
     max_decoded: int = 64 * 1024 * 1024  # cap on a decoded body; beyond it the request is a gap
-    dropped: int = 0  # requests not observed (backlog full); reported in the next record
-    failed: int = 0  # requests whose record could not be written at all; reported in the next record
+    dropped: int = 0  # requests not observed (backlog full); carried into the next record / observe_stop
+    failed: int = 0  # requests whose record could not be written at all; carried the same way
     observed: int = 0  # requests recorded as scanned
     gaps: int = 0  # requests recorded as not scanned (reason code)
     _seen: OrderedDict[str, set[str]] = field(default_factory=OrderedDict)

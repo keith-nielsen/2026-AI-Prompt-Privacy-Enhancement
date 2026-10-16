@@ -8,6 +8,9 @@ Several writers may share one file (`ppe serve` plus `ppe audit append`): every 
 `flock` and reads the chain state from the file's last record, never from memory. A crash mid-append
 leaves a torn last line; the next writer cuts it off and records a sealed `recovered` event with the
 fragment's length and SHA-256 before its own record, and `verify_chain` reports a torn tail as such.
+Cutting the fragment needs `ftruncate`, which an append-only file (`chattr +a`, ADR-0004) refuses: there
+the append fails and the torn tail stays for `verify` to report, until the `auditd` writer handles it
+(Linux semantics; not exercised by the tests, since setting the attribute needs root).
 """
 
 from __future__ import annotations

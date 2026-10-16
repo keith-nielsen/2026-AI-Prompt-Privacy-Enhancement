@@ -1,9 +1,10 @@
 """`ppe serve` phase 2a: loopback pass-through proxy with shadow-mode observation (PLAN §5, ADR-0007).
 
 Traffic is forwarded unchanged: body bytes in both directions (compressed bodies stay compressed,
-SSE is relayed chunk by chunk as it arrives), status, and end-to-end headers. Observation runs on a
-single background worker after the request is forwarded, so it never delays, modifies or fails a
-request; a full backlog drops observations and counts them as a coverage gap.
+SSE is relayed chunk by chunk as it arrives), status, and end-to-end headers. Once the body is read
+it is queued for observation on a single background worker that runs alongside the relay, so
+observation never delays, modifies or fails a request; a full backlog drops observations and counts
+them (carried into the next record and the shutdown record).
 
 Invariants (not knobs): listen on a loopback address only; a non-loopback upstream must be https;
 aiohttp's compiled HTTP parser must be in use (its pure-Python fallback has had smuggling CVEs);
@@ -216,6 +217,11 @@ def _target(settings: Settings, request: web.Request) -> URL | None:
 async def _handle(request: web.Request) -> web.StreamResponse:
     settings, session = request.app[_KEY_SETTINGS], request.app[_KEY_SESSION]
     req_id = secrets.token_hex(8)
+    if not isinstance(request.protocol, _OpaqueErrors):
+        # Served by a stock runner (web.run_app, a plain TestServer): its parser-error path would echo
+        # and log request bytes (F-05), so refuse all traffic rather than run half-protected.
+        log.error("request %s refused: the proxy must be served by ProxyRunner", req_id)
+        return _error(500, "api_error", f"ppe: proxy misconfigured (ref {req_id})")
     refusal = _listener_refusal(settings, request, req_id)
     if refusal is not None:
         return refusal
@@ -263,6 +269,9 @@ async def _handle(request: web.Request) -> web.StreamResponse:
 
 
 def build_app(settings: Settings, observer: Observer) -> web.Application:
+    """The proxy application. Serve it with `ProxyRunner` (as `serve` does); under any other runner
+    every request is refused with an opaque 500, because only `ProxyRunner`'s protocol handler keeps
+    request bytes out of parser-error bodies and logs."""
     settings.check()
     require_compiled_parser()
     # auto_decompress=False: the relay forwards the client's bytes, Content-Encoding intact (F-04).
