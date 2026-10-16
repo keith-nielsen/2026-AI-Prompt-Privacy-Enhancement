@@ -40,6 +40,17 @@ def test_hard_negatives(text: str) -> None:
     assert types(text) == []
 
 
+@pytest.mark.parametrize("text", ["Server is 192.0.2.10.", "hosts 192.0.2.10. Next", "(192.0.2.10.)"])
+def test_ipv4_before_full_stop(text: str) -> None:
+    # Nemotron-PII run 2026-10-16: 1,233 of 1,234 missed IPv4 spans ended a sentence.
+    assert types(text) == [("IPV4", "192.0.2.10")]
+
+
+@pytest.mark.parametrize("text", ["version 1.2.3.4.5", "oid 1.3.6.1.4.1", "build 10.0.0.1.7"])
+def test_ipv4_not_inside_longer_dotted_numbers(text: str) -> None:
+    assert types(text) == []
+
+
 def test_phone_context_setting() -> None:
     assert types("order 8947-4680") == [("PHONE", "8947-4680")]  # optional: recall first
     assert types("order 8947-4680", phone_context=True) == []
