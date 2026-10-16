@@ -19,6 +19,7 @@ from prompt_privacy.audit.keys import AuditKeyPair
 from prompt_privacy.audit.log import AuditLog, open_log, verify_chain
 from prompt_privacy.proxy import app as proxy
 from prompt_privacy.proxy.observe import PER_RECORD, Observer
+from tests.proxy.support import ProxyTestServer
 
 NRIC, EMAIL = "S1234567D", "tan.wei.ming@example.com"  # synthetic
 SSE = [
@@ -84,7 +85,7 @@ async def stack(tmp_path: Path, **settings: Any) -> AsyncIterator[tuple[TestClie
     app = proxy.build_app(
         proxy.Settings(upstream=str(up_server.make_url("/")).rstrip("/"), **settings), observer
     )
-    client = TestClient(TestServer(app, host="127.0.0.1"))
+    client = TestClient(ProxyTestServer(app, host="127.0.0.1"))
     await client.start_server()
     (tmp_path / "keys").mkdir()
     stack.keys = (m, t)  # type: ignore[attr-defined]
@@ -189,7 +190,7 @@ def test_unreachable_upstream_gives_opaque_anthropic_error(tmp_path: Path) -> No
         m, t = AuditKeyPair.generate(), AuditKeyPair.generate()
         observer = Observer(AuditLog(tmp_path / "audit.jsonl", m.public, t.public, "lab"))
         app = proxy.build_app(proxy.Settings(upstream="http://127.0.0.1:9", connect_timeout=2), observer)
-        async with TestClient(TestServer(app, host="127.0.0.1")) as client:
+        async with TestClient(ProxyTestServer(app, host="127.0.0.1")) as client:
             r = await client.post("/v1/messages", data=messages_body(f"my NRIC is {NRIC}"))
             assert r.status == 502
             err = await r.json()
@@ -262,9 +263,10 @@ def test_observation_failure_or_backlog_never_affects_traffic(tmp_path: Path) ->
             for _ in range(3):
                 r = await client.post("/v1/messages", data=messages_body(NRIC))
                 assert r.status == 200
-        assert observer.dropped == 3
 
     run(go())
+    stop = [r for r in records(tmp_path) if r["event"] == "observe_stop"]
+    assert [(s["dropped"], s["observed"]) for s in stop] == [(3, 0)]  # drops survive shutdown (F-06)
 
     async def broken() -> None:
         async with stack(tmp_path / "b") as (client, _, observer):
@@ -278,6 +280,8 @@ def test_observation_failure_or_backlog_never_affects_traffic(tmp_path: Path) ->
 
     (tmp_path / "b").mkdir()
     run(broken())
+    stop = [r for r in records(tmp_path / "b") if r["event"] == "observe_stop"]
+    assert [s["failed"] for s in stop] == [1]
 
 
 # --- invariants --------------------------------------------------------------------------------

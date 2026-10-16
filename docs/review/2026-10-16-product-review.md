@@ -396,6 +396,12 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
 - **Fix:** `web.Application(handler_args={"auto_decompress": False})`. For observation, decode a bounded
   copy (respecting `client_max_size`). Add request-direction tests for gzip, deflate and br.
 - **Evidence:** `results/probe_proxy.txt` P1, C-34.
+- **Status (2026-10-16): fixed.** The relay forwards the client's bytes with `Content-Encoding` intact; the
+  observer decodes a bounded copy (gzip, x-gzip, deflate incl. raw; br/zstd are a counted
+  `unsupported_encoding` gap) capped at `max_body`. C-34 passes. C-43 is restated: its original form (413
+  for a small gzip body that decodes past 64 MiB) required relay-side decoding and contradicted C-34; it
+  now checks that the bomb is forwarded as sent, observation stops at the cap with a `decoded_too_large`
+  gap, and a raw body over the cap still gets 413.
 
 ### F-05 · Medium · Invariant 1: request bytes (incl. identifiers) reach logs and error bodies · S
 - **What:** on malformed requests aiohttp's parser error path logs the offending bytes
@@ -411,6 +417,12 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
     subclass) to a generic body with an opaque ref;
   - turn invariant 1 into a fuzz assertion (no NRIC from a planted set in any log line or response).
 - **Evidence:** `results/probe_logs.txt`, C-36.
+- **Status (2026-10-16): fixed.** `ProxyRunner` installs a protocol handler whose errors (parser errors
+  and handler crashes) carry a fixed body with an opaque ref and are logged by exception type only; the
+  access log is always off (the request line carries the path and query); `ppe serve` also filters
+  aiohttp/asyncio log records down to template + exception type. C-36 passes; a new fuzz test plants an
+  NRIC in the path, a header and the body of 200 mutated requests and checks every response and log line.
+  The fuzz caught one more path on the way: the access log, which the test server enables by default.
 
 ### F-06 · Medium · Observation can be evaded silently · S
 - **What:** the request still flows, but **no record and no counted gap** is written when:
@@ -430,6 +442,11 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   - expose health counters;
   - write `dropped`/`failed` totals in a shutdown record.
 - **Evidence:** `results/probe_proxy.txt` P5/P6, C-37.
+- **Status (2026-10-16): fixed.** Any failure of the scan becomes a record with `scanned: false` and a
+  reason code (`too_deep`, `observer_error:<Type>`); `model` and `path` are bounded, scanned like the body
+  (identifiers there now count as exposure, query string included) and withheld when long or holding a
+  finding; requests that could not be recorded at all are counted and carried (once) into the next record;
+  an `observe_stop` record with totals is written at shutdown. C-37 passes.
 
 ### F-07 · Medium · Padding buckets leak event type and identifier volume · S-M
 - **What:** the padded ciphertext (base64) is 363 B for `digest_key`, 1,387 B for observe with 0-5
@@ -449,6 +466,9 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
 - **Fix:** allow `Host` only for `localhost`, `127.0.0.1`, `[::1]` (+ port); reject any request with an
   `Origin` header not on an allowlist; then add a bearer token from a 0600 file and a UNIX socket mode.
 - **Evidence:** C-38.
+- **Status (2026-10-16): Host/Origin fixed.** `Host` must be `localhost` or a loopback literal (optional
+  port), else 421; any `Origin` not in `allowed_origins` (empty by default) gets 403; both before the body
+  is read, so nothing reaches the upstream or the audit. C-38 passes. Bearer token and UNIX socket: open.
 
 ### F-09 · Medium · Restore isn't context-aware (R4); misses are silent · M
 - **What:** a PEM-key surrogate inside JSON tool arguments (`json.dumps` escapes the newlines) is not

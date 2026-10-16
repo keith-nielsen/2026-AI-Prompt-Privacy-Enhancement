@@ -24,8 +24,9 @@ from prompt_privacy.audit.keys import AuditKeyPair
 from prompt_privacy.audit.log import AuditLog
 from prompt_privacy.proxy import app as proxy
 from prompt_privacy.proxy.observe import Observer, Request, extract
+from tests.proxy.support import ProxyTestServer
 
-H = "Host: x\r\n"
+H = "Host: 127.0.0.1\r\n"
 
 
 def run(coro: Coroutine[Any, Any, None]) -> None:
@@ -91,7 +92,7 @@ async def stack(tmp_path: Path, **kw: Any) -> AsyncIterator[tuple[TestClient, Up
     m, t = AuditKeyPair.generate(), AuditKeyPair.generate()
     observer = Observer(AuditLog(tmp_path / "audit.jsonl", m.public, t.public, "lab"))
     app = proxy.build_app(proxy.Settings(upstream=str(up_server.make_url("/")).rstrip("/"), **kw), observer)
-    client = TestClient(TestServer(app, host="127.0.0.1"))
+    client = TestClient(ProxyTestServer(app, host="127.0.0.1"))
     await client.start_server()
     try:
         assert client.port is not None
@@ -157,7 +158,7 @@ REJECTED = {
     "FFFFFFFFFFFFFFFFF\r\nabc\r\n0\r\n\r\n",
     "chunk_bare_lf": f"POST /a HTTP/1.1\r\n{H}Transfer-Encoding: chunked\r\n\r\n3\nabc\n0\n\n",
     "obs_fold": f"POST /a HTTP/1.1\r\n{H}X-A: 1\r\n  folded\r\nContent-Length: 3\r\n\r\nabc",
-    "header_bare_lf": "POST /a HTTP/1.1\nHost: x\nContent-Length: 3\n\nabc",
+    "header_bare_lf": "POST /a HTTP/1.1\nHost: 127.0.0.1\nContent-Length: 3\n\nabc",
     "header_bare_cr": f"POST /a HTTP/1.1\r\n{H}X-A: 1\rX-B: 2\r\nContent-Length: 3\r\n\r\nabc",
     "header_nul": f"GET /a HTTP/1.1\r\n{H}X-A: a\x00b\r\n\r\n",
     "space_before_colon": f"GET /a HTTP/1.1\r\n{H}X-A : 1\r\n\r\n",
@@ -320,8 +321,8 @@ def test_duplicate_headers_keep_every_value_in_order(tmp_path: Path) -> None:
 # --- fuzzing -----------------------------------------------------------------------------------
 
 _BASE = (
-    b"POST /v1/messages HTTP/1.1\r\nHost: x\r\nConnection: close\r\nContent-Type: application/json\r\n"
-    b"Content-Length: 45\r\n\r\n"
+    b"POST /v1/messages HTTP/1.1\r\nHost: 127.0.0.1\r\nConnection: close\r\n"
+    b"Content-Type: application/json\r\nContent-Length: 45\r\n\r\n"
     b'{"messages":[{"role":"user","content":"hi"}]}'
 )
 
