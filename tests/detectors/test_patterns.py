@@ -51,6 +51,54 @@ def test_ipv4_not_inside_longer_dotted_numbers(text: str) -> None:
     assert types(text) == []
 
 
+@pytest.mark.parametrize(
+    "text", ["NAD+BY+SenderID::9'", "Name::2'", "Zip::4'", "LOC+ID::9d digits", "Cádiz::ES::2"]
+)
+def test_ipv6_not_inside_words(text: str) -> None:
+    # Gretel finance run 2026-10-16: EDIFACT uses "::" as a separator; a match that starts or ends
+    # inside a word ("Name::2" -> "e::2", "ID::9" -> "D::9") was reported as an IPv6 address.
+    assert [t for t, _ in types(text)] == []
+
+
+@pytest.mark.parametrize(
+    "text", ["fe80::1 up", "via 2001:db8::1.", "[2001:db8::7]:443", "ip=2001:db8:0:0:1:0:0:1"]
+)
+def test_ipv6_found_next_to_punctuation(text: str) -> None:
+    assert [t for t, _ in types(text)] == ["IPV6"]
+
+
+@pytest.mark.parametrize(
+    ("text", "value"),
+    [
+        ("pay DE89370400440532013000 and more", "DE89370400440532013000"),
+        ("IBAN GB82 WEST 1234 5698 7654 32 ref 7", "GB82 WEST 1234 5698 7654 32"),
+        ("to GB82WEST12345698765432 a b c d e f g", "GB82WEST12345698765432"),
+    ],
+)
+def test_iban_followed_by_words(text: str, value: str) -> None:
+    # Gretel finance run 2026-10-16: the optional space let the match run on into the next words,
+    # the longer string failed mod 97, and the IBAN was not reported at all.
+    assert types(text) == [("IBAN", value)]
+
+
+@pytest.mark.parametrize(
+    ("text", "value"),
+    [
+        ("Mail anna@företag.se today", "anna@företag.se"),
+        ("kontakt: jörg@müller.de -", "jörg@müller.de"),
+        ("[josé@example.com](mailto:x)", "josé@example.com"),
+    ],
+)
+def test_email_with_non_ascii_letters(text: str, value: str) -> None:
+    # Gretel finance run 2026-10-16: internationalised addresses (RFC 6531, IDNA) were missed.
+    assert types(text) == [("EMAIL", value)]
+
+
+@pytest.mark.parametrize("text", ["user@host", "a@b.c1", "snake_case@x_y.z"])
+def test_email_hard_negatives(text: str) -> None:
+    assert [t for t, _ in types(text)] == []
+
+
 def test_phone_context_setting() -> None:
     assert types("order 8947-4680") == [("PHONE", "8947-4680")]  # optional: recall first
     assert types("order 8947-4680", phone_context=True) == []
