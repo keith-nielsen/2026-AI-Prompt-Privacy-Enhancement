@@ -94,35 +94,59 @@ def cmd_evaluate_run(a: argparse.Namespace) -> int:
 
     ds = datasets.DATASETS[a.dataset]
     path = datasets.verify(ds, Path(a.data_dir), a.split)
-    system = systems.ppe_rules(phone_context=a.phone_context == "required")
-    scorer = scoring.Scorer(ds.label_map, ds.compatible)
+    if a.system == "presidio":
+        if not a.model_path:
+            print("refused: --system presidio needs --model-path (a local spaCy model directory)")
+            return 2
+        system = systems.presidio(Path(a.model_path), a.batch_size)
+    else:
+        system = systems.ppe_rules(phone_context=a.phone_context == "required")
+    thresholds = sorted({float(x) for x in a.min_score.split(",")})
+    scorers = {t: scoring.Scorer(ds.label_map, ds.compatible, system.claimed) for t in thresholds}
     t0 = time.perf_counter()
+    batch: list[scoring.Doc] = []
+
+    def flush() -> None:
+        for doc, spans in zip(batch, system.run([d.text for d in batch]), strict=True):
+            for t, sc in scorers.items():
+                sc.add(doc, [s for s in spans if s.score >= t])
+        batch.clear()
+
     for doc in datasets.load(ds, path, a.limit):
-        scorer.add(doc, system(doc.text))
+        batch.append(doc)
+        if len(batch) >= a.batch_size:
+            flush()
+    flush()
     elapsed = time.perf_counter() - t0
-    report = {
-        "dataset": {
-            "name": ds.name,
-            "repo": ds.repo,
-            "revision": ds.revision,
-            "split": a.split,
-            "file_sha256": ds.splits[a.split].sha256,
-            "licence": ds.licence,
-            "attribution": ds.attribution,
-            "notes": list(ds.notes),
-        },
-        "system": {"name": "ppe-rules", "ppe_version": __version__, "phone_context": a.phone_context},
-        "limit": a.limit,
-        **scorer.report(),
-    }
+    docs = scorers[thresholds[0]].docs
     print(
-        f"{ds.name}/{a.split} ({scorer.docs} docs, {scorer.docs / elapsed:.0f} docs/s), "
-        f"ppe-rules {__version__}, phone_context={a.phone_context}\n"
+        f"{ds.name}/{a.split} ({docs} docs, {docs / elapsed:.0f} docs/s), {system.name} "
+        + " ".join(f"{k}={v}" for k, v in system.config.items() if k not in ("recognizers", "entities"))
     )
-    print(scoring.table(report))
-    if a.json:
-        Path(a.json).write_text(json.dumps(report, indent=1, sort_keys=True) + "\n")
-        print(f"\nreport (labels and counts only) -> {a.json}")
+    for t, sc in scorers.items():
+        report = {
+            "dataset": {
+                "name": ds.name,
+                "repo": ds.repo,
+                "revision": ds.revision,
+                "split": a.split,
+                "file_sha256": ds.splits[a.split].sha256,
+                "licence": ds.licence,
+                "attribution": ds.attribution,
+                "notes": list(ds.notes),
+            },
+            "system": {"name": system.name, **system.config, "min_score": t},
+            "limit": a.limit,
+            **sc.report(),
+        }
+        print(f"\nmin_score={t}\n")
+        print(scoring.table(report))
+        if a.json:
+            out = Path(a.json)
+            if len(thresholds) > 1:
+                out = out.with_name(f"{out.stem}-min{t:g}{out.suffix}")
+            out.write_text(json.dumps(report, indent=1, sort_keys=True) + "\n")
+            print(f"\nreport (labels and counts only) -> {out}")
     return 0
 
 
@@ -272,7 +296,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.set_defaults(fn=cmd_evaluate_list)
     for name, fn, helptext in (
         ("fetch", cmd_evaluate_fetch, "download a split; kept only if size and sha256 match the pin"),
-        ("run", cmd_evaluate_run, "score PPE's rules on a fetched split"),
+        ("run", cmd_evaluate_run, "score a system (PPE rules, Presidio) on a fetched split"),
     ):
         s = ev.add_parser(name, help=helptext)
         s.add_argument("dataset", choices=("nemotron-pii",))
@@ -282,8 +306,14 @@ def build_parser() -> argparse.ArgumentParser:
         s.add_argument("--split", default="test")
         s.set_defaults(fn=fn)
         if name == "run":
+            s.add_argument("--system", choices=("ppe-rules", "presidio"), default="ppe-rules")
             s.add_argument("--limit", type=int, help="first N documents only")
             s.add_argument("--phone-context", choices=("optional", "required"), default="optional")
+            s.add_argument("--model-path", help="presidio: local spaCy model directory (never a hub name)")
+            s.add_argument("--batch-size", type=int, default=32)
+            s.add_argument(
+                "--min-score", default="0", help="comma-separated score thresholds, one report each"
+            )
             s.add_argument("--json", help="write the full report (no dataset text) to this file")
 
     s = sub.add_parser("explain", help="what your configuration protects and gives up")

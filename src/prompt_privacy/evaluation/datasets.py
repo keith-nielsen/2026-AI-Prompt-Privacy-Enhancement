@@ -63,8 +63,9 @@ NEMOTRON_PII = Dataset(
             150968398,
         ),
     },
-    # Only labels whose every span is one of PPE's types. Labels left out are still scored for
-    # any-type coverage (e.g. ssn, account_number): PPE does not claim them, and the report shows that.
+    # Only labels whose every span is of one canonical type, chosen from the label's meaning before any
+    # system was scored (2026-10-16) and the same for every system. Labels left out (account_number,
+    # customer_id, postcode, ...) are still scored for any-type coverage.
     label_map={
         "email": "EMAIL",
         "phone_number": "PHONE",
@@ -74,6 +75,22 @@ NEMOTRON_PII = Dataset(
         "ipv6": "IPV6",
         "api_key": "SECRET",
         "password": "SECRET",
+        "first_name": "PERSON",
+        "last_name": "PERSON",
+        "city": "LOCATION",
+        "county": "LOCATION",
+        "state": "LOCATION",
+        "country": "LOCATION",
+        "street_address": "LOCATION",
+        "date": "DATE_TIME",
+        "date_time": "DATE_TIME",
+        "date_of_birth": "DATE_TIME",
+        "time": "DATE_TIME",
+        "url": "URL",
+        "ssn": "US_SSN",
+        "company_name": "ORGANIZATION",
+        "age": "AGE",
+        "mac_address": "MAC_ADDRESS",
     },
     # Labels that may hold the type among other things: a finding on them is not a false positive,
     # but they are not counted as support for the type.
@@ -89,6 +106,8 @@ NEMOTRON_PII = Dataset(
         "Span offsets are authoritative: every span's text equals the text at its offsets except for "
         "letter case (6,195) or an integer-typed value (6,747); the scorer uses offsets only.",
         "No Singapore NRIC/FIN or IBAN label exists; those PPE types are scored for precision only.",
+        "A name is labelled as first_name and last_name separately; a system span over the full name "
+        "overlaps both (found for overlap recall), but matches neither exactly (strict recall).",
     ),
 )
 

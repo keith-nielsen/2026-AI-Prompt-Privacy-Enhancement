@@ -7,10 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from prompt_privacy.core.types import EntityType
 from prompt_privacy.evaluation import datasets
 from prompt_privacy.evaluation.datasets import NEMOTRON_PII, DataFile, fetch_file, nemotron_doc, parse_spans
-from prompt_privacy.evaluation.scoring import Span
+from prompt_privacy.evaluation.scoring import CANONICAL_TYPES, Span
 
 
 def test_pins_are_exact() -> None:
@@ -19,8 +18,7 @@ def test_pins_are_exact() -> None:
         for f in ds.splits.values():
             assert re.fullmatch(r"[0-9a-f]{64}", f.sha256) and f.size > 0
             assert ds.url(f).startswith("https://huggingface.co/datasets/")
-        types = {t.value for t in EntityType}
-        assert set(ds.label_map.values()) <= types and set(ds.compatible) <= types
+        assert set(ds.label_map.values()) <= CANONICAL_TYPES and set(ds.compatible) <= CANONICAL_TYPES
 
 
 def test_parse_spans() -> None:
@@ -169,3 +167,74 @@ def test_cli_run_end_to_end(
     printed = capsys.readouterr().out + out.read_text()
     for fragment in ("zq7", "marker", "192.0.2.44", "write to"):
         assert fragment not in printed
+
+
+def _pinned_standin(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    pa = pytest.importorskip("pyarrow")
+    pq = pytest.importorskip("pyarrow.parquet")
+    rows = {
+        "uid": ["a", "b"],
+        "text": ["mail x@y.test", "mail z@y.test"],
+        "spans": [
+            "[{'start': 5, 'end': 13, 'label': 'email'}]",
+            "[{'start': 5, 'end': 13, 'label': 'email'}]",
+        ],
+        "locale": ["us", "us"],
+        "document_format": ["unstructured"] * 2,
+    }
+    src = tmp_path / "src.parquet"
+    pq.write_table(pa.table(rows), src)
+    data = src.read_bytes()
+    ds = replace(
+        NEMOTRON_PII, splits={"test": DataFile("data/t.parquet", hashlib.sha256(data).hexdigest(), len(data))}
+    )
+    monkeypatch.setitem(datasets.DATASETS, "nemotron-pii", ds)
+    dest = datasets.local_path(ds, tmp_path / "data", "test")
+    dest.parent.mkdir(parents=True)
+    dest.write_bytes(data)
+    return tmp_path / "data"
+
+
+def test_cli_min_score_writes_one_report_per_threshold(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import json
+
+    from prompt_privacy.cli.main import main
+    from prompt_privacy.evaluation import systems
+    from prompt_privacy.evaluation.scoring import System
+
+    data_dir = _pinned_standin(tmp_path, monkeypatch)
+
+    def scored(texts: list[str]) -> list[list[Span]]:  # first doc confident, second not
+        return [[Span(5, 13, "EMAIL", 0.9)], [Span(5, 13, "EMAIL", 0.2)]][: len(texts)]
+
+    monkeypatch.setattr(
+        systems, "ppe_rules", lambda phone_context=False: System("fake", frozenset({"EMAIL"}), scored)
+    )
+    out = tmp_path / "r.json"
+    rc = main(
+        [
+            "evaluate",
+            "run",
+            "nemotron-pii",
+            "--data-dir",
+            str(data_dir),
+            "--min-score",
+            "0,0.5",
+            "--json",
+            str(out),
+        ]
+    )
+    assert rc == 0
+    low = json.loads((tmp_path / "r-min0.json").read_text())
+    high = json.loads((tmp_path / "r-min0.5.json").read_text())
+    assert (low["by_type"]["EMAIL"]["found_overlap"], high["by_type"]["EMAIL"]["found_overlap"]) == (2, 1)
+    assert (low["system"]["min_score"], high["system"]["min_score"]) == (0.0, 0.5)
+
+
+def test_cli_presidio_needs_a_model_path(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from prompt_privacy.cli.main import main
+
+    data_dir = _pinned_standin(tmp_path, monkeypatch)
+    assert main(["evaluate", "run", "nemotron-pii", "--data-dir", str(data_dir), "--system", "presidio"]) == 2

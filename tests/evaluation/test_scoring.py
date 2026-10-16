@@ -85,7 +85,7 @@ def test_micro_and_slices() -> None:
     us = doc([Span(0, 10, "email"), Span(20, 30, "phone_number")], (("locale", "us"),))
     intl = doc([Span(0, 10, "phone_number")], (("locale", "intl"),))
     r = score([(us, [Span(0, 10, "EMAIL"), Span(20, 30, "PHONE")]), (intl, [])])
-    assert r["micro_mapped_types"]["support"] == 3 and r["micro_mapped_types"]["found_overlap"] == 2
+    assert r["micro_all_mapped_types"]["support"] == 3 and r["micro_all_mapped_types"]["found_overlap"] == 2
     assert r["by_slice"]["locale=us"]["PHONE"]["recall_overlap"] == 1.0
     assert r["by_slice"]["locale=intl"]["PHONE"]["recall_overlap"] == 0.0
     assert r["docs"] == 2
@@ -100,3 +100,36 @@ def test_report_and_table_hold_no_text() -> None:
     rendered = json.dumps(sc.report()) + table(sc.report())
     for fragment in ("zq7", "unique-marker", "9123", "uid-secret-1", "contact"):
         assert fragment not in rendered
+
+
+def test_claimed_scope_micro_versus_all_mapped() -> None:
+    """A system that claims only EMAIL is judged on EMAIL in its own micro, on everything in the other."""
+    d = doc([Span(0, 10, "email"), Span(20, 30, "phone_number"), Span(40, 50, "fax_number")])
+    s = Scorer(MAP, COMPAT, claimed=frozenset({"EMAIL", "IBAN"}))
+    s.add(d, [Span(0, 10, "EMAIL")])
+    r = s.report()
+    assert r["claimed_types"] == ["EMAIL"]  # IBAN is claimed but no label maps to it
+    assert (r["micro_claimed_types"]["support"], r["micro_claimed_types"]["recall_overlap"]) == (1, 1.0)
+    assert (r["micro_all_mapped_types"]["support"], r["micro_all_mapped_types"]["found_overlap"]) == (3, 1)
+    assert Scorer(MAP).report()["claimed_types"] == ["EMAIL", "PHONE"]  # no scope given: every mapped type
+
+
+def test_table_rounds_from_counts_once() -> None:
+    """1,799 of 1,809 is 0.99447: stored as 0.9945, it would print as 0.995 if rounded again."""
+    d = Doc("u", "x" * 20000, tuple(Span(i * 10, i * 10 + 5, "email") for i in range(1809)))
+    s = Scorer(MAP)
+    s.add(d, [Span(i * 10, i * 10 + 5, "EMAIL") for i in range(1799)])
+    r = s.report()
+    assert r["by_type"]["EMAIL"]["recall_overlap"] == 0.9945
+    row = next(line for line in table(r).splitlines() if line.startswith("EMAIL"))
+    assert row.split()[2] == "0.994"
+    assert next(line for line in table(r).splitlines() if line.startswith("email")).split()[-1] == "0.994"
+
+
+def test_f1_from_unrounded_ratios() -> None:
+    """R = 1/3, P = 1/9: F1 = 1/6 = 0.1667; from the rounded ratios (0.3333, 0.1111) it would be 0.1666."""
+    d = doc([Span(0, 5, "email"), Span(10, 15, "email"), Span(20, 25, "email")])
+    s = Scorer(MAP)
+    s.add(d, [Span(0, 5, "EMAIL"), *(Span(30 + i * 6, 35 + i * 6, "EMAIL") for i in range(8))])
+    c = s.report()["by_type"]["EMAIL"]
+    assert (c["recall_overlap"], c["precision_typed"], c["f1_overlap"]) == (0.3333, 0.1111, 0.1667)

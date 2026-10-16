@@ -19,3 +19,6 @@ build/
 
 # operator-private notes (e.g. findings about other projects); never published
 docs/private/
+
+# Presidio baseline venv (bench/2026-10-16-presidio-baseline.md); rebuildable
+/bench/harness/*venv/
