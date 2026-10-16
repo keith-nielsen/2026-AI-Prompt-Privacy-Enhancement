@@ -1,4 +1,4 @@
-"""`ppe` command line: scan, mask, corpus, bench, explain, verify, audit, serve (phase 2a, shadow mode)."""
+"""`ppe` command line: scan, mask, corpus, bench, evaluate, explain, verify, audit, serve (shadow mode)."""
 
 from __future__ import annotations
 
@@ -68,6 +68,61 @@ def cmd_bench(a: argparse.Namespace) -> int:
     from prompt_privacy import bench
 
     print(bench.run(a.n, a.seed, a.phone_context == "required").table())
+    return 0
+
+
+def cmd_evaluate_list(a: argparse.Namespace) -> int:
+    from prompt_privacy.evaluation.datasets import DATASETS
+
+    for ds in DATASETS.values():
+        print(f"{ds.name:<14} {ds.repo} @ {ds.revision[:12]}  {ds.licence}  splits: {', '.join(ds.splits)}")
+    return 0
+
+
+def cmd_evaluate_fetch(a: argparse.Namespace) -> int:
+    from prompt_privacy.evaluation.datasets import DATASETS, fetch
+
+    path = fetch(DATASETS[a.dataset], Path(a.data_dir), a.split)
+    print(f"{a.dataset}/{a.split}: {path} (size and sha256 match the pin)")
+    return 0
+
+
+def cmd_evaluate_run(a: argparse.Namespace) -> int:
+    import time
+
+    from prompt_privacy.evaluation import datasets, scoring, systems
+
+    ds = datasets.DATASETS[a.dataset]
+    path = datasets.verify(ds, Path(a.data_dir), a.split)
+    system = systems.ppe_rules(phone_context=a.phone_context == "required")
+    scorer = scoring.Scorer(ds.label_map, ds.compatible)
+    t0 = time.perf_counter()
+    for doc in datasets.load(ds, path, a.limit):
+        scorer.add(doc, system(doc.text))
+    elapsed = time.perf_counter() - t0
+    report = {
+        "dataset": {
+            "name": ds.name,
+            "repo": ds.repo,
+            "revision": ds.revision,
+            "split": a.split,
+            "file_sha256": ds.splits[a.split].sha256,
+            "licence": ds.licence,
+            "attribution": ds.attribution,
+            "notes": list(ds.notes),
+        },
+        "system": {"name": "ppe-rules", "ppe_version": __version__, "phone_context": a.phone_context},
+        "limit": a.limit,
+        **scorer.report(),
+    }
+    print(
+        f"{ds.name}/{a.split} ({scorer.docs} docs, {scorer.docs / elapsed:.0f} docs/s), "
+        f"ppe-rules {__version__}, phone_context={a.phone_context}\n"
+    )
+    print(scoring.table(report))
+    if a.json:
+        Path(a.json).write_text(json.dumps(report, indent=1, sort_keys=True) + "\n")
+        print(f"\nreport (labels and counts only) -> {a.json}")
     return 0
 
 
@@ -209,6 +264,27 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--seed", type=int, default=20261002)
     s.add_argument("--phone-context", choices=("optional", "required"), default="optional")
     s.set_defaults(fn=cmd_bench)
+
+    ev = sub.add_parser(
+        "evaluate", help="score detection on a pinned public dataset (labels and counts only)"
+    ).add_subparsers(dest="ecmd", required=True)
+    s = ev.add_parser("list", help="pinned datasets")
+    s.set_defaults(fn=cmd_evaluate_list)
+    for name, fn, helptext in (
+        ("fetch", cmd_evaluate_fetch, "download a split; kept only if size and sha256 match the pin"),
+        ("run", cmd_evaluate_run, "score PPE's rules on a fetched split"),
+    ):
+        s = ev.add_parser(name, help=helptext)
+        s.add_argument("dataset", choices=("nemotron-pii",))
+        s.add_argument(
+            "--data-dir", required=True, help="outside the repository; datasets are never committed"
+        )
+        s.add_argument("--split", default="test")
+        s.set_defaults(fn=fn)
+        if name == "run":
+            s.add_argument("--limit", type=int, help="first N documents only")
+            s.add_argument("--phone-context", choices=("optional", "required"), default="optional")
+            s.add_argument("--json", help="write the full report (no dataset text) to this file")
 
     s = sub.add_parser("explain", help="what your configuration protects and gives up")
     s.add_argument("--policy", type=Path)
