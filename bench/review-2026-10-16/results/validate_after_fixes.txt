@@ -1,5 +1,5 @@
 tree: <repo>
-commit: c700921 docs: resume card after the review "Now" fixes; mutation run 30/32
+commit: e2395ff fix(proxy): refuse traffic unless served by ProxyRunner; validate the review fixes end to end
 
 F01.ctl.pattern-flags-sample       CTRL  PASS  
 F01.fix.no-markup-in-docs          FIX   PASS  0 file(s) with markup
