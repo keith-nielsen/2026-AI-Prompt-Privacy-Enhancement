@@ -190,5 +190,3 @@ Proposed changes:
   and possibly a third model.
 - Requires the synthetic corpus (fixed seed, golden labels, SG/EU/US formats, adversarial variants:
   split across messages, homoglyphs, base64, spelled-out digits, translation) before model choice.
-</content>
-</invoke>

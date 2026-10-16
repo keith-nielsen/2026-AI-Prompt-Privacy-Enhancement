@@ -99,5 +99,3 @@ permission error, i.e. a coverage alert, not a silent bypass.
   attestation PPE cannot verify.
 - *Treat everything as cloud (always mask)* — safe but kills keep-local and wastes latency on local
   traffic; available as the `paranoid` policy for users with no local model.
-</content>
-</invoke>

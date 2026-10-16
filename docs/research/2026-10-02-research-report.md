@@ -250,5 +250,3 @@ Primary notes: [`../sources/README.md`](../sources/README.md). Web sources used 
 - PasteGuard — https://github.com/sgasser/pasteguard
 - Secret scanners — https://appsecsanta.com/secret-scanning-tools
 - LLM calibration — https://arxiv.org/html/2601.13284v1
-</content>
-</invoke>

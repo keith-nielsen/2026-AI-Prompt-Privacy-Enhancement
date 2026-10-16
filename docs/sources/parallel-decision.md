@@ -64,5 +64,3 @@ the origin of "Jev" was not found — ask the operator.
   Qwen3.6-35B-A3B; CPU-only latency of a 4B model is unknown.
 - Whether Kent's own llama-server, rebuilt from the fork, can serve chat and decisions without
   unacceptable contention (Qwen3.6-35B-A3B is hybrid → needs the padding commit).
-</content>
-</invoke>

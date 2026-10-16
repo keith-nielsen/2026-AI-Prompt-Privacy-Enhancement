@@ -144,5 +144,3 @@ header `x-ppe-allow: <class>` honoured only for callers whose policy permits it 
 
 Covered above: B (value-in-token), fakes, positional numbering (`<PERSON_1>`), plain hashes (rejected
 by PDPC: "pre-computed tables … especially for … NRICs").
-</content>
-</invoke>

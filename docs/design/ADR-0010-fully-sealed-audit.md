@@ -129,5 +129,3 @@ can't be correlated without decrypting.
   happen in order on one machine. The XOR split allows separate places. Rejected.
 - *Clear occurrence records with restricted access* (ADR-0009): rejected by the operator — the
   breadcrumb argument.
-</content>
-</invoke>

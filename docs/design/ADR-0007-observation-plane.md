@@ -187,5 +187,3 @@ Shipped as Prometheus rules over counters (no content in labels):
   impractical, and it can't see tool results. Rejected.
 - *Counts only on local traffic*: smaller footprint, but no inventory or lineage. Operator chose
   digests.
-</content>
-</invoke>

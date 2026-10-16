@@ -52,8 +52,6 @@ the primary SP 800-53r5 catalogue before v0.1.0 (see [sources/nist.md](sources/n
 | Purpose limitation | PDPC GenAI §9.2; NIST PT-3 | declared `data_classes` per Gent vs observed | alert records |
 | Every request and answer scanned | CSA Addendum §4.2 (p.33) | observation on every leg + enforcement on cloud leg | coverage figure |
 | Identify and anonymise confidential data in input and output | IMDA PETs for GenAI Annex A | core | — |
-</content>
-</invoke>
 
 ## MAS Guidelines on AI Risk Management (7 Oct 2026; effective 7 Oct 2027) — added 2026-10-09
 

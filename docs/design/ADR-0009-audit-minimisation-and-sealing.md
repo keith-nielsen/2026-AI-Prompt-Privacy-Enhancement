@@ -110,5 +110,3 @@ occurrence record names the credential path, never the credential:
 - Stand-alone users without an offline machine: `lab`/`standard` profiles can keep `sk_aud` on a
   USB smart card (PIV/OpenPGP) or a passphrase-encrypted file stored off the host; documented as
   weaker.
-</content>
-</invoke>

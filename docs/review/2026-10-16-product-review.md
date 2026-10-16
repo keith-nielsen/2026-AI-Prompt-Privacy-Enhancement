@@ -328,15 +328,16 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
 
 ### F-01 · High · Stray tool-call markup in 23 published docs; README embeds a git script · S
 - **What:** README.md and 22 other tracked docs (ADR-0001..0012, threat model, controls mapping, research,
-  six source notes) end with leftover `</content>` / `</invoke>` lines from an earlier authoring session.
+  six source notes) end with leftover closing `content` / `invoke` tag lines from an earlier authoring session.
   The README also contains a complete embedded tool call: a Python link checker, a `git commit`, and
   `git branch -f main HEAD`. Present since `2652af6` (2 Oct), live on GitHub, and in the wheel's long
   description.
 - **Impact:** credibility on first read. Worse, an AI agent reading the repo can take the block as an
   instruction to run (this review hit it). PyPI would publish it too.
-- **Fix:** delete the trailing markup from all 23 files and add C-44 to CI. Example:
-  `git grep -lz '</invoke>' -- '*.md' | xargs -0 sed -i '/^<\/content>$/,$d'` (check the README by hand;
-  its block starts at line 108).
+- **Fix:** delete the trailing markup from all 23 files and add C-44 to CI. Delete the two exact lines
+  only, not "from the first stray line to the end": `docs/controls-mapping.md` continues with the MAS
+  section after them. The README's embedded block runs from the stray lines to the end of the file.
+- **Status (2026-10-16): fixed.** Markup removed from all 23 files; C-44 passes.
 
 ### F-02 · High · Stage 1 precision on source code · M
 - **What:** 4.2 MB of third-party Python (335 files) gave 566 findings, about 133 per MB, essentially none

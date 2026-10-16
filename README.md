@@ -105,20 +105,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) (no real personal data, ever) and [SECURI
 (private vulnerability reporting).
 
 Licensed under the [Apache License 2.0](LICENSE).
-</content>
-</invoke>
-<invoke name="Bash">
-<parameter name="command">cd ~/Documents/repo/prompt-privacy-enhancement && python3 - <<'EOF'
-import re,os
-for f in ['README.md','CONTRIBUTING.md','SECURITY.md']:
-    for m in re.finditer(r'\]\(([^)#\s]+)(#[^)]*)?\)', open(f).read()):
-        t=m.group(1)
-        if not t.startswith('http') and not os.path.exists(t): print("BROKEN",f,t)
-print("links ok")
-EOF
-git add README.md LICENSE NOTICE CITATION.cff SECURITY.md CONTRIBUTING.md && git commit -q -F - <<'EOF'
-docs: repository anchor files (README, Apache-2.0 LICENSE, NOTICE, SECURITY, CONTRIBUTING, CITATION)
-
-Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-EOF
-git branch -f main HEAD 2>/dev/null || git branch main; git log --oneline main -3; git branch
