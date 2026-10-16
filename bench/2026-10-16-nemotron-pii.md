@@ -24,7 +24,8 @@ uv pip install --python .venv/bin/python -e ".[bench]"           # pyarrow
 .venv/bin/ppe evaluate fetch nemotron-pii --data-dir /path/outside/repo   # kept only if size + SHA-256 match
 .venv/bin/ppe evaluate run nemotron-pii --data-dir /path/outside/repo --phone-context optional \
     --json bench/results/2026-10-16-nemotron-pii/ppe-rules-phone-optional.json
-.venv/bin/python bench/harness/nemotron_miss_shapes.py /path/outside/repo     # why spans are missed
+.venv/bin/python bench/harness/miss_shapes.py nemotron-pii /path/outside/repo \
+    bench/results/2026-10-16-nemotron-pii/miss_shapes.txt                    # why spans are missed
 .venv/bin/python bench/harness/mutate_evaluation.py                          # negative proof of the tests
 ```
 
@@ -57,25 +58,25 @@ One protocol for every system, so Presidio (done) or a later span-model run is s
 - **Any-type coverage:** for every one of the 55 labels, the share of gold spans overlapped by any
   finding: what the rules protect today, including labels they do not claim.
 
-## Results (`ppe-rules` 0.1.0.dev1, after the IPv4 fix below)
+## Results (`ppe-rules` 0.1.0.dev1, after the IPv4 fix below and the three detector fixes from the Gretel run)
 
 `phone_context=optional` (the shipped default in all three profiles):
 
 | type | support | R overlap | R strict | findings | P typed | P any | F1 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| CARD | 12,867 | 0.118 | 0.118 | 1,997 | 0.761 | 0.993 | 0.205 |
-| EMAIL | 53,930 | 0.994 | 0.993 | 53,753 | 0.998 | 1.000 | 0.996 |
+| CARD | 12,867 | 0.118 | 0.118 | 1,996 | 0.762 | 0.993 | 0.205 |
+| EMAIL | 53,930 | 0.995 | 0.994 | 53,770 | 0.998 | 1.000 | 0.996 |
 | IPV4 | 6,078 | **1.000** | 1.000 | 9,284 | 0.655 | 0.983 | 0.791 |
-| IPV6 | 3,139 | 0.907 | 0.905 | 2,891 | 0.985 | 0.985 | 0.944 |
-| PHONE | 30,353 | 0.917 | 0.906 | 52,041 | 0.535 | 0.994 | 0.675 |
+| IPV6 | 3,139 | 0.905 | 0.905 | 2,885 | 0.985 | 0.985 | 0.944 |
+| PHONE | 30,353 | 0.917 | 0.906 | 52,038 | 0.535 | 0.994 | 0.676 |
 | SECRET | 11,652 | 0.062 | 0.062 | 1,585 | 0.987 | 0.989 | 0.116 |
-| IBAN | (no label) | | | 16 | 0.312 | 0.812 | |
+| IBAN | (no label) | | | 59 | 0.373 | 0.932 | |
 | NRIC | (no label) | | | 3 | 1.000 | 1.000 | |
-| **micro, claimed types** | 118,019 | 0.785 | 0.782 | 121,551 | 0.769 | 0.996 | 0.777 |
-| micro, all mapped types | 586,978 | 0.158 | 0.157 | 121,551 | 0.769 | 0.996 | 0.262 |
+| **micro, claimed types** | 118,019 | 0.785 | 0.782 | 121,558 | 0.769 | 0.996 | 0.777 |
+| micro, all mapped types | 586,978 | 0.158 | 0.157 | 121,558 | 0.769 | 0.996 | 0.262 |
 
 `phone_context=required` changes PHONE only: recall 0.822, typed precision **0.993**, F1 0.900;
-micro over claimed types: recall 0.760, precision 0.957, F1 0.848 (all mapped types: 0.153 / 0.957 /
+micro over claimed types: recall 0.761, precision 0.957, F1 0.848 (all mapped types: 0.153 / 0.957 /
 0.264). The all-mapped micro counts names, places, dates and the other spaCy-style types against
 the rules, which claim none of them; Presidio's numbers on the same denominator are in
 [`2026-10-16-presidio-baseline.md`](2026-10-16-presidio-baseline.md).
@@ -85,8 +86,16 @@ addresses, dates, SSNs, account numbers and the like need span models (phase 4) 
 written; the per-label table is in the `.txt` results.
 
 Ratios in these tables are computed from the raw counts and rounded once. (Until 2026-10-16 the
-console table re-rounded the 4-place ratios stored in the JSON, which printed EMAIL recall 0.99447
-as 0.995, and F1 was computed from rounded ratios; both fixed, the counts were never affected.)
+console table re-rounded the 4-place ratios stored in the JSON, which printed an EMAIL recall of
+0.99447 as 0.995, and F1 was computed from rounded ratios; both fixed, the counts were never affected.)
+
+**Detector fixes found on the Gretel finance run** (`2026-10-16-gretel-pii-finance.md`), and their
+effect here: an IBAN followed by a word was never reported (the match ran on into the word and failed
+mod 97): 16 → 59 IBAN findings, 5 → 22 on `account_number`. E-mail with non-ASCII letters (RFC 6531,
+IDNA) was missed: 15 more gold e-mails found (53,632 → 53,647). An IPv6 match may no longer start or
+end inside a word: 6 fewer findings, and 5 overlap hits lost, all on gold values that are not valid
+IPv6 (`…:abcd:efgh`), where the old pattern matched a valid-looking prefix. Card and phone each lost
+1 and 3 findings to IBANs found on the same spans.
 
 ## What the numbers mean (from `miss_shapes.txt`, counts only)
 
@@ -95,10 +104,10 @@ as 0.995, and F1 was computed from rounded ratios; both fixed, the counts were n
 | CARD | 11,271 of 12,867 gold card numbers (88%) **fail the Luhn check**. Real card numbers cannot. PPE's strict detector rejects them by design (and G2 surrogates rely on invalid check digits). On the 1,525 Luhn-valid gold cards, recall is **0.995** (1,517). | dataset property |
 | SECRET | 4,220 of 4,667 `api_key` spans are generic random strings with no vendor prefix (64 of them found); PPE's rules know vendor formats only. Vendor-prefixed keys: 409 of 447 found (0.915). `password` values are found only in assignment or URL form (246 of 6,985). | scope of Stage 1 |
 | IPV4 | **Bug, fixed here.** An address that ends a sentence (`… 192.0.2.10.`) was never detected: the regex refused any following dot. That was 1,233 of the 1,234 misses. Now 6,077 of 6,078 (the one left has an octet above 255). Typed precision 0.655 because 3,041 findings sit inside URLs labelled `url`; they count under P any. | PPE bug |
-| IPV6 | 282 of the 292 missed gold values are not valid IPv6 addresses (Python's `ipaddress` rejects them). | dataset property |
+| IPV6 | 287 of the 297 missed gold values are not valid IPv6 addresses (Python's `ipaddress` rejects them). | dataset property |
 | PHONE | Misses (2,525): international numbers with a one-digit group (`+353 1 …`, `+33 6 12 …`; 802), other international (50), and national formats outside SG/NANP/UK (1,673; 9-digit and others). With `optional`, nearly half of all phone findings land on other numeric IDs (biometric IDs, customer IDs, MRNs); `required` removes nearly all of them at a 9.5-point recall cost. This is the `detection.phone_context` trade-off, now measured on external data. | scope and knob |
-| EMAIL | 273 of the 298 misses are gold "emails" with no `@`. | dataset property |
-| IBAN | 16 findings, 5 on account numbers; the rest on IDs, URLs, dates. `iban_valid` checks mod 97 only (see the stdnum cross-check below). | PPE gap (precision) |
+| EMAIL | 273 of the 283 misses are gold "emails" with no `@`. | dataset property |
+| IBAN | 59 findings, 22 on account numbers and 4 on no gold span; the rest on other ID labels (customer, employee, health-plan IDs, user names, URLs). `iban_valid` checks mod 97 only (see the stdnum cross-check below). | PPE gap (precision) |
 
 Before the IPv4 fix (same data, same protocol): IPV4 recall 0.797, typed precision 0.602, F1 0.686;
 micro recall 0.774, F1 0.770.
@@ -130,9 +139,9 @@ never imports):
 - **Mutation check** (`bench/harness/mutate_evaluation.py`, output `mutation.txt`): a control run
   on the unmutated tree must pass first; then deliberate faults in the scorer, downloader, parser,
   check-digit code, surrogates, detector and Presidio wrapper. First run: 13 faults, 12 caught; the
-  survivor (the streaming size cap) got its own test. Now 20 faults, **20/20** caught with Presidio
-  installed (19/19 without, the Presidio-gated fault marked not run).
-- **No dataset text in the results** (`bench/harness/leak_scan.py`; output in
+  survivor (the streaming size cap) got its own test. Now 24 faults, **24/24** caught with Presidio
+  installed (23/23 without, the Presidio-gated fault marked not run).
+- **No dataset text in the results** (`bench/harness/leak_scan.py nemotron-pii …`; output in
   `bench/results/2026-10-16-presidio-baseline/leak_scan.txt`, covering both result directories):
   every gold value of length ≥ 4 (283,260 distinct) is searched for in the committed result files,
   and every run of 35+ characters of document text, with the 55 label names masked. No document
@@ -147,5 +156,6 @@ never imports):
 the train split of the same dataset); `docs/sources/detector-models.md`. That is not comparable with
 the table above: different label set, different matching rules, in-distribution training. The
 comparison becomes like-for-like only when other systems run through this harness with this label
-map. Done for Presidio: [`2026-10-16-presidio-baseline.md`](2026-10-16-presidio-baseline.md). Next:
-further datasets (Gretel finance, CredData for secrets).
+map. Done for Presidio: [`2026-10-16-presidio-baseline.md`](2026-10-16-presidio-baseline.md), and on a
+second dataset: [`2026-10-16-gretel-pii-finance.md`](2026-10-16-gretel-pii-finance.md). Next: CredData
+for secrets.

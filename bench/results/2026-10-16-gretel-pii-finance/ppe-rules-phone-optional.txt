@@ -1,0 +1,65 @@
+gretel-pii-finance/test (5594 docs, 1148 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=optional
+
+min_score=0.0
+
+type          support R_overlap  R_strict    pred  P_typed   P_any      F1
+CARD              120     0.450     0.450     117    0.462   0.470   0.456
+DATE_TIME       10554     0.000     0.000       0      n/a     n/a     n/a
+EMAIL            1422     0.967     0.911    1418    0.965   0.996   0.966
+IBAN              203     0.773     0.749     162    0.938   0.938   0.848
+IPV4              162     0.988     0.988     160    1.000   1.000   0.994
+IPV6              134     0.813     0.813     136    0.801   0.816   0.807
+LOCATION         4304     0.000     0.000       0      n/a     n/a     n/a
+ORGANIZATION     6341     0.000     0.000       0      n/a     n/a     n/a
+PERSON          10792     0.000     0.000       0      n/a     n/a     n/a
+PHONE             946     0.729     0.645    1346    0.511   0.585   0.601
+SECRET            191     0.178     0.178      37    0.919   0.919   0.298
+micro†           3178     0.812     0.760    3376    0.760   0.803   0.785
+micro‡          35169     0.073     0.069    3376    0.760   0.803   0.134
+  † micro over the system's claimed types that dataset labels map to: CARD, EMAIL, IBAN, IPV4, IPV6, PHONE, SECRET
+  ‡ micro over every type that dataset labels map to (same denominator for every system)
+
+any-type coverage, all 29 dataset labels: 2723/36990 = 0.074
+gold spans dropped (outside their text, not scored): {'api_key': 1, 'company': 1, 'ipv4': 2, 'last_name': 1, 'name': 19, 'street_address': 3}
+
+dataset label                     support      maps_to  covered
+ipv4                                  162         IPV4    0.988
+email                                1422        EMAIL    0.967
+ipv6                                  134         IPV6    0.813
+iban                                  203         IBAN    0.783
+phone_number                          946        PHONE    0.729
+credit_card_number                    120         CARD    0.458
+local_latlng                           97            -    0.392
+api_key                                90       SECRET    0.311
+driver_license_number                 140            -    0.221
+ssn                                   153            -    0.111
+user_name                              71            -    0.099
+password                              101       SECRET    0.059
+first_name                            279       PERSON    0.007
+bank_routing_number                   158            -    0.006
+credit_card_security_code             160            -    0.006
+name                                10299       PERSON    0.003
+company                              6341 ORGANIZATION    0.002
+street_address                       4304     LOCATION    0.000
+date                                 8469    DATE_TIME    0.000
+account_pin                           143            -    0.000
+bban                                  166            -    0.000
+customer_id                           195            -    0.000
+date_of_birth                         250    DATE_TIME    0.000
+date_time                              89    DATE_TIME    0.000
+employee_id                           175            -    0.000
+last_name                             214       PERSON    0.000
+passport_number                       136            -    0.000
+swift_bic_code                        227            -    0.000
+time                                 1746    DATE_TIME    0.000
+
+system spans by overlapped gold label (top 6 per type):
+  CARD         (no gold span) 62, credit_card_number 54, iban 1
+  EMAIL        email 1368, name 28, company 13, user_name 7, (no gold span) 5, first_name 2
+  IBAN         iban 152, (no gold span) 10
+  IPV4         ipv4 160, street_address 1
+  IPV6         ipv6 109, (no gold span) 25, local_latlng 1, street_address 1
+  PHONE        phone_number 688, (no gold span) 559, local_latlng 46, driver_license_number 31, ssn 17, bank_routing_number 1
+  SECRET       api_key 28, password 6, (no gold span) 3
+
+report (labels and counts only) -> bench/results/2026-10-16-gretel-pii-finance/ppe-rules-phone-optional.json

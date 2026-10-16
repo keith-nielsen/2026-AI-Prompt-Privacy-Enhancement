@@ -1,28 +1,31 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-16, latest): PRESIDIO BASELINE on `feat/external-bench-nemotron`
+## Status (2026-10-16, latest): GRETEL FINANCE + PRESIDIO BASELINE
 
-- `main` = `104aa84` (pushed): `ppe evaluate`, the Nemotron-PII run, the stdnum cross-check, the IPv4
-  fix. This branch, on top (local commit, not pushed): **Presidio 2.2.364 as shipped** through the same
-  harness (`bench/2026-10-16-presidio-baseline.md`, results `bench/results/2026-10-16-presidio-baseline/`,
-  head-to-head `head-to-head.txt`). Shared types (card, e-mail, IPv4/6, phone): parity except phone,
-  where PPE `phone_context=required` 0.822 / 0.993 beats Presidio 0.943 / 0.484 (≥0.5: 0.617 / 0.610).
-  Coverage of all labelled spans: Presidio 0.747, PPE 0.142; spans on no gold value: Presidio 15.4%,
-  PPE 0.4%. The gap is NER (phase 4).
-- Harness changes: `--system presidio --model-path` (local spaCy dir only; Presidio downloads a name),
-  `--min-score` list; tldextract pinned to its bundled suffix list (it downloaded the PSL into
-  `~/.cache` on first use); label map extended (PERSON, LOCATION, DATE_TIME, URL, US_SSN, ORGANIZATION,
-  AGE, MAC_ADDRESS) before Presidio was scored; two micros (claimed / all mapped); raw counts in the
-  report; ratios rounded once (the table had printed e-mail recall 0.99447 as 0.995) and F1 from
-  unrounded ratios. Tools: `bench/harness/compare_reports.py`, `leak_scan.py` (planted control),
-  `mutate_evaluation.py` now with a control run (an earlier 18/18 was a broken environment) and
-  20 faults.
-- Presidio venv `bench/harness/pvenv` (git-ignored; rebuild from `bench/harness/requirements-presidio.txt`);
-  model `/media/administrator/DATA/models/explosion-en_core_web_lg-3.8.0/` (read-only, SHA256SUMS);
-  gated test: `PPE_PRESIDIO_MODEL=<dir with meta.json> bench/harness/pvenv/bin/python -m pytest tests/evaluation`
-  under the cap. Full Presidio run: 31.6 min, 1.4 GB peak, cores 5-7.
-- **Operator direction (2026-10-16):** after Nemotron + Presidio, extend to other datasets (Gretel
-  finance, CredData for secrets; TAB when masking lands), Presidio as the baseline on each.
+- Branches: `feat/external-bench-nemotron` (Presidio baseline, 2 commits after `104aa84`) and
+  `feat/external-bench-gretel` on top of it (Gretel run + 3 detector fixes). Operator direction: finish
+  Gretel, then push both (fast-forward `main`).
+- **Presidio 2.2.364 as shipped** through the same harness (`bench/2026-10-16-presidio-baseline.md`):
+  on Nemotron, pattern types at parity; phone: PPE `required` 0.822 / 0.993 vs Presidio 0.943 / 0.484;
+  coverage Presidio 0.747 vs PPE 0.142, spans on no gold value 15.4% vs 0.4%.
+- **Gretel `synthetic_pii_finance_multilingual`** (`bench/2026-10-16-gretel-pii-finance.md`; 5,594
+  docs, 7 languages; gold partly machine-made, so precision is a floor). Found and fixed in PPE: an
+  IBAN followed by a word was never reported (match ran on, failed mod 97); non-ASCII e-mail missed;
+  IPv6 matched inside words (EDIFACT `Name::2`; also clears 4 of 10 C-07 snippets, F-02 partly). Open:
+  no card IIN check (51 of 62 no-gold card findings have no brand prefix; ADR-0005, C-08); phone
+  national formats SG/NANP/UK only and English context words (French recall 0.529 / 0.218 required;
+  knob text updated). Shared types, PPE required 0.809 / 0.919 vs Presidio 0.863 / 0.526.
+- Harness: per-dataset columns and JSON spans (`row_doc`), `out_of_range="drop"` with counts in the
+  report (Gretel: 27 spans past their text), Presidio system (`--system presidio --model-path`, local
+  spaCy dir only, tldextract pinned offline), `--min-score` list, claimed vs all-mapped micros, raw
+  counts, ratios rounded once. Tools: `compare_reports.py`, `leak_scan.py <dataset>` (planted control),
+  `miss_shapes.py <dataset>` (was `nemotron_miss_shapes.py`), `mutate_evaluation.py` (control run first;
+  24/24 with Presidio, 23/23 without).
+- Presidio venv `bench/harness/pvenv` (git-ignored; `bench/harness/requirements-presidio.txt`); model
+  `/media/administrator/DATA/models/explosion-en_core_web_lg-3.8.0/` (also visible read-only at
+  `/srv/kent/models/`); gated test: `PPE_PRESIDIO_MODEL=<dir with meta.json>
+  bench/harness/pvenv/bin/python -m pytest tests/evaluation`, under the cap. Datasets:
+  `/media/administrator/DATA/datasets/{nvidia-Nemotron-PII,gretelai-synthetic_pii_finance_multilingual}/`.
 
 ## Earlier status (2026-10-16): REVIEW "NOW" FIXES DONE on `fix/2026-10-review-now`
 
@@ -112,7 +115,7 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected on `feat/external-bench-nemotron`: ruff + strict mypy clean, **263 passed, 1 skipped, 28 xfailed** (skip = the
+Expected on `feat/external-bench-gretel`: ruff + strict mypy clean, **287 passed, 1 skipped, 24 xfailed** (skip = the
 Presidio-gated test; xfails =
 open review findings + the IBAN registry gap), **10/10 self-checks**. External run (needs `.[bench]` and
 the dataset): `ppe evaluate run nemotron-pii --data-dir /media/administrator/DATA/datasets`.
@@ -190,9 +193,10 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-**Start here:** push the Presidio baseline (operator's go), then the next dataset through `ppe evaluate`
-with both systems: Gretel `synthetic_pii_finance_multilingual` (Apache-2.0), then Samsung CredData
-for secrets (operator direction 2026-10-16); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
+**Start here:** Samsung CredData for secrets through `ppe evaluate` with both systems (read its
+download script before anything runs; obfuscated values, Apache-2.0 metadata); candidate detector
+work from the Gretel run: card IIN ranges (ADR-0005, C-08) and per-language phone formats and context
+words (operator direction 2026-10-16: datasets first); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
 code corpus + CI false-positive gate; gates the exposure ledger), F-19 (`serve --policy`, profile from
 policy, `[::1]:port` parsing), F-07 (constant-size records), F-03 signing (`auditd` + C2SP checkpoints),
 F-13 (CI, hash-locked lock file, CHANGELOG, SBOM), bearer token / UNIX socket for the listener (F-08 rest),

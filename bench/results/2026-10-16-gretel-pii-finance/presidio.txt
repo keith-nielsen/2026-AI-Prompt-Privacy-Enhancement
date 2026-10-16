@@ -1,0 +1,171 @@
+gretel-pii-finance/test (5594 docs, 39 docs/s), presidio presidio_analyzer=2.2.364 spacy=3.8.16 tldextract=5.4.0 (bundled suffix-list snapshot, offline) model=en_core_web_lg-3.8.0 configuration=defaults (no custom recognisers, no context words added, no allow list)
+
+min_score=0.0
+
+type               support R_overlap  R_strict    pred  P_typed   P_any      F1
+CARD                   120     0.375     0.375      58    0.776   0.793   0.506
+CRYPTO                   0       n/a       n/a      66    0.000   0.045     n/a
+DATE_TIME            10554     0.742     0.574   12732    0.652   0.724   0.694
+EMAIL                 1422     0.961     0.902    1410    0.965   0.996   0.963
+IBAN                   203     0.768     0.744     156    0.968   0.968   0.857
+IPV4                   162     0.981     0.981     159    1.000   1.000   0.991
+IPV6                   134     0.813     0.813     136    0.801   0.816   0.807
+LOCATION              4304     0.326     0.000    8400    0.249   0.306   0.282
+MEDICAL_LICENSE          0       n/a       n/a     153    0.000   0.150     n/a
+NRP                      0       n/a       n/a     972    0.000   0.134     n/a
+ORGANIZATION          6341     0.605     0.347   32331    0.119   0.185   0.199
+PERSON               10792     0.643     0.408   23670    0.288   0.397   0.398
+PHONE                  946     0.785     0.760    2956    0.251   0.324   0.380
+SECRET                 191     0.000     0.000       0      n/a     n/a     n/a
+UK_NHS                   0       n/a       n/a     165    0.000   0.182     n/a
+URL                      0       n/a       n/a    4312    0.000   0.428     n/a
+US_BANK_NUMBER           0       n/a       n/a    5936    0.000   0.076     n/a
+US_DRIVER_LICENSE        0       n/a       n/a   11402    0.000   0.131     n/a
+US_ITIN                  0       n/a       n/a      90    0.000   0.189     n/a
+US_PASSPORT              0       n/a       n/a    1237    0.000   0.290     n/a
+US_SSN                   0       n/a       n/a     529    0.000   0.569     n/a
+micro†               34978     0.646     0.432   82008    0.288   0.366   0.398
+micro‡               35169     0.642     0.430   82008    0.288   0.366   0.398
+  † micro over the system's claimed types that dataset labels map to: CARD, DATE_TIME, EMAIL, IBAN, IPV4, IPV6, LOCATION, ORGANIZATION, PERSON, PHONE
+  ‡ micro over every type that dataset labels map to (same denominator for every system)
+
+any-type coverage, all 29 dataset labels: 28051/36990 = 0.758
+gold spans dropped (outside their text, not scored): {'api_key': 1, 'company': 1, 'ipv4': 2, 'last_name': 1, 'name': 19, 'street_address': 3}
+
+dataset label                     support      maps_to  covered
+local_latlng                           97            -    1.000
+ipv4                                  162         IPV4    0.994
+passport_number                       136            -    0.985
+email                                1422        EMAIL    0.981
+bank_routing_number                   158            -    0.937
+date_time                              89    DATE_TIME    0.933
+date_of_birth                         250    DATE_TIME    0.928
+date                                 8469    DATE_TIME    0.862
+iban                                  203         IBAN    0.852
+ipv6                                  134         IPV6    0.836
+driver_license_number                 140            -    0.836
+phone_number                          946        PHONE    0.830
+street_address                       4304     LOCATION    0.782
+ssn                                   153            -    0.771
+name                                10299       PERSON    0.754
+customer_id                           195            -    0.749
+first_name                            279       PERSON    0.728
+company                              6341 ORGANIZATION    0.711
+credit_card_number                    120         CARD    0.658
+employee_id                           175            -    0.617
+last_name                             214       PERSON    0.617
+account_pin                           143            -    0.594
+time                                 1746    DATE_TIME    0.400
+password                              101       SECRET    0.267
+user_name                              71            -    0.239
+api_key                                90       SECRET    0.189
+bban                                  166            -    0.139
+credit_card_security_code             160            -    0.062
+swift_bic_code                        227            -    0.062
+
+system spans by overlapped gold label (top 6 per type):
+  CARD              credit_card_number 45, (no gold span) 12, iban 1
+  CRYPTO            (no gold span) 63, street_address 3
+  DATE_TIME         date 7427, (no gold span) 3514, street_address 631, time 585, date_of_birth 225, phone_number 134
+  EMAIL             email 1360, name 28, company 13, user_name 7, (no gold span) 5, first_name 2
+  IBAN              iban 151, (no gold span) 5
+  IPV4              ipv4 159, street_address 1
+  IPV6              ipv6 109, (no gold span) 25, local_latlng 1, street_address 1
+  LOCATION          (no gold span) 5830, street_address 2094, company 255, name 139, date 48, time 6
+  MEDICAL_LICENSE   (no gold span) 130, iban 14, driver_license_number 5, bban 3, customer_id 1
+  NRP               (no gold span) 842, street_address 50, name 47, company 24, employee_id 3, date 2
+  ORGANIZATION      (no gold span) 26361, company 3842, street_address 864, name 751, date 274, time 68
+  PERSON            (no gold span) 14262, name 6647, street_address 1896, company 575, first_name 178, date 123
+  PHONE             (no gold span) 1998, phone_number 742, ipv4 51, date 48, driver_license_number 31, ssn 21
+  UK_NHS            (no gold span) 135, phone_number 26, ssn 4
+  URL               (no gold span) 2466, email 1723, company 75, name 28, date 19, api_key 3
+  US_BANK_NUMBER    (no gold span) 5485, bank_routing_number 147, phone_number 85, passport_number 66, credit_card_number 52, name 37
+  US_DRIVER_LICENSE (no gold span) 9906, local_latlng 194, phone_number 193, customer_id 151, bank_routing_number 148, passport_number 132
+  US_ITIN           (no gold span) 73, bank_routing_number 12, passport_number 2, phone_number 2, ssn 1
+  US_PASSPORT       (no gold span) 878, bank_routing_number 144, passport_number 132, driver_license_number 29, name 28, phone_number 14
+  US_SSN            (no gold span) 228, bank_routing_number 144, ssn 76, passport_number 65, phone_number 13, credit_card_security_code 1
+
+report (labels and counts only) -> bench/results/2026-10-16-gretel-pii-finance/presidio-min0.json
+
+min_score=0.5
+
+type               support R_overlap  R_strict    pred  P_typed   P_any      F1
+CARD                   120     0.375     0.375      58    0.776   0.793   0.506
+CRYPTO                   0       n/a       n/a      66    0.000   0.045     n/a
+DATE_TIME            10554     0.740     0.573   12673    0.653   0.725   0.694
+EMAIL                 1422     0.961     0.902    1410    0.965   0.996   0.963
+IBAN                   203     0.768     0.744     156    0.968   0.968   0.857
+IPV4                   162     0.981     0.981     159    1.000   1.000   0.991
+IPV6                   134     0.813     0.813     134    0.813   0.828   0.813
+LOCATION              4304     0.326     0.000    8400    0.249   0.306   0.282
+MEDICAL_LICENSE          0       n/a       n/a     153    0.000   0.150     n/a
+NRP                      0       n/a       n/a     972    0.000   0.134     n/a
+ORGANIZATION          6341     0.605     0.347   32331    0.119   0.185   0.199
+PERSON               10792     0.643     0.408   23670    0.288   0.397   0.398
+PHONE                  946     0.332     0.317     462    0.680   0.751   0.446
+SECRET                 191     0.000     0.000       0      n/a     n/a     n/a
+UK_NHS                   0       n/a       n/a     165    0.000   0.182     n/a
+URL                      0       n/a       n/a    4312    0.000   0.428     n/a
+US_DRIVER_LICENSE        0       n/a       n/a      77    0.000   0.727     n/a
+US_ITIN                  0       n/a       n/a       8    0.000   0.875     n/a
+US_SSN                   0       n/a       n/a      70    0.000   0.986     n/a
+micro†               34978     0.633     0.420   79453    0.292   0.370   0.399
+micro‡               35169     0.630     0.418   79453    0.292   0.370   0.399
+  † micro over the system's claimed types that dataset labels map to: CARD, DATE_TIME, EMAIL, IBAN, IPV4, IPV6, LOCATION, ORGANIZATION, PERSON, PHONE
+  ‡ micro over every type that dataset labels map to (same denominator for every system)
+
+any-type coverage, all 29 dataset labels: 26898/36990 = 0.727
+gold spans dropped (outside their text, not scored): {'api_key': 1, 'company': 1, 'ipv4': 2, 'last_name': 1, 'name': 19, 'street_address': 3}
+
+dataset label                     support      maps_to  covered
+ipv4                                  162         IPV4    0.988
+email                                1422        EMAIL    0.980
+date_of_birth                         250    DATE_TIME    0.924
+date_time                              89    DATE_TIME    0.865
+date                                 8469    DATE_TIME    0.855
+iban                                  203         IBAN    0.842
+ipv6                                  134         IPV6    0.813
+street_address                       4304     LOCATION    0.780
+name                                10299       PERSON    0.753
+first_name                            279       PERSON    0.728
+company                              6341 ORGANIZATION    0.710
+last_name                             214       PERSON    0.617
+ssn                                   153            -    0.575
+credit_card_number                    120         CARD    0.542
+driver_license_number                 140            -    0.536
+phone_number                          946        PHONE    0.456
+time                                 1746    DATE_TIME    0.389
+employee_id                           175            -    0.246
+user_name                              71            -    0.239
+customer_id                           195            -    0.179
+password                              101       SECRET    0.149
+bank_routing_number                   158            -    0.139
+bban                                  166            -    0.139
+passport_number                       136            -    0.132
+api_key                                90       SECRET    0.122
+account_pin                           143            -    0.105
+local_latlng                           97            -    0.082
+swift_bic_code                        227            -    0.062
+credit_card_security_code             160            -    0.037
+
+system spans by overlapped gold label (top 6 per type):
+  CARD              credit_card_number 45, (no gold span) 12, iban 1
+  CRYPTO            (no gold span) 63, street_address 3
+  DATE_TIME         date 7404, (no gold span) 3481, street_address 628, time 585, date_of_birth 225, phone_number 134
+  EMAIL             email 1360, name 28, company 13, user_name 7, (no gold span) 5, first_name 2
+  IBAN              iban 151, (no gold span) 5
+  IPV4              ipv4 159, street_address 1
+  IPV6              ipv6 109, (no gold span) 23, local_latlng 1, street_address 1
+  LOCATION          (no gold span) 5830, street_address 2094, company 255, name 139, date 48, time 6
+  MEDICAL_LICENSE   (no gold span) 130, iban 14, driver_license_number 5, bban 3, customer_id 1
+  NRP               (no gold span) 842, street_address 50, name 47, company 24, employee_id 3, date 2
+  ORGANIZATION      (no gold span) 26361, company 3842, street_address 864, name 751, date 274, time 68
+  PERSON            (no gold span) 14262, name 6647, street_address 1896, company 575, first_name 178, date 123
+  PHONE             phone_number 314, (no gold span) 115, driver_license_number 18, ssn 5, passport_number 4, bank_routing_number 2
+  UK_NHS            (no gold span) 135, phone_number 26, ssn 4
+  URL               (no gold span) 2466, email 1723, company 75, name 28, date 19, api_key 3
+  US_DRIVER_LICENSE driver_license_number 42, (no gold span) 21, customer_id 4, employee_id 4, ipv6 3, name 2
+  US_ITIN           bank_routing_number 6, (no gold span) 1, ssn 1
+  US_SSN            ssn 68, (no gold span) 1, date 1
+
+report (labels and counts only) -> bench/results/2026-10-16-gretel-pii-finance/presidio-min0.5.json

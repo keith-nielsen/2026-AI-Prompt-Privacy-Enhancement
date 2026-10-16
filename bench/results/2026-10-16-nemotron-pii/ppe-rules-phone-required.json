@@ -1,13 +1,13 @@
 {
  "any_type_coverage_all_labels": {
-  "covered": 94318,
+  "covered": 94370,
   "gold_spans": 850340,
-  "rate": 0.1109
+  "rate": 0.111
  },
  "by_label": {
   "account_number": {
-   "coverage_any_type": 0.0077,
-   "covered_any_type": 128,
+   "coverage_any_type": 0.0086,
+   "covered_any_type": 144,
    "maps_to": null,
    "support": 16693
   },
@@ -84,8 +84,8 @@
    "support": 12867
   },
   "customer_id": {
-   "coverage_any_type": 0.0022,
-   "covered_any_type": 45,
+   "coverage_any_type": 0.0025,
+   "covered_any_type": 51,
    "maps_to": null,
    "support": 20502
   },
@@ -126,20 +126,20 @@
    "support": 9378
   },
   "email": {
-   "coverage_any_type": 0.9945,
-   "covered_any_type": 53632,
+   "coverage_any_type": 0.9948,
+   "covered_any_type": 53647,
    "maps_to": "EMAIL",
    "support": 53930
   },
   "employee_id": {
-   "coverage_any_type": 0.0003,
-   "covered_any_type": 3,
+   "coverage_any_type": 0.0006,
+   "covered_any_type": 5,
    "maps_to": null,
    "support": 8878
   },
   "employment_status": {
-   "coverage_any_type": 0.0001,
-   "covered_any_type": 1,
+   "coverage_any_type": 0.0002,
+   "covered_any_type": 2,
    "maps_to": null,
    "support": 11018
   },
@@ -162,8 +162,8 @@
    "support": 7645
   },
   "health_plan_beneficiary_number": {
-   "coverage_any_type": 0.0002,
-   "covered_any_type": 2,
+   "coverage_any_type": 0.0009,
+   "covered_any_type": 9,
    "maps_to": null,
    "support": 10558
   },
@@ -180,8 +180,8 @@
    "support": 6078
   },
   "ipv6": {
-   "coverage_any_type": 0.9073,
-   "covered_any_type": 2848,
+   "coverage_any_type": 0.9057,
+   "covered_any_type": 2843,
    "maps_to": "IPV6",
    "support": 3139
   },
@@ -252,8 +252,8 @@
    "support": 6402
   },
   "postcode": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 0.0002,
+   "covered_any_type": 1,
    "maps_to": null,
    "support": 6279
   },
@@ -319,19 +319,19 @@
   },
   "url": {
    "coverage_any_type": 0.0808,
-   "covered_any_type": 3058,
+   "covered_any_type": 3059,
    "maps_to": "URL",
    "support": 37847
   },
   "user_name": {
-   "coverage_any_type": 0.0027,
-   "covered_any_type": 42,
+   "coverage_any_type": 0.0031,
+   "covered_any_type": 49,
    "maps_to": null,
    "support": 15800
   },
   "vehicle_identifier": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 0.0002,
+   "covered_any_type": 1,
    "maps_to": null,
    "support": 4561
   }
@@ -356,10 +356,10 @@
     "found_overlap": 826,
     "found_strict": 824,
     "precision_any_label": 0.9915,
-    "precision_typed": 0.7815,
-    "pred_any_label": 1048,
+    "precision_typed": 0.7822,
+    "pred_any_label": 1047,
     "pred_typed": 826,
-    "predicted": 1057,
+    "predicted": 1056,
     "recall_overlap": 0.1202,
     "recall_strict": 0.1199,
     "support": 6871
@@ -379,26 +379,26 @@
    },
    "EMAIL": {
     "f1_overlap": 0.9957,
-    "found_overlap": 29222,
-    "found_strict": 29193,
+    "found_overlap": 29224,
+    "found_strict": 29195,
     "precision_any_label": 0.9999,
     "precision_typed": 0.9972,
-    "pred_any_label": 29301,
-    "pred_typed": 29222,
-    "predicted": 29304,
-    "recall_overlap": 0.9942,
-    "recall_strict": 0.9932,
+    "pred_any_label": 29303,
+    "pred_typed": 29224,
+    "predicted": 29307,
+    "recall_overlap": 0.9943,
+    "recall_strict": 0.9933,
     "support": 29393
    },
    "IBAN": {
     "f1_overlap": null,
     "found_overlap": 0,
     "found_strict": 0,
-    "precision_any_label": 0.5714,
-    "precision_typed": 0.1429,
-    "pred_any_label": 4,
-    "pred_typed": 1,
-    "predicted": 7,
+    "precision_any_label": 0.8333,
+    "precision_typed": 0.2917,
+    "pred_any_label": 20,
+    "pred_typed": 7,
+    "predicted": 24,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
@@ -417,15 +417,15 @@
     "support": 3202
    },
    "IPV6": {
-    "f1_overlap": 0.9427,
-    "found_overlap": 1431,
+    "f1_overlap": 0.9413,
+    "found_overlap": 1426,
     "found_strict": 1426,
-    "precision_any_label": 0.9768,
-    "precision_typed": 0.9768,
-    "pred_any_label": 1431,
-    "pred_typed": 1431,
-    "predicted": 1465,
-    "recall_overlap": 0.9109,
+    "precision_any_label": 0.9774,
+    "precision_typed": 0.9774,
+    "pred_any_label": 1426,
+    "pred_typed": 1426,
+    "predicted": 1459,
+    "recall_overlap": 0.9077,
     "recall_strict": 0.9077,
     "support": 1571
    },
@@ -588,16 +588,16 @@
     "support": 47258
    },
    "EMAIL": {
-    "f1_overlap": 0.9966,
-    "found_overlap": 24410,
-    "found_strict": 24384,
-    "precision_any_label": 0.9999,
+    "f1_overlap": 0.9969,
+    "found_overlap": 24423,
+    "found_strict": 24397,
+    "precision_any_label": 0.9998,
     "precision_typed": 0.9984,
-    "pred_any_label": 24446,
-    "pred_typed": 24410,
-    "predicted": 24449,
-    "recall_overlap": 0.9948,
-    "recall_strict": 0.9938,
+    "pred_any_label": 24459,
+    "pred_typed": 24423,
+    "predicted": 24463,
+    "recall_overlap": 0.9954,
+    "recall_strict": 0.9943,
     "support": 24537
    },
    "IBAN": {
@@ -605,10 +605,10 @@
     "found_overlap": 0,
     "found_strict": 0,
     "precision_any_label": 1.0,
-    "precision_typed": 0.4444,
-    "pred_any_label": 9,
-    "pred_typed": 4,
-    "predicted": 9,
+    "precision_typed": 0.4286,
+    "pred_any_label": 35,
+    "pred_typed": 15,
+    "predicted": 35,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
@@ -798,16 +798,16 @@
     "support": 68673
    },
    "EMAIL": {
-    "f1_overlap": 0.996,
-    "found_overlap": 31731,
-    "found_strict": 31681,
-    "precision_any_label": 0.9999,
-    "precision_typed": 0.9979,
-    "pred_any_label": 31796,
-    "pred_typed": 31731,
-    "predicted": 31799,
-    "recall_overlap": 0.9941,
-    "recall_strict": 0.9926,
+    "f1_overlap": 0.9962,
+    "found_overlap": 31746,
+    "found_strict": 31696,
+    "precision_any_label": 0.9998,
+    "precision_typed": 0.9978,
+    "pred_any_label": 31811,
+    "pred_typed": 31746,
+    "predicted": 31816,
+    "recall_overlap": 0.9946,
+    "recall_strict": 0.993,
     "support": 31918
    },
    "IBAN": {
@@ -815,10 +815,10 @@
     "found_overlap": 0,
     "found_strict": 0,
     "precision_any_label": 1.0,
-    "precision_typed": 0.5,
-    "pred_any_label": 4,
-    "pred_typed": 2,
-    "predicted": 4,
+    "precision_typed": 0.3846,
+    "pred_any_label": 26,
+    "pred_typed": 10,
+    "predicted": 26,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
@@ -837,15 +837,15 @@
     "support": 2854
    },
    "IPV6": {
-    "f1_overlap": 0.9419,
-    "found_overlap": 1346,
+    "f1_overlap": 0.9408,
+    "found_overlap": 1343,
     "found_strict": 1343,
-    "precision_any_label": 0.9818,
-    "precision_typed": 0.9818,
-    "pred_any_label": 1346,
-    "pred_typed": 1346,
-    "predicted": 1371,
-    "recall_overlap": 0.9052,
+    "precision_any_label": 0.9817,
+    "precision_typed": 0.9817,
+    "pred_any_label": 1343,
+    "pred_typed": 1343,
+    "predicted": 1368,
+    "recall_overlap": 0.9032,
     "recall_strict": 0.9032,
     "support": 1487
    },
@@ -982,14 +982,14 @@
     "support": 4451
    },
    "CARD": {
-    "f1_overlap": 0.2066,
+    "f1_overlap": 0.2067,
     "found_overlap": 790,
     "found_strict": 787,
     "precision_any_label": 0.9922,
-    "precision_typed": 0.767,
-    "pred_any_label": 1022,
+    "precision_typed": 0.7677,
+    "pred_any_label": 1021,
     "pred_typed": 790,
-    "predicted": 1030,
+    "predicted": 1029,
     "recall_overlap": 0.1194,
     "recall_strict": 0.119,
     "support": 6616
@@ -1024,11 +1024,11 @@
     "f1_overlap": null,
     "found_overlap": 0,
     "found_strict": 0,
-    "precision_any_label": 0.75,
-    "precision_typed": 0.25,
-    "pred_any_label": 9,
-    "pred_typed": 3,
-    "predicted": 12,
+    "precision_any_label": 0.8788,
+    "precision_typed": 0.3636,
+    "pred_any_label": 29,
+    "pred_typed": 12,
+    "predicted": 33,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
@@ -1047,15 +1047,15 @@
     "support": 3224
    },
    "IPV6": {
-    "f1_overlap": 0.9464,
-    "found_overlap": 1501,
+    "f1_overlap": 0.946,
+    "found_overlap": 1499,
     "found_strict": 1499,
-    "precision_any_label": 0.9875,
-    "precision_typed": 0.9875,
-    "pred_any_label": 1501,
-    "pred_typed": 1501,
-    "predicted": 1520,
-    "recall_overlap": 0.9086,
+    "precision_any_label": 0.9881,
+    "precision_typed": 0.9881,
+    "pred_any_label": 1499,
+    "pred_typed": 1499,
+    "predicted": 1517,
+    "recall_overlap": 0.9074,
     "recall_strict": 0.9074,
     "support": 1652
    },
@@ -1184,10 +1184,10 @@
    "found_overlap": 1520,
    "found_strict": 1517,
    "precision_any_label": 0.9935,
-   "precision_typed": 0.7611,
-   "pred_any_label": 1984,
+   "precision_typed": 0.7615,
+   "pred_any_label": 1983,
    "pred_typed": 1520,
-   "predicted": 1997,
+   "predicted": 1996,
    "recall_overlap": 0.1181,
    "recall_strict": 0.1179,
    "support": 12867
@@ -1206,27 +1206,27 @@
    "support": 129673
   },
   "EMAIL": {
-   "f1_overlap": 0.9961,
-   "found_overlap": 53632,
-   "found_strict": 53577,
+   "f1_overlap": 0.9962,
+   "found_overlap": 53647,
+   "found_strict": 53592,
    "precision_any_label": 0.9999,
    "precision_typed": 0.9977,
-   "pred_any_label": 53747,
-   "pred_typed": 53632,
-   "predicted": 53753,
-   "recall_overlap": 0.9945,
-   "recall_strict": 0.9935,
+   "pred_any_label": 53762,
+   "pred_typed": 53647,
+   "predicted": 53770,
+   "recall_overlap": 0.9948,
+   "recall_strict": 0.9937,
    "support": 53930
   },
   "IBAN": {
    "f1_overlap": null,
    "found_overlap": 0,
    "found_strict": 0,
-   "precision_any_label": 0.8125,
-   "precision_typed": 0.3125,
-   "pred_any_label": 13,
-   "pred_typed": 5,
-   "predicted": 16,
+   "precision_any_label": 0.9322,
+   "precision_typed": 0.3729,
+   "pred_any_label": 55,
+   "pred_typed": 22,
+   "predicted": 59,
    "recall_overlap": null,
    "recall_strict": null,
    "support": 0
@@ -1245,15 +1245,15 @@
    "support": 6078
   },
   "IPV6": {
-   "f1_overlap": 0.9443,
-   "found_overlap": 2847,
+   "f1_overlap": 0.9436,
+   "found_overlap": 2842,
    "found_strict": 2842,
-   "precision_any_label": 0.9848,
-   "precision_typed": 0.9848,
-   "pred_any_label": 2847,
-   "pred_typed": 2847,
-   "predicted": 2891,
-   "recall_overlap": 0.907,
+   "precision_any_label": 0.9851,
+   "precision_typed": 0.9851,
+   "pred_any_label": 2842,
+   "pred_typed": 2842,
+   "predicted": 2885,
+   "recall_overlap": 0.9054,
    "recall_strict": 0.9054,
    "support": 3139
   },
@@ -1397,7 +1397,7 @@
  "confusion": {
   "CARD": {
    "(no gold span)": 13,
-   "account_number": 112,
+   "account_number": 111,
    "credit_debit_card": 1520,
    "device_identifier": 294,
    "national_id": 44,
@@ -1408,10 +1408,10 @@
    "url": 5
   },
   "EMAIL": {
-   "(no gold span)": 6,
+   "(no gold span)": 8,
    "company_name": 20,
    "customer_id": 5,
-   "email": 53632,
+   "email": 53647,
    "employee_id": 1,
    "employment_status": 1,
    "first_name": 24,
@@ -1425,15 +1425,20 @@
    "user_name": 42
   },
   "IBAN": {
-   "(no gold span)": 3,
-   "account_number": 5,
+   "(no gold span)": 4,
+   "account_number": 22,
    "country": 1,
-   "customer_id": 1,
+   "customer_id": 7,
    "date": 1,
-   "employee_id": 2,
+   "employee_id": 4,
+   "employment_status": 1,
+   "health_plan_beneficiary_number": 7,
    "http_cookie": 1,
+   "postcode": 1,
    "unique_id": 1,
-   "url": 2
+   "url": 3,
+   "user_name": 7,
+   "vehicle_identifier": 1
   },
   "IPV4": {
    "(no gold span)": 162,
@@ -1443,8 +1448,8 @@
    "url": 3041
   },
   "IPV6": {
-   "(no gold span)": 44,
-   "ipv6": 2847
+   "(no gold span)": 43,
+   "ipv6": 2842
   },
   "NRIC": {
    "national_id": 3
@@ -1517,28 +1522,28 @@
  "limit": null,
  "micro_all_mapped_types": {
   "f1_overlap": 0.2637,
-  "found_overlap": 89744,
-  "found_strict": 89404,
-  "precision_any_label": 0.9964,
+  "found_overlap": 89754,
+  "found_strict": 89419,
+  "precision_any_label": 0.9963,
   "precision_typed": 0.9574,
-  "pred_any_label": 94279,
-  "pred_typed": 90590,
-  "predicted": 94624,
+  "pred_any_label": 94288,
+  "pred_typed": 90600,
+  "predicted": 94634,
   "recall_overlap": 0.1529,
   "recall_strict": 0.1523,
   "support": 586978
  },
  "micro_claimed_types": {
-  "f1_overlap": 0.8476,
-  "found_overlap": 89744,
-  "found_strict": 89404,
-  "precision_any_label": 0.9964,
+  "f1_overlap": 0.8477,
+  "found_overlap": 89754,
+  "found_strict": 89419,
+  "precision_any_label": 0.9963,
   "precision_typed": 0.9574,
-  "pred_any_label": 94279,
-  "pred_typed": 90590,
-  "predicted": 94624,
-  "recall_overlap": 0.7604,
-  "recall_strict": 0.7575,
+  "pred_any_label": 94288,
+  "pred_typed": 90600,
+  "predicted": 94634,
+  "recall_overlap": 0.7605,
+  "recall_strict": 0.7577,
   "support": 118019
  },
  "system": {

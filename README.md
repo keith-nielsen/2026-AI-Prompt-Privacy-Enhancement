@@ -50,7 +50,7 @@ ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude # any Anthropic Messages client
 Benchmark numbers come from a synthetic corpus written alongside the detectors. Treat them as a
 regression floor, not as evidence of real-world accuracy (see `bench/`). The first external
 measurement, on NVIDIA's public synthetic Nemotron-PII test split with a published scoring protocol,
-is in [`bench/2026-10-16-nemotron-pii.md`](bench/2026-10-16-nemotron-pii.md): e.g. e-mail recall 0.994,
+is in [`bench/2026-10-16-nemotron-pii.md`](bench/2026-10-16-nemotron-pii.md): e.g. e-mail recall 0.995,
 IPv4 1.000, phone 0.917 (typed precision 0.535; 0.993 with `phone_context: required`); 14% of all
 labelled spans covered, because names, addresses and most ID types need span models (not built).
 Microsoft Presidio with its default set-up, scored on the same data with the same protocol
@@ -58,6 +58,11 @@ Microsoft Presidio with its default set-up, scored on the same data with the sam
 on e-mail, IP and card, finds more phone numbers at lower precision (0.943 / 0.484), and covers 75% of
 labelled spans (names, places and dates through its NER model, many ID numbers only through
 low-confidence patterns), while 15% of its spans fall on no labelled value (PPE: 0.4%).
+On Gretel's multilingual synthetic finance documents
+([`bench/2026-10-16-gretel-pii-finance.md`](bench/2026-10-16-gretel-pii-finance.md)) the same comparison
+found three PPE detector bugs, now fixed (an IBAN followed by a word, e-mail with non-ASCII letters,
+IPv6 inside a word), and two open gaps: no card IIN check, and phone formats and context words that
+cover English-speaking countries only (French phone recall 0.529, 0.218 with `phone_context: required`).
 
 ## Built and designed
 

@@ -4,10 +4,10 @@ CAUGHT  scoring: adjacency counts as overlap       ['test_adjacent_spans_do_not_
 CAUGHT  scoring: strict == overlap                 ['test_strict_and_overlap_differ_on_boundaries']
 CAUGHT  scoring: compatible ignored                ['test_strict_and_overlap_differ_on_boundaries']
 CAUGHT  scoring: wrong type counts as found        ['test_wrong_type_covers_but_is_not_found']
-CAUGHT  fetch: hash not checked                    ['test_fetch_file_leaves_nothing_on_mismatch[hash-expected']
-CAUGHT  fetch: size cap removed                    ['test_fetch_file_leaves_nothing_on_mismatch[source']
+CAUGHT  fetch: hash not checked                    ['test_fetch_file_leaves_nothing_on_mismatch']
+CAUGHT  fetch: size cap removed                    ['test_fetch_file_leaves_nothing_on_mismatch']
 CAUGHT  verify: hash not checked                   ['test_verify_refuses_tampered_or_missing_file']
-CAUGHT  parse: bounds not checked                  ["test_parse_spans_rejects[[{'start':"]
+CAUGHT  parse: bounds not checked                  ['test_parse_spans_rejects']
 CAUGHT  luhn: wrong position doubled               ['test_luhn_agrees']
 CAUGHT  iban: check digits off by one              ['test_every_stdnum_valid_iban_is_valid_and_detected']
 CAUGHT  iban surrogate: valid check digits         ['test_surrogates_are_invalid_for_stdnum']
@@ -19,10 +19,14 @@ CAUGHT  presidio: model name accepted              ['test_presidio_refuses_a_mod
 CAUGHT  presidio: suffix list fetched online (presidio) ['test_presidio_end_to_end']
 CAUGHT  table: stored ratios rounded again         ['test_table_rounds_from_counts_once']
 CAUGHT  scoring: F1 from rounded ratios            ['test_f1_from_unrounded_ratios']
+CAUGHT  detector: IPv6 allowed inside words        ['test_ipv6_not_inside_words']
+CAUGHT  detector: IBAN not cut back to a valid prefix ['test_iban_followed_by_words']
+CAUGHT  detector: e-mail ASCII only                ['test_email_with_non_ascii_letters']
+CAUGHT  datasets: out-of-range span silently dropped everywhere ['test_out_of_range_spans_are_dropped_and_counted_only_where_declared']
 CAUGHT  detector: IBAN grouped form not matched    ['test_every_stdnum_valid_iban_is_valid_and_detected']
 
-20/20 mutations caught (0 not run)
+24/24 mutations caught (0 not run)
 
 # same script with .venv/bin/python (no Presidio): the gated fault is not run
 NOT RUN  presidio: suffix list fetched online (presidio) (needs Presidio and PPE_PRESIDIO_MODEL)
-19/19 mutations caught (1 not run)
+23/23 mutations caught (1 not run)

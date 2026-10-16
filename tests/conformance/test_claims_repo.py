@@ -61,6 +61,7 @@ def test_c46_no_generated_checksum_valid_identifiers_committed() -> None:
         "M1235467X",
         "4111111111111111",
         "GB82WEST12345698765432",
+        "DE89370400440532013000",  # published IBAN example (ISO 13616 / Wikipedia), used in detector tests
         "490154203237518",  # published sample IMEI (Luhn-valid; a code false-positive probe)
     }
     found: list[str] = []
