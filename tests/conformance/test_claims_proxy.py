@@ -37,6 +37,7 @@ from prompt_privacy.core.normalise import norm
 from prompt_privacy.core.types import EntityType
 from prompt_privacy.proxy import app as proxy
 from prompt_privacy.proxy.observe import Observer
+from tests.proxy.support import ProxyTestServer
 
 NRIC = "S1234567D"  # widely published sample value
 
@@ -76,7 +77,7 @@ class Stack:
         if self.ssl_ctx:
             upstream = f"https://127.0.0.1:{up.port}"
         client = TestClient(
-            TestServer(proxy.build_app(proxy.Settings(upstream=upstream, **settings), self.observer))
+            ProxyTestServer(proxy.build_app(proxy.Settings(upstream=upstream, **settings), self.observer))
         )
         await client.start_server()
         try:
@@ -92,9 +93,6 @@ class Stack:
 # --- forwarding -------------------------------------------------------------------------------------
 
 
-@pytest.mark.xfail(
-    strict=True, reason="F-04: aiohttp server auto-decompresses; decoded bytes sent under gzip label"
-)
 def test_c34_compressed_request_body_forwarded_unchanged(tmp_path: Path) -> None:
     """C-34 (README: 'forwards traffic unchanged'; app docstring: 'body bytes in both directions')."""
     st = Stack(tmp_path)
@@ -109,17 +107,24 @@ def test_c34_compressed_request_body_forwarded_unchanged(tmp_path: Path) -> None
 
 
 def test_c43_decompression_bomb_is_bounded(tmp_path: Path) -> None:
-    """C-43 (threat model §5 D: 'size caps; bounded decoding'): a 100 MiB gzip bomb hits the 64 MiB cap."""
+    """C-43 (threat model §5 D: 'size caps; bounded decoding'). The relay never decodes (C-34), so a gzip
+    bomb is forwarded as sent; the observer's bounded copy stops at the cap and records a counted gap.
+    A raw body over the cap is refused with 413 and nothing reaches the upstream.
+    (Restated 2026-10-16: the original form, 413 for a small compressed body, required relay-side
+    decoding and so contradicted C-34; see review F-04.)"""
     st = Stack(tmp_path)
+    bomb = gzip.compress(bytes(100 << 20))
 
     async def go() -> None:
-        async with st.run() as c:
-            r = await c.post(
-                "/v1/messages", data=gzip.compress(bytes(100 << 20)), headers={"Content-Encoding": "gzip"}
-            )
-            assert r.status == 413 and st.seen == []
+        async with st.run(max_body=8 << 20) as c:
+            r = await c.post("/v1/messages", data=bomb, headers={"Content-Encoding": "gzip"})
+            assert r.status == 200 and st.seen[-1][1] == bomb
+            r = await c.post("/v1/messages", data=bytes((8 << 20) + 1))
+            assert r.status == 413 and len(st.seen) == 1
 
     run(go())
+    gaps = [r for r in st.records() if r["event"] == "observe" and not r["scanned"]]
+    assert [g["reason"] for g in gaps] == ["decoded_too_large"]
 
 
 def _self_signed() -> tuple[bytes, bytes]:
@@ -166,7 +171,6 @@ def test_c35_tls_to_upstream_is_verified(tmp_path: Path) -> None:
 # --- invariant 1 ------------------------------------------------------------------------------------
 
 
-@pytest.mark.xfail(strict=True, reason="F-05: aiohttp parser errors log and echo the offending request bytes")
 def test_c36_malformed_requests_never_put_values_in_logs_or_errors(
     tmp_path: Path, caplog: pytest.LogCaptureFixture
 ) -> None:
@@ -197,7 +201,6 @@ def test_c36_malformed_requests_never_put_values_in_logs_or_errors(
 
 
 @pytest.mark.parametrize("variant", ["oversized-model-field", "deeply-nested-json"])
-@pytest.mark.xfail(strict=True, reason="F-06: observation lost with no record and no counted gap")
 def test_c37_every_request_yields_a_record_or_a_counted_gap(tmp_path: Path, variant: str) -> None:
     """C-37 (ADR-0007: drops are 'coverage gaps'; app docstring: 'counts them as a coverage gap')."""
     st = Stack(tmp_path)
@@ -277,7 +280,6 @@ def test_c40_no_detail_headers_and_opaque_errors(tmp_path: Path) -> None:
 # --- listener hardening (ADR-0001) -------------------------------------------------------------------
 
 
-@pytest.mark.xfail(strict=True, reason="F-08: no Host allowlist / Origin rejection on the listener")
 def test_c38_dns_rebinding_and_cross_origin_requests_refused(tmp_path: Path) -> None:
     """C-38 (ADR-0001: 'accept only Host localhost/127.0.0.1/[::1]; reject any Origin not allowlisted')."""
     st = Stack(tmp_path)
