@@ -1,0 +1,39 @@
+P10a R4 restore PEM surrogate inside JSON tool args        valid JSON; restored=0
+P10b e-mail domain upper-case restored (ADR-0008 says yes) False
+P10c unrelated use of surrogate given name restored to real 'For example, Jane is a common name in many places.'
+P10d surrogate stable when surrogate literal is in history False (S0332924X vs S5271341Z)
+P10d   turn-1 user text masks identically on turn 2        False
+P10e same SG phone with/without +65 normalises equal (ADR-0002: E.164) False (+6591234567 vs 91234567)
+P15 nric_valid('S²234567D')                                RAISES ValueError
+P15 luhn_valid('41²')                                      RAISES ValueError
+P16 random 16-digit IDs detected as CARD                   2058/20000 = 10.29%
+P17 plain NRIC                                             ["NRIC:'S1234567D'"]
+P17 zero-width NRIC                                        ["NRIC:'S123\\u200b4567D'"]
+P17 full-width NRIC                                        ["NRIC:'Ｓ１２３４５６７Ｄ'"]
+P17 Cyrillic S homoglyph NRIC                              MISSED
+P17 spaced digits NRIC                                     MISSED
+P17 dashed NRIC S-1234567-D                                ["NRIC:'S-1234567-D'"]
+P17 percent-encoded email                                  MISSED
+P17 HTML entity email                                      MISSED
+P17 base64 NRIC                                            MISSED
+P17 split NRIC                                             MISSED
+P17 email in URL userinfo                                  ["EMAIL:'jane.tan@acme-corp.test'"]
+P17 card with dots                                         MISSED
+P17 card mixed separators                                  MISSED
+P17 IBAN lowercase spaced                                  ["IBAN:'gb82 west 1234 5698 7654 32'"]
+P17 secret in URL query                                    ["SECRET:'sk-proj-abcdefghijklmnopqrstuvwxyz123456'"]
+P17 AWS key lowercase                                      MISSED
+P17 email with + tag                                       ["EMAIL:'jane.tan+promo@acme-corp.test'"]
+P17 IPv4-mapped IPv6                                       ["IPV6:'::ffff:192'"]
+P17 IPv6 compressed                                        ["IPV6:'2001:db8::1'"]
+P17 SG phone no context                                    ["PHONE:'9123 4567'"]
+P17 SG phone +65                                           ["PHONE:'+65 9123 4567'"]
+P17 NANP no context                                        ["PHONE:'(415) 555-0123'"]
+P7 ct length: digest_key, observe n=0,1,5,9,10,40,100      [363, 1387, 1387, 1387, 5483, 5483, 21867, 21867]
+P11 machine wrap moved to another record                   refused (InvalidTag)
+P13 tail truncated (5 -> 3 records) passes verify_chain    True
+P12 log rewritten from scratch with public keys passes verify True
+P12   ...and opens as genuine with both parts              fabricated history
+P8 two concurrent writers -> chain verifies                False sequence gap at record 1 (found 0)
+P9 torn last line: verify_chain                            RAISES JSONDecodeError
+P9 torn last line: AuditLog reopen                         RAISES JSONDecodeError

@@ -1,0 +1,41 @@
+Other review checks, 2026-10-16 (+08), commit 85032e1 + uncommitted review files. Host: Ryzen 7 3700X,
+runs pinned to cores 5-7 at nice 19; heavy runs under systemd-run MemoryMax=3G MemorySwapMax=0.
+
+== Coverage (coverage 7, --branch, whole suite before tests/conformance) ==
+TOTAL 1679 stmts, 163 missed, 422 branches, 37 partial: 89 %
+lowest: cli/main.py 54 % (mask, corpus, bench, explain, verify, keygen, append, open, serve untested),
+core/keys.py 63 % (TokenKey.load_or_create untested), bench.py 82 %, audit/keys.py 83 % (write/read_private
+untested), vault.py 88 % (probe-exhaustion path untested), selftest.py 89 %.
+proxy/app.py 95 %, proxy/observe.py 94 %, engine 93 %, surrogates 97 %, patterns 98 %, log 98 %.
+
+== Dependency vulnerabilities (pip-audit via PyPI/OSV, exact versions, --no-deps) ==
+runtime + serve extra (20 packages): No known vulnerabilities found
+full dev environment (36 packages):   No known vulnerabilities found
+Note: pyproject uses open lower bounds (>=); no lock file, no hashes (PLAN promises hash-locked requirements).
+
+== Packaging (uv build; clean venv; run outside the repo) ==
+sdist 203 KB / wheel 58 KB; wheel: 40 files, includes _schemas/ and _policies/, no tests/docs.
+METADATA: Version 0.1.0.dev1, Development Status :: 2 - Pre-Alpha, extras dev/serve.
+From the installed wheel: ppe --version 0.1.0.dev1; ppe verify --n 100: 10/10; ppe explain OK; ppe scan OK;
+ppe serve without the extra: friendly "needs the 'serve' extra" message.
+Long description (README) carries the stray tool markup (F-01); sdist ships bench/results raw files (F-14).
+
+== Bench and corpus reproduction ==
+ppe bench (optional): PHONE recall 1.000 precision 0.917 (113 FP); all other types 1.000 / 1.000.
+ppe bench --phone-context required: PHONE recall 0.850 precision 1.000.
+Matches knobs.py claims and bench/2026-10-02-stage1-rules.txt exactly.
+ppe corpus (n=2000, seed 20261002): sha256 3a4f7aa9ce4364f1... = RESUME claim.
+
+== CLI probes ==
+ppe serve --listen 0.0.0.0:...        -> "refused: ... loopback address only", exit 2   (OK)
+ppe serve --listen ::1:18792          -> listens (OK)
+ppe serve --listen [::1]:18791        -> passes the check, then socket.gaierror traceback (F-19)
+ppe mask --key-file <0644 file>       -> PermissionError traceback (refusal OK, message UX poor)
+ppe audit open, machine.key 0644      -> PermissionError traceback (refusal OK)
+ppe audit keygen over existing keys   -> FileExistsError traceback (refuses to overwrite: OK)
+ppe scan preview                      -> first + last character + length, e.g. "S…D (9 chars)",
+                                         3-char dictionary term "B…b (3 chars)" (F-21)
+
+== Independent known-answer vector for the M-series FIN algorithm ==
+M1235467X (README example of samliew/singapore-nric, an independent implementation): valid under PPE.
+ICA's press-release example M1234567B is not checksum-valid under either implementation (illustrative).

@@ -1,0 +1,11 @@
+P1 gzip request body forwarded byte-identical                  False (sent 86 B gz, upstream got 75 B, CE=gzip, starts b'{"model": "m')
+P1  observation of the gzip request                            [(True, None, 1)]
+P1b 200 MiB gzip bomb (199 KiB compressed): status / forwarded 413 / 0
+P2 Host: evil.example + Origin: http://evil.example            status 200, forwarded=1
+P2 Server header on a PPE-generated 400                        Python/3.12 aiohttp/3.14.5
+P5 4 requests with an NRIC/emails -> observe records           2: [(True, None, 99), (True, None, 1)]
+P6 audit log read-only: status / forwarded                     200 / 1 (observation lost silently; only a log line)
+P23 investigator (both parts) finds a known NRIC by digest     True
+P23 investigator links a known session id to its records       True
+P3 self-signed https upstream: status / forwarded              502 / 0
+P25 http://localhost upstream -> zone (resolver-dependent)     loopback

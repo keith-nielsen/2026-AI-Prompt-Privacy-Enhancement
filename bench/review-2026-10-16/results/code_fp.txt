@@ -1,0 +1,18 @@
+335 files, 4.2 MB of third-party Python, 2.9 s
+  IPV6       359  =    84.5 per MB   e.g. ['e::', 'e::', 'e::', '::', '::', 'e::']
+  IPV4        89  =    20.9 per MB   e.g. ['127.0.0.1', '127.0.0.1', '127.0.0.1', '127.0.0.1', '127.0.0.1', '0.0.0.0']
+  SECRET      88  =    20.7 per MB   e.g. ['Final[str]', 're.compile(', 'token_match.group(', 'Final[Pattern[str]]', 'CertificateIssuerPrivateKeyTypes,', 'ExtensionOID.PRIVATE_KEY_USAGE_PERIOD']
+  PHONE       20  =     4.7 per MB   e.g. ['2130706433', '2130706433', '88974794', '88974794', '2001747478', '2021915903']
+  EMAIL       10  =     2.4 per MB   e.g. ['-cert-v01@openssh.com', 'sk-ssh-ed25519@openssh.com', 'sk-ecdsa-sha2-nistp256@openssh.com', 'aes256-gcm@openssh.com', 'sk-ssh-ed25519@openssh.com', 'sk-ssh-ed25519@openssh.com']
+
+  rust           -> ['IPV6:d::', 'IPV6:::', 'IPV6:d::', 'IPV6:ec::', 'IPV6:ec::']
+  cpp            -> ['IPV6:d::', 'IPV6:::', 'IPV6:::', 'IPV6:::']
+  php            -> ['IPV6:f::', 'IPV6:c::c']
+  css            -> ['IPV6:a::bef', 'IPV6:::f']
+  ruby           -> ['IPV6:::Ba', 'IPV6:::Ba']
+  py-classifier  -> ['IPV6:::']
+  py-token-var   -> ['SECRET:get_token(request)', 'SECRET:form.cleaned_data[', 'SECRET:os.environ[']
+  log line       -> ['PHONE:91234567']
+  git sha        -> []
+  uuid           -> []
+  imei           -> ['CARD:490154203237518']

@@ -1,0 +1,59 @@
+CARD    NOT a reserved range   17
+EMAIL   NOT a reserved range   2
+EMAIL   synthetic-range        40
+IBAN    NOT a reserved range   6
+IPV4    synthetic-range        61
+IPV6    NOT a reserved range   12
+IPV6    synthetic-range        14
+NRIC    NOT a reserved range   35
+PHONE   NOT a reserved range   28
+PHONE   synthetic-range        23
+SECRET  NOT a reserved range   30
+SECRET  synthetic-range        3
+
+files with non-reserved-range findings (type, file, count, sample preview):
+  SECRET  bench/results/2026-10-03/raw_10kb_doc1700.txt                    19  e.g. sk-…2K (53 ch)
+  NRIC    bench/results/2026-10-03/raw_10kb_doc1700.txt                    10  e.g. G28…3X (9 ch)
+  PHONE   bench/results/2026-10-03/raw_10kb_doc1700.txt                    10  e.g. 896…57 (9 ch)
+  NRIC    tests/unit/test_surrogates.py                                     8  e.g. S12…7D (9 ch)
+  PHONE   tests/detectors/test_patterns.py                                  7  e.g. +65…67 (13 ch)
+  IPV6    pyproject.toml                                                    6  e.g. ::…:: (2 ch)
+  PHONE   tests/unit/test_surrogates.py                                     5  e.g. 079…56 (12 ch)
+  PHONE   docs/design/ADR-0008-surrogate-values.md                          4  e.g. +65…67 (13 ch)
+  CARD    tests/detectors/test_patterns.py                                  4  e.g. 411…11 (19 ch)
+  CARD    tests/unit/test_engine.py                                         4  e.g. 411…11 (19 ch)
+  SECRET  bench/results/2026-10-03/raw_1kb.json                             3  e.g. ---…-- (122 ch)
+  CARD    bench/results/2026-10-03/raw_1kb.json                             3  e.g. 348…07 (15 ch)
+  NRIC    tests/detectors/test_patterns.py                                  3  e.g. S12…7D (9 ch)
+  NRIC    tests/unit/test_checksums.py                                      3  e.g. S12…7D (9 ch)
+  NRIC    tests/unit/test_engine.py                                         3  e.g. S12…7D (9 ch)
+  NRIC    README.md                                                         2  e.g. S12…7D (9 ch)
+  CARD    README.md                                                         2  e.g. 411…11 (19 ch)
+  NRIC    docs/design/PLAN.md                                               2  e.g. S12…7D (9 ch)
+  IPV6    src/prompt_privacy/detectors/patterns.py                          2  e.g. ::…:: (2 ch)
+  IBAN    tests/detectors/test_patterns.py                                  2  e.g. GB8…32 (27 ch)
+  SECRET  tests/detectors/test_patterns.py                                  2  e.g. s3c…ss (10 ch)
+  IBAN    tests/unit/test_checksums.py                                      2  e.g. GB8…32 (22 ch)
+  NRIC    tests/unit/test_policy_and_cli.py                                 2  e.g. S12…7D (9 ch)
+  EMAIL   README.md                                                         1  e.g. nor…om (21 ch)
+  EMAIL   bench/results/2026-10-03/raw_10kb_doc1700.txt                     1  e.g. ｇａｒ…ｓｔ (29 ch)
+  IBAN    bench/results/2026-10-03/raw_1kb.json                             1  e.g. FR1…19 (33 ch)
+  IPV6    docs/design/ADR-0001-trust-zones.md                               1  e.g. ::…:: (2 ch)
+  PHONE   docs/design/ADR-0001-trust-zones.md                               1  e.g. 213…33 (10 ch)
+  PHONE   docs/threat-model.md                                              1  e.g. 213…33 (10 ch)
+  SECRET  src/prompt_privacy/audit/keys.py                                  1  e.g. dev…34 (8 ch)
+  SECRET  src/prompt_privacy/cli/main.py                                    1  e.g. _to…a, (14 ch)
+  SECRET  src/prompt_privacy/core/engine.py                                 1  e.g. re.…(r (12 ch)
+  IPV6    src/prompt_privacy/core/surrogates.py                             1  e.g. ::…:: (2 ch)
+  SECRET  src/prompt_privacy/core/surrogates.py                             1  e.g. re.…e( (11 ch)
+  IPV6    src/prompt_privacy/corpus/generator.py                            1  e.g. ::…:: (2 ch)
+  SECRET  src/prompt_privacy/corpus/generator.py                            1  e.g. ---…-- (62 ch)
+  SECRET  src/prompt_privacy/detectors/secrets.py                           1  e.g. tup…r, (16 ch)
+  CARD    src/prompt_privacy/selftest.py                                    1  e.g. 411…11 (19 ch)
+  NRIC    tests/proxy/test_adversarial.py                                   1  e.g. S12…7D (9 ch)
+  NRIC    tests/proxy/test_proxy.py                                         1  e.g. S12…7D (9 ch)
+  IPV6    tests/proxy/test_proxy.py                                         1  e.g. ::…:: (2 ch)
+  CARD    tests/unit/test_checksums.py                                      1  e.g. 411…11 (16 ch)
+  CARD    tests/unit/test_policy_and_cli.py                                 1  e.g. 411…11 (19 ch)
+  CARD    tests/unit/test_surrogates.py                                     1  e.g. 411…11 (16 ch)
+  IBAN    tests/unit/test_surrogates.py                                     1  e.g. GB8…32 (22 ch)
