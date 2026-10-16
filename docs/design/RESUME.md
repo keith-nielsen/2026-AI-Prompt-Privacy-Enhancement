@@ -1,6 +1,20 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-16, later session): REVIEW "NOW" FIXES DONE on `fix/2026-10-review-now`
+## Status (2026-10-16, latest): EXTERNAL BENCHMARK HARNESS on `feat/external-bench-nemotron`
+
+- `main` = `c987808` (review "Now" fixes + validation, pushed). This branch adds `ppe evaluate`
+  (`src/prompt_privacy/evaluation/`: pinned datasets with SHA-256, one scoring protocol, systems),
+  the NVIDIA Nemotron-PII run (`bench/2026-10-16-nemotron-pii.md`, results in
+  `bench/results/2026-10-16-nemotron-pii/`), the python-stdnum check-digit cross-check
+  (`tests/unit/test_checksums_stdnum.py`), and one detector fix it found (IPv4 before a full stop:
+  recall 0.797 → 1.000). New strict xfail: `iban_valid` has no per-country registry (precision gap).
+  Dataset copy: `/media/administrator/DATA/datasets/nvidia-Nemotron-PII/` (outside the repo, never
+  committed). Mutation check `bench/harness/mutate_evaluation.py` 13/13.
+- **Operator direction (2026-10-16):** validate Nemotron first, *then* extend to a Presidio baseline
+  across other datasets (Gretel finance, CredData; TAB when masking lands). Presidio plugs in as a
+  system in `evaluation/systems.py` with an entity → type map; datasets as `Dataset` entries.
+
+## Earlier status (2026-10-16): REVIEW "NOW" FIXES DONE on `fix/2026-10-review-now`
 
 - GitHub (public, Apache-2.0): https://github.com/keith-nielsen/2026-AI-Prompt-Privacy-Enhancement
   — `main` = `85032e1` before this session, tag `v0.1.0.dev1`, GitHub pre-release. Branches:
@@ -88,8 +102,9 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected on `fix/2026-10-review-now`: ruff + strict mypy clean, **218 passed, 27 xfailed** (xfails = open
-review findings), **10/10 self-checks**.
+Expected on `feat/external-bench-nemotron`: ruff + strict mypy clean, **254 passed, 28 xfailed** (xfails =
+open review findings + the IBAN registry gap), **10/10 self-checks**. External run (needs `.[bench]` and
+the dataset): `ppe evaluate run nemotron-pii --data-dir /media/administrator/DATA/datasets`.
 
 ## Read first (in order)
 
@@ -164,7 +179,8 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-**Start here:** clean-up above (operator's go for each rewrite step), then review §8 "Next": F-02 (negative
+**Start here:** Presidio baseline through `ppe evaluate` on Nemotron-PII, then more datasets (operator
+direction 2026-10-16); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
 code corpus + CI false-positive gate; gates the exposure ledger), F-19 (`serve --policy`, profile from
 policy, `[::1]:port` parsing), F-07 (constant-size records), F-03 signing (`auditd` + C2SP checkpoints),
 F-13 (CI, hash-locked lock file, CHANGELOG, SBOM), bearer token / UNIX socket for the listener (F-08 rest),
