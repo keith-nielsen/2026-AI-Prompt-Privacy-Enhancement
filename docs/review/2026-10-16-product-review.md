@@ -387,6 +387,9 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
 
   Until then, reword the README to "hash-chained; signed checkpoints planned".
 - **Evidence:** `results/probe_core.txt` P12/P13, C-29.
+- **Status (2026-10-16): wording fixed, mechanism open.** README now says "sealed, hash-chained … signed
+  checkpoints are planned" and states the limit (edits inside the log are detected; tail truncation and a
+  rebuilt log are not). C-29 stays xfail until signed checkpoints and the `auditd` writer exist.
 
 ### F-04 · Medium · Proxy decompresses gzip request bodies and forwards them under a gzip label · S
 - **What:** aiohttp's server auto-decompresses request bodies. `ppe serve` forwards the decoded bytes (75 B
@@ -591,6 +594,11 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   - ADR-0001 and ADR-0010 name `standard`/`hardened` profiles that the schema doesn't have.
   - The threat model says "nothing is built".
 - **Fix:** one docs pass, plus a "built vs designed" table in the README; C-47/48/49 then turn green.
+- **Status (2026-10-16): fixed.** SECURITY/CONTRIBUTING describe the pre-alpha; PLAN status, layout note
+  and phase 2 progress updated; README gains "Built and designed" and the ADR-0013 index; threat model
+  status updated; amendment notes in ADR-0001/0002/0006/0010 (profile names, base32 alphabet, no path
+  prefix); knob `detection.dictionary` added (and `ppe explain` now summarises list values instead of
+  printing dictionary terms); observe knob's test reference updated. C-47/48/49 pass.
 
 ### F-21 · Low · Robustness and minor-leak nits · S
 - **What:**

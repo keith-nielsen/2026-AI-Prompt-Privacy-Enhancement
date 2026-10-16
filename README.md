@@ -7,7 +7,8 @@
 
 **A practical, testable privacy harness for LLM traffic.** PPE sits on the paths between your
 prompts and your models and keeps identifiers and secrets from leaving your machine in clear text,
-while keeping answers useful and leaving tamper-evident, attacker-proof evidence of what happened.
+while keeping answers useful and leaving sealed, hash-chained evidence of what happened (signed
+checkpoints are planned; see the limits below).
 
 > [!WARNING]
 > **Pre-alpha.** Interfaces, file formats, the audit record format and defaults will change without
@@ -15,8 +16,8 @@ while keeping answers useful and leaving tamper-evident, attacker-proof evidence
 > observes, it does not mask.
 
 > **Status: v0.1.0.dev1, phase 2a.** The deterministic detectors, surrogate swap/restore,
-> the fully sealed 2-of-2 post-quantum audit log, the synthetic corpus, the benchmark and the `ppe`
-> CLI work and are tested. `ppe serve` is a loopback proxy for the Anthropic Messages API in
+> the fully sealed 2-of-2 post-quantum audit log (hash-chained; signed checkpoints planned), the
+> synthetic corpus, the benchmark and the `ppe` CLI work and are tested. `ppe serve` is a loopback proxy for the Anthropic Messages API in
 > **shadow mode**: it forwards traffic unchanged and records sealed findings; it does **not** mask
 > yet (masking is phase 4). Not yet validated with a real client against a real provider. The span
 > models and the arbiter are not built yet. Nothing here is a certified control.
@@ -46,6 +47,17 @@ ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude # any Anthropic Messages client
 
 Benchmark numbers come from a synthetic corpus written alongside the detectors. Treat them as a
 regression floor, not as evidence of real-world accuracy (see `bench/`).
+
+## Built and designed
+
+| Area | Built (v0.1.0.dev1) | Designed, not built |
+|---|---|---|
+| Detection | Stage 0 shadow text; Stage 1 rules: 12 secret types, checksummed identifiers (SG NRIC/FIN, cards, IBAN), e-mail, phone, IP addresses, operator dictionary | span models, arbiter (ADR-0005) |
+| Swap and restore | surrogates with format transfer; closed-world restore (`ppe mask`) | in the proxy; streaming restore R5; context-aware restore (phase 4) |
+| Proxy | `ppe serve`: loopback, Anthropic Messages API, shadow mode (observes, never modifies) | OpenAI formats, reply-flow observation, masking, bearer token / UNIX socket |
+| Audit | 2-of-2 sealed records, hash chain, shared-writer locking, `ppe audit verify/open` | `auditd` account, signed checkpoints, retention / crypto-shredding job (ADR-0003/0004) |
+| Observation | sealed per-request records with keyed digests and counted gaps | exposure ledger, sensors, alerts (ADR-0007) |
+| Configuration | policy schema, profiles `lab`/`personal`/`team`, `ppe explain`, `ppe verify` | zone verification L1-L3 (ADR-0001), break-glass broker (ADR-0011) |
 
 ## What it does (by design)
 
@@ -82,17 +94,23 @@ regression floor, not as evidence of real-world accuracy (see `bench/`).
 - Detection is probabilistic. Published per-class detection rates (from a synthetic corpus) will be
   the honest measure.
 - Root on the host defeats local controls.
+- The audit log is **hash-chained but not yet signed**. The chain detects edits inside the log; it does
+  not detect truncation of its tail or a log rebuilt from scratch by someone who can write the file
+  (on a stand-alone install: you, or malware running as you). Signed checkpoints and a separate
+  writer account (ADR-0004) close this; until then treat the log as evidence against mistakes and
+  outsiders, not against the account that writes it.
 
 ## Read
 
 | Document | |
 |---|---|
 | [docs/design/PLAN.md](docs/design/PLAN.md) | what it is, layout, phases, open decisions |
-| [docs/design/](docs/design/) | ADR-0001 … ADR-0012 |
+| [docs/design/](docs/design/) | ADR-0001 … ADR-0013 |
 | [docs/threat-model.md](docs/threat-model.md) | assets, adversaries, STRIDE, test scenarios |
 | [docs/controls-mapping.md](docs/controls-mapping.md) | NIST SP 800-53 / AI 600-1, PDPC/PDPA, CSA, EDPB, OWASP |
 | [docs/research/](docs/research/) | research report; break-glass case studies (defeated / lockout / after-the-fact; quantum and AI) |
 | [docs/sources/](docs/sources/README.md) | primary-source notes |
+| [docs/review/](docs/review/2026-10-16-product-review.md) | product review 2026-10-16: findings, conformance suite, roadmap |
 
 ## Relationship to Kent
 

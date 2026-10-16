@@ -3,7 +3,8 @@
 Scope: the PPE service (ingress, egress and observe listeners, data-source sensors, engine, detectors,
 audit writer, key store) on
 one host, in front of cloud LLM providers, with or without LiteLLM. Design references: ADR-0001…0006.
-Status: **draft for operator review**; nothing is built, so no item here is verified by test.
+Status: **draft for operator review**. Phase 1 and the shadow-mode proxy are built (v0.1.0.dev1);
+items they cover are tested (`tests/`, conformance claims in `tests/conformance/`), the rest is design only.
 
 ## 1. Security objective
 
