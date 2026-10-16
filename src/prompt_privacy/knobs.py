@@ -30,14 +30,18 @@ KNOBS: tuple[Knob, ...] = (
         ("optional", "required"),
         "optional",
         {
-            "optional": "every phone-shaped number in SG/NANP/UK form is protected (bench recall 1.000)",
-            "required": "no false positives on order/reference numbers (bench precision 1.000)",
+            "optional": "every phone-shaped number in SG/NANP/UK form is protected (synthetic bench recall "
+            "1.000; Nemotron-PII 0.917)",
+            "required": "no false positives on order/reference numbers (synthetic bench precision 1.000; "
+            "Nemotron-PII 0.993)",
         },
         {
-            "optional": "some order/reference numbers are swapped too (bench precision ~0.92)",
-            "required": "numbers with no nearby context word leak, e.g. CSV phone columns (recall ~0.85)",
+            "optional": "some order/reference numbers are swapped too (synthetic precision ~0.92; "
+            "Nemotron-PII 0.535: medical record, customer and account numbers)",
+            "required": "numbers with no nearby context word leak, e.g. CSV phone columns (synthetic recall "
+            "~0.85; Nemotron-PII 0.822)",
         },
-        "ppe bench --phone-context optional|required",
+        "ppe bench --phone-context optional|required; ppe evaluate run nemotron-pii --phone-context …",
         "ADR-0005",
     ),
     Knob(

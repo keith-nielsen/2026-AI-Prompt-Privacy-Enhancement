@@ -73,7 +73,7 @@ prompt-privacy-enhancement/
 ├── CHANGELOG.md               keep-a-changelog; security-relevant changes flagged
 ├── CITATION.cff
 ├── TODO.md
-├── pyproject.toml             src layout; extras: [litellm], [presidio], [dev]; console scripts
+├── pyproject.toml             src layout; extras: [litellm], [presidio], [bench], [dev]; console scripts
 ├── requirements/              hash-locked lock files per extra (uv / pip --require-hashes)
 ├── src/prompt_privacy/
 │   ├── __init__.py            version, public API
@@ -95,6 +95,8 @@ prompt-privacy-enhancement/
 │   │   ├── decision.py        parallel-decision arbiter client (/v1/decision on a UNIX socket)
 │   │   └── local_llm.py       (later) local model as detector, OpenAI-compatible endpoint
 │   ├── recognizers/           data files: regex + context words per locale (sg/, eu/, us/, generic/)
+│   ├── evaluation/            pinned public datasets, one scoring protocol, systems under test
+│   │                          (`ppe evaluate`; built 2026-10-16)
 │   ├── audit/
 │   │   ├── record.py          audit record schema (versioned JSON Schema in schemas/)
 │   │   ├── sinks.py           JSONL (hash-chained, append-only), syslog, callback
@@ -241,7 +243,7 @@ which pass PPE like any Kent call.
 |---|---|---|
 | 0 | repo skeleton, threat model, ADRs for the three hard problems (§7), policy + audit schemas — *ADRs 0001–0006, threat model draft 0, controls mapping draft 0 written 2026-10-02* | reviewed by operator |
 | 1 | core engine + secrets/pattern detectors + swap/restore + audit; CLI `scan`, `key`, `verify` — *2026-10-02: built: Stage 0 shadow, Stage 1 rules, surrogates (G1/G2/G4/token) with format transfer, restore R1–R4, sealed 2-of-2 hybrid-PQ audit log, synthetic corpus + bench, `ppe scan/mask/corpus/bench/explain/verify/audit`; 56 tests + 10 self-checks green. Not yet: streaming restore (R5), signed checkpoints, retention/shredding, per-class forms* | unit + adversarial tests pass; synthetic corpus precision/recall reported |
-| 2 | stand-alone proxy (`ppe serve`, OpenAI + Anthropic formats, streaming), shadow mode = observation plane on every leg + sensor API + exposure ledger (ADR-0007) — ships **before** masking, so the baseline "what are we protecting" exists first — *2026-10-16: 2a built: loopback pass-through for the Anthropic Messages API, sealed observe records with counted gaps, adversarial and conformance tests; review fixes F-04/05/06/08/11. Not yet: real-client exit check, reply flow, OpenAI formats, exposure ledger, sensors* | a real CLI/IDE client works through it unchanged |
+| 2 | stand-alone proxy (`ppe serve`, OpenAI + Anthropic formats, streaming), shadow mode = observation plane on every leg + sensor API + exposure ledger (ADR-0007) — ships **before** masking, so the baseline "what are we protecting" exists first — *2026-10-16: 2a built: loopback pass-through for the Anthropic Messages API, sealed observe records with counted gaps, adversarial and conformance tests; review fixes F-04/05/06/08/11. External benchmark harness `ppe evaluate` (pinned public datasets, one scoring protocol): Nemotron-PII run, IPv4 end-of-sentence bug found and fixed; python-stdnum check-digit cross-check (`bench/2026-10-16-nemotron-pii.md`). Not yet: real-client exit check, reply flow, OpenAI formats, exposure ledger, sensors* | a real CLI/IDE client works through it unchanged |
 | 3 | LiteLLM adapter (hooks above) | in-process proxy tests; hook questions in `sources/litellm-hooks.md` answered by test |
 | 4 | span models (GLiNER2-PII, OpenAI Privacy Filter; Presidio optional) + parallel-decision arbiter + SG/EU recognisers; masking on (ADR-0005) | bench: detection per class ≥ target; answer-quality delta acceptable |
 | 5 | keep-local action, retention enforcement, `lookup` with its own audit, forensic drill | drill documented end to end |

@@ -30,6 +30,8 @@ uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[de
 .venv/bin/ppe verify                  # conformance self-tests (synthetic data only)
 .venv/bin/ppe bench                   # Stage 1 detection rates per type on the synthetic corpus
 .venv/bin/ppe explain --policy policies/lab.yaml   # what a configuration protects and gives up
+.venv/bin/ppe evaluate fetch nemotron-pii --data-dir ~/datasets   # pinned public dataset (needs .[bench])
+.venv/bin/ppe evaluate run nemotron-pii --data-dir ~/datasets     # same scoring protocol for every system
 echo "NRIC S1234567D, card 4111 1111 1111 1111" | .venv/bin/ppe scan       # values never printed
 echo "NRIC S1234567D, card 4111 1111 1111 1111" | .venv/bin/ppe mask       # surrogates
 .venv/bin/ppe audit keygen --dev-token && .venv/bin/ppe audit append '{"event":"demo"}' \
@@ -46,7 +48,11 @@ ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude # any Anthropic Messages client
 ```
 
 Benchmark numbers come from a synthetic corpus written alongside the detectors. Treat them as a
-regression floor, not as evidence of real-world accuracy (see `bench/`).
+regression floor, not as evidence of real-world accuracy (see `bench/`). The first external
+measurement, on NVIDIA's public synthetic Nemotron-PII test split with a published scoring protocol,
+is in [`bench/2026-10-16-nemotron-pii.md`](bench/2026-10-16-nemotron-pii.md): e.g. e-mail recall 0.995,
+IPv4 1.000, phone 0.917 (typed precision 0.535; 0.993 with `phone_context: required`); 14% of all
+labelled spans covered, because names, addresses and most ID types need span models (not built).
 
 ## Built and designed
 

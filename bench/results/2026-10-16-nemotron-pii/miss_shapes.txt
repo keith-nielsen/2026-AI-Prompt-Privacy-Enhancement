@@ -1,0 +1,105 @@
+shape classes of mapped gold spans (nemotron-pii test, limit=None, phone_context=optional)
+
+api_key (4667)
+  generic-len32+ MISSED                       3575
+  generic-len16+ MISSED                        545
+  vendor-prefix found                          409
+  generic-len32+ found                          50
+  vendor-prefix MISSED                          38
+  generic-len0+ MISSED                          26
+  generic-len16+ found                          14
+  generic-len48+ MISSED                          9
+  generic-len64+ MISSED                          1
+
+credit_debit_card (12867)
+  luhn-invalid MISSED                        11271
+  luhn-valid found                            1517
+  digits=3 MISSED                               21
+  digits=20 MISSED                              10
+  digits=10 MISSED                               8
+  digits=0 MISSED                                8
+  luhn-valid MISSED                              8
+  digits=11 MISSED                               4
+  digits=24 MISSED                               4
+  masked MISSED                                  3
+  digits=4 MISSED                                3
+  digits=20 found                                2
+  digits=32 MISSED                               2
+  digits=26 found                                1
+  digits=12 MISSED                               1
+  digits=9 MISSED                                1
+  digits=5 MISSED                                1
+  digits=39 MISSED                               1
+  digits=26 MISSED                               1
+
+email (53930)
+  plain found                                53630
+  no-at MISSED                                 273
+  plain MISSED                                  25
+  no-at found                                    2
+
+fax_number (6423)
+  national,digits=10 found                    3840
+  intl+,digits=11 found                        918
+  intl+,digits=12 found                        808
+  intl+,digits=11 MISSED                       241
+  national,digits=11 found                     189
+  intl+,digits=10 found                        113
+  national,digits=9 MISSED                      74
+  national,digits=12 MISSED                     49
+  intl+,digits=12 MISSED                        39
+  intl+,digits=13 found                         35
+  national,digits=11 MISSED                     33
+  intl+,digits=10 MISSED                        33
+  national,digits=8 MISSED                      19
+  national,digits=8 found                       17
+  national,digits=10 MISSED                      4
+  national,digits=13 MISSED                      3
+  national,digits=7 MISSED                       3
+  intl+,digits=8 found                           2
+  intl+,digits=13 MISSED                         1
+  national,digits=12 found                       1
+  national,digits=14 MISSED                      1
+
+ipv4 (6078)
+  plain found                                 6077
+  plain MISSED                                   1
+
+ipv6 (3139)
+  plain found                                 2847
+  plain MISSED                                 292
+
+password (6985)
+  generic-len0+ MISSED                        5765
+  generic-len16+ MISSED                        970
+  generic-len0+ found                          210
+  generic-len16+ found                          36
+  generic-len32+ MISSED                          4
+
+phone_number (23930)
+  national,digits=10 found                   16100
+  intl+,digits=11 found                       2023
+  intl+,digits=12 found                       1780
+  national,digits=11 found                    1315
+  national,digits=9 MISSED                     761
+  intl+,digits=11 MISSED                       449
+  national,digits=12 MISSED                    274
+  national,digits=8 found                      251
+  national,digits=11 MISSED                    224
+  intl+,digits=10 found                        214
+  intl+,digits=13 found                        208
+  national,digits=8 MISSED                     129
+  national,digits=10 MISSED                     59
+  intl+,digits=10 MISSED                        41
+  intl+,digits=12 MISSED                        38
+  national,digits=13 MISSED                     29
+  intl+,digits=13 MISSED                         9
+  national,digits=7 MISSED                       6
+  intl+,digits=14 found                          5
+  national,digits=12 found                       4
+  national,digits=14 MISSED                      4
+  intl+,digits=9 found                           2
+  national,digits=13 found                       2
+  national,digits=2 MISSED                       1
+  intl+,digits=16 MISSED                         1
+  intl+,digits=8 found                           1

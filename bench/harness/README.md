@@ -44,6 +44,12 @@ SHA-256 verified against the Hugging Face API on 2026-10-03.
 | `okasi/bench_onnx.py <threads>`, `okasi/prof.py` | GLiNER2 ONNX int8 speed; preprocessing vs forward split | capped |
 | `kent_review_bench.py --dry-run / --throughput / --run` | Kent's llama-server: token speeds, identifier extraction, injection | `KENT_LLAMA_URL` (default `http://127.0.0.1:8080`); refuses unless all slots idle; run with `watchdog.sh` |
 | `watchdog.sh <pid> <swap_baseline_mb> <log>` | kills `<pid>` if swap grows > 1 GB | `setsid -f watchdog.sh …` |
+| `nemotron_miss_shapes.py <data-dir> [limit]` (2026-10-16) | shape classes of found/missed Nemotron-PII gold spans, counts only | from the repo root; no model, CPU only |
+| `mutate_evaluation.py` (2026-10-16) | breaks the scorer, downloader, parser, check digits, surrogates, detector one at a time; every fault must fail a test | from the repo root; restores every file |
+
+The external benchmark itself is part of the package (`ppe evaluate`, `src/prompt_privacy/evaluation/`,
+linted and tested); see `bench/2026-10-16-nemotron-pii.md`. Datasets live outside the repository
+(this machine: `/media/administrator/DATA/datasets`), never in it.
 
 Mandatory wrapper for any local model run (memory `model-tests-host-safety`):
 

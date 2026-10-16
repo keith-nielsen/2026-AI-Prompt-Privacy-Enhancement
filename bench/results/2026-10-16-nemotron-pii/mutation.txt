@@ -1,0 +1,15 @@
+CAUGHT  scoring: adjacency counts as overlap       ['test_adjacent_spans_do_not_overlap']
+CAUGHT  scoring: strict == overlap                 ['test_strict_and_overlap_differ_on_boundaries']
+CAUGHT  scoring: compatible ignored                ['test_strict_and_overlap_differ_on_boundaries']
+CAUGHT  scoring: wrong type counts as found        ['test_wrong_type_covers_but_is_not_found']
+CAUGHT  fetch: hash not checked                    ['test_fetch_file_leaves_nothing_on_mismatch[hash-expected']
+CAUGHT  fetch: size cap removed                    ['test_fetch_file_leaves_nothing_on_mismatch[source']
+CAUGHT  verify: hash not checked                   ['test_verify_refuses_tampered_or_missing_file']
+CAUGHT  parse: bounds not checked                  ["test_parse_spans_rejects[[{'start':"]
+CAUGHT  luhn: wrong position doubled               ['test_luhn_agrees']
+CAUGHT  iban: check digits off by one              ['test_every_stdnum_valid_iban_is_valid_and_detected']
+CAUGHT  iban surrogate: valid check digits         ['test_surrogates_are_invalid_for_stdnum']
+CAUGHT  detector: IPv4 full-stop fix reverted      ['test_cli_run_end_to_end']
+CAUGHT  detector: IBAN grouped form not matched    ['test_every_stdnum_valid_iban_is_valid_and_detected']
+
+13/13 mutations caught

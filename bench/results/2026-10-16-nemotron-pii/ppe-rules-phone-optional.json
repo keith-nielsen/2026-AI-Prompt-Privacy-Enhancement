@@ -1,0 +1,925 @@
+{
+ "any_type_coverage_all_labels": {
+  "covered": 120924,
+  "gold_spans": 850340,
+  "rate": 0.1422
+ },
+ "by_label": {
+  "account_number": {
+   "coverage_any_type": 0.2124,
+   "covered_any_type": 3546,
+   "maps_to": null,
+   "support": 16693
+  },
+  "age": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 7167
+  },
+  "api_key": {
+   "coverage_any_type": 0.102,
+   "covered_any_type": 476,
+   "maps_to": "SECRET",
+   "support": 4667
+  },
+  "bank_routing_number": {
+   "coverage_any_type": 0.0008,
+   "covered_any_type": 7,
+   "maps_to": null,
+   "support": 8354
+  },
+  "biometric_identifier": {
+   "coverage_any_type": 0.4923,
+   "covered_any_type": 5602,
+   "maps_to": null,
+   "support": 11379
+  },
+  "blood_type": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 5539
+  },
+  "certificate_license_number": {
+   "coverage_any_type": 0.2368,
+   "covered_any_type": 711,
+   "maps_to": null,
+   "support": 3002
+  },
+  "city": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 18347
+  },
+  "company_name": {
+   "coverage_any_type": 0.0004,
+   "covered_any_type": 20,
+   "maps_to": null,
+   "support": 54837
+  },
+  "coordinate": {
+   "coverage_any_type": 0.0888,
+   "covered_any_type": 680,
+   "maps_to": null,
+   "support": 7659
+  },
+  "country": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 23475
+  },
+  "county": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8465
+  },
+  "credit_debit_card": {
+   "coverage_any_type": 0.1188,
+   "covered_any_type": 1528,
+   "maps_to": "CARD",
+   "support": 12867
+  },
+  "customer_id": {
+   "coverage_any_type": 0.2278,
+   "covered_any_type": 4670,
+   "maps_to": null,
+   "support": 20502
+  },
+  "cvv": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4843
+  },
+  "date": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 73867
+  },
+  "date_of_birth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 18079
+  },
+  "date_time": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 13221
+  },
+  "device_identifier": {
+   "coverage_any_type": 0.1189,
+   "covered_any_type": 298,
+   "maps_to": null,
+   "support": 2507
+  },
+  "education_level": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 9378
+  },
+  "email": {
+   "coverage_any_type": 0.9945,
+   "covered_any_type": 53632,
+   "maps_to": "EMAIL",
+   "support": 53930
+  },
+  "employee_id": {
+   "coverage_any_type": 0.0003,
+   "covered_any_type": 3,
+   "maps_to": null,
+   "support": 8878
+  },
+  "employment_status": {
+   "coverage_any_type": 0.0001,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 11018
+  },
+  "fax_number": {
+   "coverage_any_type": 0.9222,
+   "covered_any_type": 5923,
+   "maps_to": "PHONE",
+   "support": 6423
+  },
+  "first_name": {
+   "coverage_any_type": 0.0003,
+   "covered_any_type": 24,
+   "maps_to": null,
+   "support": 84043
+  },
+  "gender": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 7645
+  },
+  "health_plan_beneficiary_number": {
+   "coverage_any_type": 0.3906,
+   "covered_any_type": 4124,
+   "maps_to": null,
+   "support": 10558
+  },
+  "http_cookie": {
+   "coverage_any_type": 0.2169,
+   "covered_any_type": 1061,
+   "maps_to": null,
+   "support": 4892
+  },
+  "ipv4": {
+   "coverage_any_type": 0.9998,
+   "covered_any_type": 6077,
+   "maps_to": "IPV4",
+   "support": 6078
+  },
+  "ipv6": {
+   "coverage_any_type": 0.9073,
+   "covered_any_type": 2848,
+   "maps_to": "IPV6",
+   "support": 3139
+  },
+  "language": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8651
+  },
+  "last_name": {
+   "coverage_any_type": 0.0004,
+   "covered_any_type": 25,
+   "maps_to": null,
+   "support": 59596
+  },
+  "license_plate": {
+   "coverage_any_type": 0.0005,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 4078
+  },
+  "mac_address": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4250
+  },
+  "medical_record_number": {
+   "coverage_any_type": 0.3351,
+   "covered_any_type": 3719,
+   "maps_to": null,
+   "support": 11098
+  },
+  "national_id": {
+   "coverage_any_type": 0.065,
+   "covered_any_type": 185,
+   "maps_to": null,
+   "support": 2847
+  },
+  "occupation": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 36888
+  },
+  "password": {
+   "coverage_any_type": 0.0356,
+   "covered_any_type": 249,
+   "maps_to": "SECRET",
+   "support": 6985
+  },
+  "phone_number": {
+   "coverage_any_type": 0.9154,
+   "covered_any_type": 21906,
+   "maps_to": "PHONE",
+   "support": 23930
+  },
+  "pin": {
+   "coverage_any_type": 0.0082,
+   "covered_any_type": 53,
+   "maps_to": null,
+   "support": 6456
+  },
+  "political_view": {
+   "coverage_any_type": 0.0005,
+   "covered_any_type": 3,
+   "maps_to": null,
+   "support": 6402
+  },
+  "postcode": {
+   "coverage_any_type": 0.0024,
+   "covered_any_type": 15,
+   "maps_to": null,
+   "support": 6279
+  },
+  "race_ethnicity": {
+   "coverage_any_type": 0.0003,
+   "covered_any_type": 3,
+   "maps_to": null,
+   "support": 9248
+  },
+  "religious_belief": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 6257
+  },
+  "sexuality": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3312
+  },
+  "ssn": {
+   "coverage_any_type": 0.0003,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 6062
+  },
+  "state": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 18318
+  },
+  "street_address": {
+   "coverage_any_type": 0.0002,
+   "covered_any_type": 3,
+   "maps_to": null,
+   "support": 16879
+  },
+  "swift_bic": {
+   "coverage_any_type": 0.0005,
+   "covered_any_type": 3,
+   "maps_to": null,
+   "support": 5559
+  },
+  "tax_id": {
+   "coverage_any_type": 0.0899,
+   "covered_any_type": 117,
+   "maps_to": null,
+   "support": 1302
+  },
+  "time": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 24506
+  },
+  "unique_id": {
+   "coverage_any_type": 0.1503,
+   "covered_any_type": 267,
+   "maps_to": null,
+   "support": 1777
+  },
+  "url": {
+   "coverage_any_type": 0.0818,
+   "covered_any_type": 3095,
+   "maps_to": null,
+   "support": 37847
+  },
+  "user_name": {
+   "coverage_any_type": 0.0027,
+   "covered_any_type": 42,
+   "maps_to": null,
+   "support": 15800
+  },
+  "vehicle_identifier": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4561
+  }
+ },
+ "by_slice": {
+  "document_format=structured": {
+   "CARD": {
+    "f1_overlap": 0.2084,
+    "found_overlap": 826,
+    "found_strict": 824,
+    "precision_any_label": 0.9915,
+    "precision_typed": 0.7815,
+    "predicted": 1057,
+    "recall_overlap": 0.1202,
+    "recall_strict": 0.1199,
+    "support": 6871
+   },
+   "EMAIL": {
+    "f1_overlap": 0.9957,
+    "found_overlap": 29222,
+    "found_strict": 29193,
+    "precision_any_label": 0.9999,
+    "precision_typed": 0.9972,
+    "predicted": 29304,
+    "recall_overlap": 0.9942,
+    "recall_strict": 0.9932,
+    "support": 29393
+   },
+   "IBAN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.5714,
+    "precision_typed": 0.1429,
+    "predicted": 7,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV4": {
+    "f1_overlap": 0.7799,
+    "found_overlap": 3202,
+    "found_strict": 3202,
+    "precision_any_label": 0.9726,
+    "precision_typed": 0.6392,
+    "predicted": 5009,
+    "recall_overlap": 1.0,
+    "recall_strict": 1.0,
+    "support": 3202
+   },
+   "IPV6": {
+    "f1_overlap": 0.9427,
+    "found_overlap": 1431,
+    "found_strict": 1426,
+    "precision_any_label": 0.9768,
+    "precision_typed": 0.9768,
+    "predicted": 1465,
+    "recall_overlap": 0.9109,
+    "recall_strict": 0.9077,
+    "support": 1571
+   },
+   "NRIC": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 1.0,
+    "precision_typed": 1.0,
+    "predicted": 2,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "PHONE": {
+    "f1_overlap": 0.6763,
+    "found_overlap": 15243,
+    "found_strict": 15064,
+    "precision_any_label": 0.991,
+    "precision_typed": 0.5357,
+    "predicted": 28452,
+    "recall_overlap": 0.917,
+    "recall_strict": 0.9063,
+    "support": 16622
+   },
+   "SECRET": {
+    "f1_overlap": 0.1349,
+    "found_overlap": 442,
+    "found_strict": 441,
+    "precision_any_label": 0.9831,
+    "precision_typed": 0.9831,
+    "predicted": 889,
+    "recall_overlap": 0.0724,
+    "recall_strict": 0.0722,
+    "support": 6109
+   }
+  },
+  "document_format=unstructured": {
+   "CARD": {
+    "f1_overlap": 0.2,
+    "found_overlap": 694,
+    "found_strict": 693,
+    "precision_any_label": 0.9957,
+    "precision_typed": 0.7383,
+    "predicted": 940,
+    "recall_overlap": 0.1157,
+    "recall_strict": 0.1156,
+    "support": 5996
+   },
+   "EMAIL": {
+    "f1_overlap": 0.9966,
+    "found_overlap": 24410,
+    "found_strict": 24384,
+    "precision_any_label": 0.9999,
+    "precision_typed": 0.9984,
+    "predicted": 24449,
+    "recall_overlap": 0.9948,
+    "recall_strict": 0.9938,
+    "support": 24537
+   },
+   "IBAN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 1.0,
+    "precision_typed": 0.4444,
+    "predicted": 9,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV4": {
+    "f1_overlap": 0.8041,
+    "found_overlap": 2875,
+    "found_strict": 2875,
+    "precision_any_label": 0.9942,
+    "precision_typed": 0.6725,
+    "predicted": 4275,
+    "recall_overlap": 0.9997,
+    "recall_strict": 0.9997,
+    "support": 2876
+   },
+   "IPV6": {
+    "f1_overlap": 0.9459,
+    "found_overlap": 1416,
+    "found_strict": 1416,
+    "precision_any_label": 0.993,
+    "precision_typed": 0.993,
+    "predicted": 1426,
+    "recall_overlap": 0.9031,
+    "recall_strict": 0.9031,
+    "support": 1568
+   },
+   "NRIC": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 1.0,
+    "precision_typed": 1.0,
+    "predicted": 1,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "PHONE": {
+    "f1_overlap": 0.6744,
+    "found_overlap": 12585,
+    "found_strict": 12450,
+    "precision_any_label": 0.9984,
+    "precision_typed": 0.5335,
+    "predicted": 23589,
+    "recall_overlap": 0.9165,
+    "recall_strict": 0.9067,
+    "support": 13731
+   },
+   "SECRET": {
+    "f1_overlap": 0.0952,
+    "found_overlap": 277,
+    "found_strict": 277,
+    "precision_any_label": 0.9957,
+    "precision_typed": 0.9928,
+    "predicted": 696,
+    "recall_overlap": 0.05,
+    "recall_strict": 0.05,
+    "support": 5543
+   }
+  },
+  "locale=intl": {
+   "CARD": {
+    "f1_overlap": 0.2023,
+    "found_overlap": 730,
+    "found_strict": 730,
+    "precision_any_label": 0.9948,
+    "precision_typed": 0.7549,
+    "predicted": 967,
+    "recall_overlap": 0.1168,
+    "recall_strict": 0.1168,
+    "support": 6251
+   },
+   "EMAIL": {
+    "f1_overlap": 0.996,
+    "found_overlap": 31731,
+    "found_strict": 31681,
+    "precision_any_label": 0.9999,
+    "precision_typed": 0.9979,
+    "predicted": 31799,
+    "recall_overlap": 0.9941,
+    "recall_strict": 0.9926,
+    "support": 31918
+   },
+   "IBAN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 1.0,
+    "precision_typed": 0.5,
+    "predicted": 4,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV4": {
+    "f1_overlap": 0.791,
+    "found_overlap": 2853,
+    "found_strict": 2853,
+    "precision_any_label": 0.9798,
+    "precision_typed": 0.6544,
+    "predicted": 4360,
+    "recall_overlap": 0.9996,
+    "recall_strict": 0.9996,
+    "support": 2854
+   },
+   "IPV6": {
+    "f1_overlap": 0.9419,
+    "found_overlap": 1346,
+    "found_strict": 1343,
+    "precision_any_label": 0.9818,
+    "precision_typed": 0.9818,
+    "predicted": 1371,
+    "recall_overlap": 0.9052,
+    "recall_strict": 0.9032,
+    "support": 1487
+   },
+   "NRIC": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 1.0,
+    "precision_typed": 1.0,
+    "predicted": 3,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "PHONE": {
+    "f1_overlap": 0.6487,
+    "found_overlap": 13107,
+    "found_strict": 12796,
+    "precision_any_label": 0.9957,
+    "precision_typed": 0.528,
+    "predicted": 24826,
+    "recall_overlap": 0.841,
+    "recall_strict": 0.821,
+    "support": 15585
+   },
+   "SECRET": {
+    "f1_overlap": 0.1273,
+    "found_overlap": 390,
+    "found_strict": 390,
+    "precision_any_label": 0.9936,
+    "precision_typed": 0.9936,
+    "predicted": 785,
+    "recall_overlap": 0.068,
+    "recall_strict": 0.068,
+    "support": 5739
+   }
+  },
+  "locale=us": {
+   "CARD": {
+    "f1_overlap": 0.2066,
+    "found_overlap": 790,
+    "found_strict": 787,
+    "precision_any_label": 0.9922,
+    "precision_typed": 0.767,
+    "predicted": 1030,
+    "recall_overlap": 0.1194,
+    "recall_strict": 0.119,
+    "support": 6616
+   },
+   "EMAIL": {
+    "f1_overlap": 0.9963,
+    "found_overlap": 21901,
+    "found_strict": 21896,
+    "precision_any_label": 0.9999,
+    "precision_typed": 0.9976,
+    "predicted": 21954,
+    "recall_overlap": 0.995,
+    "recall_strict": 0.9947,
+    "support": 22012
+   },
+   "IBAN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.75,
+    "precision_typed": 0.25,
+    "predicted": 12,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV4": {
+    "f1_overlap": 0.7914,
+    "found_overlap": 3224,
+    "found_strict": 3224,
+    "precision_any_label": 0.985,
+    "precision_typed": 0.6548,
+    "predicted": 4924,
+    "recall_overlap": 1.0,
+    "recall_strict": 1.0,
+    "support": 3224
+   },
+   "IPV6": {
+    "f1_overlap": 0.9464,
+    "found_overlap": 1501,
+    "found_strict": 1499,
+    "precision_any_label": 0.9875,
+    "precision_typed": 0.9875,
+    "predicted": 1520,
+    "recall_overlap": 0.9086,
+    "recall_strict": 0.9074,
+    "support": 1652
+   },
+   "PHONE": {
+    "f1_overlap": 0.7013,
+    "found_overlap": 14721,
+    "found_strict": 14718,
+    "precision_any_label": 0.9931,
+    "precision_typed": 0.5409,
+    "predicted": 27215,
+    "recall_overlap": 0.9968,
+    "recall_strict": 0.9966,
+    "support": 14768
+   },
+   "SECRET": {
+    "f1_overlap": 0.1052,
+    "found_overlap": 329,
+    "found_strict": 328,
+    "precision_any_label": 0.9838,
+    "precision_typed": 0.9812,
+    "predicted": 800,
+    "recall_overlap": 0.0556,
+    "recall_strict": 0.0555,
+    "support": 5913
+   }
+  }
+ },
+ "by_type": {
+  "CARD": {
+   "f1_overlap": 0.2045,
+   "found_overlap": 1520,
+   "found_strict": 1517,
+   "precision_any_label": 0.9935,
+   "precision_typed": 0.7611,
+   "predicted": 1997,
+   "recall_overlap": 0.1181,
+   "recall_strict": 0.1179,
+   "support": 12867
+  },
+  "EMAIL": {
+   "f1_overlap": 0.9961,
+   "found_overlap": 53632,
+   "found_strict": 53577,
+   "precision_any_label": 0.9999,
+   "precision_typed": 0.9977,
+   "predicted": 53753,
+   "recall_overlap": 0.9945,
+   "recall_strict": 0.9935,
+   "support": 53930
+  },
+  "IBAN": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.8125,
+   "precision_typed": 0.3125,
+   "predicted": 16,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "IPV4": {
+   "f1_overlap": 0.7912,
+   "found_overlap": 6077,
+   "found_strict": 6077,
+   "precision_any_label": 0.9826,
+   "precision_typed": 0.6546,
+   "predicted": 9284,
+   "recall_overlap": 0.9998,
+   "recall_strict": 0.9998,
+   "support": 6078
+  },
+  "IPV6": {
+   "f1_overlap": 0.9443,
+   "found_overlap": 2847,
+   "found_strict": 2842,
+   "precision_any_label": 0.9848,
+   "precision_typed": 0.9848,
+   "predicted": 2891,
+   "recall_overlap": 0.907,
+   "recall_strict": 0.9054,
+   "support": 3139
+  },
+  "NRIC": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 1.0,
+   "precision_typed": 1.0,
+   "predicted": 3,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "PHONE": {
+   "f1_overlap": 0.6755,
+   "found_overlap": 27828,
+   "found_strict": 27514,
+   "precision_any_label": 0.9943,
+   "precision_typed": 0.5347,
+   "predicted": 52041,
+   "recall_overlap": 0.9168,
+   "recall_strict": 0.9065,
+   "support": 30353
+  },
+  "SECRET": {
+   "f1_overlap": 0.1161,
+   "found_overlap": 719,
+   "found_strict": 718,
+   "precision_any_label": 0.9886,
+   "precision_typed": 0.9874,
+   "predicted": 1585,
+   "recall_overlap": 0.0617,
+   "recall_strict": 0.0616,
+   "support": 11652
+  }
+ },
+ "compatible": {
+  "IBAN": [
+   "account_number"
+  ],
+  "NRIC": [
+   "national_id"
+  ],
+  "SECRET": [
+   "http_cookie"
+  ]
+ },
+ "confusion": {
+  "CARD": {
+   "(no gold span)": 13,
+   "account_number": 112,
+   "credit_debit_card": 1520,
+   "device_identifier": 294,
+   "national_id": 44,
+   "password": 1,
+   "phone_number": 1,
+   "pin": 4,
+   "tax_id": 3,
+   "url": 5
+  },
+  "EMAIL": {
+   "(no gold span)": 6,
+   "company_name": 20,
+   "customer_id": 5,
+   "email": 53632,
+   "employee_id": 1,
+   "employment_status": 1,
+   "first_name": 24,
+   "last_name": 25,
+   "password": 1,
+   "pin": 1,
+   "political_view": 3,
+   "race_ethnicity": 3,
+   "swift_bic": 3,
+   "url": 11,
+   "user_name": 42
+  },
+  "IBAN": {
+   "(no gold span)": 3,
+   "account_number": 5,
+   "country": 1,
+   "customer_id": 1,
+   "date": 1,
+   "employee_id": 2,
+   "http_cookie": 1,
+   "unique_id": 1,
+   "url": 2
+  },
+  "IPV4": {
+   "(no gold span)": 162,
+   "api_key": 3,
+   "ipv4": 6077,
+   "ipv6": 1,
+   "url": 3041
+  },
+  "IPV6": {
+   "(no gold span)": 44,
+   "ipv6": 2847
+  },
+  "NRIC": {
+   "national_id": 3
+  },
+  "PHONE": {
+   "(no gold span)": 295,
+   "account_number": 3435,
+   "bank_routing_number": 7,
+   "biometric_identifier": 5602,
+   "certificate_license_number": 711,
+   "coordinate": 803,
+   "credit_debit_card": 8,
+   "customer_id": 4664,
+   "date": 1,
+   "device_identifier": 4,
+   "fax_number": 5923,
+   "health_plan_beneficiary_number": 4124,
+   "http_cookie": 214,
+   "license_plate": 2,
+   "medical_record_number": 3719,
+   "national_id": 138,
+   "password": 1,
+   "phone_number": 21905,
+   "pin": 48,
+   "postcode": 15,
+   "ssn": 2,
+   "street_address": 3,
+   "tax_id": 114,
+   "time": 1,
+   "unique_id": 265,
+   "url": 37
+  },
+  "SECRET": {
+   "(no gold span)": 18,
+   "api_key": 473,
+   "http_cookie": 846,
+   "password": 246,
+   "unique_id": 1,
+   "url": 1
+  }
+ },
+ "dataset": {
+  "attribution": "Nemotron-PII: Synthesized Data for Privacy-Preserving AI. Steier, Manoel, Haushalter, Van Segbroeck; NVIDIA, 2025. https://huggingface.co/datasets/nvidia/Nemotron-PII (CC BY 4.0). Only aggregate counts derived from it are published here; no records.",
+  "file_sha256": "1a4b0512ecb5370f0992d29d0f9c07351e6de13f0d7ea33bb18cecb984780247",
+  "licence": "CC-BY-4.0",
+  "name": "nemotron-pii",
+  "notes": [
+   "The test split holds 100,000 rows: 50,000 uids, each once with locale=us and once with locale=intl (different texts). The card's '50k test' counts uids.",
+   "Span offsets are authoritative: every span's text equals the text at its offsets except for letter case (6,195) or an integer-typed value (6,747); the scorer uses offsets only.",
+   "No Singapore NRIC/FIN or IBAN label exists; those PPE types are scored for precision only."
+  ],
+  "repo": "nvidia/Nemotron-PII",
+  "revision": "b70ffaf5ff39e079776134c5bf4381f00a9fd1ed",
+  "split": "test"
+ },
+ "docs": 100000,
+ "label_map": {
+  "api_key": "SECRET",
+  "credit_debit_card": "CARD",
+  "email": "EMAIL",
+  "fax_number": "PHONE",
+  "ipv4": "IPV4",
+  "ipv6": "IPV6",
+  "password": "SECRET",
+  "phone_number": "PHONE"
+ },
+ "limit": null,
+ "micro_mapped_types": {
+  "f1_overlap": 0.7768,
+  "found_overlap": 92623,
+  "found_strict": 92245,
+  "precision_any_label": 0.9956,
+  "precision_typed": 0.769,
+  "predicted": 121551,
+  "recall_overlap": 0.7848,
+  "recall_strict": 0.7816,
+  "support": 118019
+ },
+ "system": {
+  "name": "ppe-rules",
+  "phone_context": "optional",
+  "ppe_version": "0.1.0.dev1"
+ }
+}

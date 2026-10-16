@@ -1,0 +1,84 @@
+nemotron-pii/test (100000 docs, 1287 docs/s), ppe-rules 0.1.0.dev1, phone_context=optional
+
+type      support R_overlap  R_strict    pred  P_typed   P_any      F1
+CARD        12867     0.118     0.118    1997    0.761   0.994   0.204
+EMAIL       53930     0.995     0.994   53753    0.998   1.000   0.996
+IBAN            0       n/a       n/a      16    0.312   0.812     n/a
+IPV4         6078     1.000     1.000    9284    0.655   0.983   0.791
+IPV6         3139     0.907     0.905    2891    0.985   0.985   0.944
+NRIC            0       n/a       n/a       3    1.000   1.000     n/a
+PHONE       30353     0.917     0.906   52041    0.535   0.994   0.675
+SECRET      11652     0.062     0.062    1585    0.987   0.989   0.116
+micro*     118019     0.785     0.782  121551    0.769   0.996   0.777
+  * micro over types that dataset labels map to
+
+any-type coverage, all 55 dataset labels: 120924/850340 = 0.142
+
+dataset label                     support  maps_to  covered
+ipv4                                 6078     IPV4    1.000
+email                               53930    EMAIL    0.995
+fax_number                           6423    PHONE    0.922
+phone_number                        23930    PHONE    0.915
+ipv6                                 3139     IPV6    0.907
+biometric_identifier                11379        -    0.492
+health_plan_beneficiary_number      10558        -    0.391
+medical_record_number               11098        -    0.335
+certificate_license_number           3002        -    0.237
+customer_id                         20502        -    0.228
+http_cookie                          4892        -    0.217
+account_number                      16693        -    0.212
+unique_id                            1777        -    0.150
+device_identifier                    2507        -    0.119
+credit_debit_card                   12867     CARD    0.119
+api_key                              4667   SECRET    0.102
+tax_id                               1302        -    0.090
+coordinate                           7659        -    0.089
+url                                 37847        -    0.082
+national_id                          2847        -    0.065
+password                             6985   SECRET    0.036
+pin                                  6456        -    0.008
+user_name                           15800        -    0.003
+postcode                             6279        -    0.002
+bank_routing_number                  8354        -    0.001
+license_plate                        4078        -    0.001
+political_view                       6402        -    0.001
+swift_bic                            5559        -    0.001
+company_name                        54837        -    0.000
+last_name                           59596        -    0.000
+employee_id                          8878        -    0.000
+first_name                          84043        -    0.000
+race_ethnicity                       9248        -    0.000
+ssn                                  6062        -    0.000
+street_address                      16879        -    0.000
+employment_status                   11018        -    0.000
+age                                  7167        -    0.000
+blood_type                           5539        -    0.000
+city                                18347        -    0.000
+country                             23475        -    0.000
+county                               8465        -    0.000
+cvv                                  4843        -    0.000
+date                                73867        -    0.000
+date_of_birth                       18079        -    0.000
+date_time                           13221        -    0.000
+education_level                      9378        -    0.000
+gender                               7645        -    0.000
+language                             8651        -    0.000
+mac_address                          4250        -    0.000
+occupation                          36888        -    0.000
+religious_belief                     6257        -    0.000
+sexuality                            3312        -    0.000
+state                               18318        -    0.000
+time                                24506        -    0.000
+vehicle_identifier                   4561        -    0.000
+
+system spans by overlapped gold label (top 6 per type):
+  CARD    credit_debit_card 1520, device_identifier 294, account_number 112, national_id 44, (no gold span) 13, url 5
+  EMAIL   email 53632, user_name 42, last_name 25, first_name 24, company_name 20, url 11
+  IBAN    account_number 5, (no gold span) 3, employee_id 2, url 2, country 1, customer_id 1
+  IPV4    ipv4 6077, url 3041, (no gold span) 162, api_key 3, ipv6 1
+  IPV6    ipv6 2847, (no gold span) 44
+  NRIC    national_id 3
+  PHONE   phone_number 21905, fax_number 5923, biometric_identifier 5602, customer_id 4664, health_plan_beneficiary_number 4124, medical_record_number 3719
+  SECRET  http_cookie 846, api_key 473, password 246, (no gold span) 18, unique_id 1, url 1
+
+report (labels and counts only) -> bench/results/2026-10-16-nemotron-pii/ppe-rules-phone-optional.json
