@@ -29,6 +29,10 @@ M = [
  ("presidio: suffix list fetched online (presidio)", "src/prompt_privacy/evaluation/systems.py", "suffix_list_urls=(), fallback_to_snapshot", 'suffix_list_urls=("http://127.0.0.1:9/psl.dat",), fallback_to_snapshot'),  # loopback, refused: no fetch leaves the host
  ("table: stored ratios rounded again", "src/prompt_privacy/evaluation/scoring.py", 'if "pred_typed" not in c:', "if True:"),
  ("scoring: F1 from rounded ratios", "src/prompt_privacy/evaluation/scoring.py", "round(2 * exact_r * exact_p / (exact_r + exact_p), 4)", "round(2 * r * p / (r + p), 4)"),
+ ("detector: IPv6 allowed inside words", "src/prompt_privacy/detectors/patterns.py", r'_IPV6 = re.compile(r"(?<![\w:])', r'_IPV6 = re.compile(r"(?<![0-9A-Fa-f:])'),
+ ("detector: IBAN not cut back to a valid prefix", "src/prompt_privacy/detectors/patterns.py", 'for end in [len(s), *(i for i in range(len(s) - 1, 0, -1) if s[i] == " ")]:', "for end in [len(s)]:"),
+ ("detector: e-mail ASCII only", "src/prompt_privacy/detectors/patterns.py", r'(?:[^\W_]|[._%+-])+@(?:(?:[^\W_]|-)+\.)+[^\W\d_]{2,}', r'[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}'),
+ ("datasets: out-of-range span silently dropped everywhere", "src/prompt_privacy/evaluation/datasets.py", 'dropped: list[str] | None = [] if ds.out_of_range == "drop" else None', "dropped: list[str] | None = []"),
  ("detector: IBAN grouped form not matched", "src/prompt_privacy/detectors/patterns.py", r'(?:[ ]?[A-Za-z0-9]){11,30}', r'(?:[A-Za-z0-9]){11,30}'),
 ]
 tests = ["tests/evaluation", "tests/unit/test_checksums_stdnum.py", "tests/detectors/test_patterns.py", "tests/unit/test_checksums.py"]
@@ -58,6 +62,8 @@ for name, path, old, new in M:
         p.write_text(src)
     killed = r.returncode != 0
     caught += killed
-    failed = [l.split("::")[-1].split(" ")[0] for l in r.stdout.splitlines() if l.startswith("FAILED")]
+    # "FAILED path::test[param] - msg": the test's name only. A param may contain "::", and may hold a
+    # sample identifier that does not belong in a committed result file (C-46).
+    failed = [l[7:].split(" - ")[0].split("::", 1)[-1].split("[")[0] for l in r.stdout.splitlines() if l.startswith("FAILED")]
     print(f"{'CAUGHT ' if killed else 'MISSED '} {name:<42} {failed[:1]}")
 print(f"\n{caught}/{run} mutations caught ({len(M) - run} not run)")

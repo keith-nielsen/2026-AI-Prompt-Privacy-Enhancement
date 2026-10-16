@@ -49,6 +49,7 @@ class Doc:
     text: str
     gold: tuple[Span, ...]
     tags: tuple[tuple[str, str], ...] = ()  # e.g. (("locale", "us"),): slice keys, never content
+    dropped: tuple[str, ...] = ()  # labels of gold spans left out because they lie outside the text
 
 
 BatchRun = Callable[[Sequence[str]], list[list[Span]]]
@@ -109,6 +110,7 @@ class Scorer:
     by_slice: dict[str, dict[str, TypeCounts]] = field(
         default_factory=lambda: defaultdict(lambda: defaultdict(TypeCounts))
     )
+    dropped: Counter[str] = field(default_factory=Counter)
 
     def _typed_match(self, pred: Span, gold: Span) -> bool:
         return self.label_map.get(gold.label) == pred.label or gold.label in self.compatible.get(
@@ -118,6 +120,7 @@ class Scorer:
     def add(self, doc: Doc, predicted: Iterable[Span]) -> None:
         preds = list(predicted)
         self.docs += 1
+        self.dropped.update(doc.dropped)
         slices = [self.by_slice[f"{k}={v}"] for k, v in doc.tags]
         for g in doc.gold:
             covered = any(p.overlaps(g) for p in preds)
@@ -163,8 +166,11 @@ class Scorer:
         claimed = mapped if self.claimed is None else mapped & self.claimed
         gold_total = sum(c["support"] for c in self.by_label.values())
         covered_total = sum(c["covered_any_type"] for c in self.by_label.values())
+        # Present only when a dataset drops spans, so reports on strict datasets keep their form.
+        dropped = {"gold_dropped_out_of_range": dict(sorted(self.dropped.items()))} if self.dropped else {}
         return {
             "docs": self.docs,
+            **dropped,
             "label_map": dict(sorted(self.label_map.items())),
             "compatible": {k: sorted(v) for k, v in sorted(self.compatible.items())},
             "by_type": {t: self.by_type[t].as_dict() for t in sorted(self.by_type)},
@@ -245,6 +251,11 @@ def table(report: Mapping[str, Any]) -> str:
         "",
         f"any-type coverage, all {len(report['by_label'])} dataset labels: "
         f"{cov['covered']}/{cov['gold_spans']} = {f(cov_rate).strip()}",
+        *(
+            [f"gold spans dropped (outside their text, not scored): {d}"]
+            if (d := report.get("gold_dropped_out_of_range"))
+            else []
+        ),
         "",
         f"{'dataset label':<32} {'support':>8} {'maps_to':>{m}} {'covered':>8}",
     ]

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import ast
 import hashlib
+import json
 import os
 import urllib.request
 from collections.abc import Iterator, Mapping
@@ -41,6 +42,13 @@ class Dataset:
     compatible: Mapping[str, frozenset[str]] = field(default_factory=dict)
     slice_keys: tuple[str, ...] = ()
     notes: tuple[str, ...] = ()
+    columns: Mapping[str, str] = field(  # role -> column name in the parquet file
+        default_factory=lambda: {"uid": "uid", "text": "text", "spans": "spans"}
+    )
+    span_syntax: str = "python"  # how the spans column is written: "python" literal or "json"
+    # A gold span outside its text: "reject" the dataset (an error), or "drop" the span and count it in
+    # the report. Only for a dataset whose card or profile shows such spans; the default is strict.
+    out_of_range: str = "reject"
 
     def url(self, f: DataFile) -> str:
         return f"https://huggingface.co/datasets/{self.repo}/resolve/{self.revision}/{f.path}"
@@ -111,7 +119,64 @@ NEMOTRON_PII = Dataset(
     ),
 )
 
-DATASETS: dict[str, Dataset] = {d.name: d for d in (NEMOTRON_PII,)}
+GRETEL_PII_FINANCE = Dataset(
+    name="gretel-pii-finance",
+    repo="gretelai/synthetic_pii_finance_multilingual",
+    revision="7b844d16738527a04264f50214cb426a4cea0897",
+    licence="Apache-2.0",
+    attribution=(
+        "Synthetic-PII-Financial-Documents-North-America: A synthetic dataset for training language "
+        "models to label and detect PII in domain specific formats. Watson, Meyer, Van Segbroeck, "
+        "Grossman, Torbey, Mlocek, Greco; Gretel, 2024. "
+        "https://huggingface.co/datasets/gretelai/synthetic_pii_finance_multilingual (Apache 2.0). "
+        "Only aggregate counts derived from it are published here; no records."
+    ),
+    splits={
+        "test": DataFile(
+            "data/test-00000-of-00001.parquet",
+            "014e1057978f030fce4f4cad7c93b9e3377fd0ded713d2bf4c7de00e3e3c8c72",
+            5422540,
+        ),
+    },
+    # Chosen from the labels' meaning before any system was scored on this dataset (2026-10-16), with
+    # the same choices as for Nemotron where the labels agree. `ssn` is left out: tag names follow
+    # Python Faker, whose ssn() is locale-specific (a Swedish personnummer, a Dutch BSN, ...), so it is
+    # not one type across the seven languages.
+    label_map={
+        "email": "EMAIL",
+        "phone_number": "PHONE",
+        "credit_card_number": "CARD",
+        "iban": "IBAN",
+        "ipv4": "IPV4",
+        "ipv6": "IPV6",
+        "api_key": "SECRET",
+        "password": "SECRET",
+        "name": "PERSON",
+        "first_name": "PERSON",
+        "last_name": "PERSON",
+        "street_address": "LOCATION",
+        "date": "DATE_TIME",
+        "date_of_birth": "DATE_TIME",
+        "date_time": "DATE_TIME",
+        "time": "DATE_TIME",
+        "company": "ORGANIZATION",
+    },
+    slice_keys=("language",),
+    columns={"uid": "index", "text": "generated_text", "spans": "pii_spans"},
+    span_syntax="json",
+    out_of_range="drop",
+    notes=(
+        "27 gold spans in 8 documents end past the end of their text (19 of them `name`); they are "
+        "dropped and counted in the report (gold_dropped_out_of_range).",
+        "409 pairs of gold spans overlap (mostly name/name and company/company, nested or crossing); "
+        "each gold span is scored on its own.",
+        "Gold spans were labelled with the help of an NER library (GLiNER), filtered by an LLM judge "
+        "and spot-checked by people; the card warns that missed and wrong labels remain.",
+        "Seven languages (English, Spanish, Swedish, German, Italian, Dutch, French); slices by language.",
+    ),
+)
+
+DATASETS: dict[str, Dataset] = {d.name: d for d in (NEMOTRON_PII, GRETEL_PII_FINANCE)}
 
 
 def sha256_file(path: Path) -> str:
@@ -172,10 +237,18 @@ def verify(ds: Dataset, data_dir: Path, split: str) -> Path:
     return path
 
 
-def parse_spans(raw: str, text_len: int) -> tuple[Span, ...]:
+def parse_spans(
+    raw: str, text_len: int, syntax: str = "python", dropped: list[str] | None = None
+) -> tuple[Span, ...]:
     """Nemotron stores spans as a Python literal (single quotes), so `ast.literal_eval`, which only
-    builds literals and never runs code. Every span must lie inside the text."""
-    value = ast.literal_eval(raw)
+    builds literals and never runs code; Gretel stores JSON. Every span must lie inside the text: one
+    that does not is an error, or, when `dropped` is given, left out with its label appended there."""
+    if syntax == "python":
+        value = ast.literal_eval(raw)
+    elif syntax == "json":
+        value = json.loads(raw)
+    else:
+        raise ValueError(f"spans: unknown syntax {syntax!r}")
     if not isinstance(value, list):
         raise ValueError("spans: expected a list")
     out = []
@@ -184,18 +257,29 @@ def parse_spans(raw: str, text_len: int) -> tuple[Span, ...]:
         if not (isinstance(start, int) and isinstance(end, int) and isinstance(label, str)):
             raise ValueError("spans: start/end must be int and label str")
         if not 0 <= start < end <= text_len:
-            raise ValueError(f"spans: [{start}, {end}) outside a text of {text_len} characters")
+            if dropped is None:
+                raise ValueError(f"spans: [{start}, {end}) outside a text of {text_len} characters")
+            dropped.append(label)
+            continue
         out.append(Span(start, end, label))
     return tuple(out)
 
 
-def nemotron_doc(row: Mapping[str, Any], slice_keys: tuple[str, ...]) -> Doc:
-    text = row["text"]
+def row_doc(ds: Dataset, row: Mapping[str, Any]) -> Doc:
+    c = ds.columns
+    text = row[c["text"]]
+    if not isinstance(text, str):
+        raise ValueError("text: expected a string")
+    if ds.out_of_range not in ("reject", "drop"):
+        raise ValueError(f"{ds.name}: out_of_range must be 'reject' or 'drop'")
+    dropped: list[str] | None = [] if ds.out_of_range == "drop" else None
+    gold = parse_spans(row[c["spans"]], len(text), ds.span_syntax, dropped)
     return Doc(
-        uid=str(row["uid"]),
+        uid=str(row[c["uid"]]),
         text=text,
-        gold=parse_spans(row["spans"], len(text)),
-        tags=tuple((k, str(row[k])) for k in slice_keys),
+        gold=gold,
+        tags=tuple((k, str(row[k])) for k in ds.slice_keys),
+        dropped=tuple(dropped or ()),
     )
 
 
@@ -204,7 +288,7 @@ def load(ds: Dataset, path: Path, limit: int | None = None) -> Iterator[Doc]:
         import pyarrow.parquet as pq  # type: ignore[import-untyped]
     except ImportError as e:  # pragma: no cover - depends on the environment
         raise SystemExit('pyarrow is needed to read parquet: pip install -e ".[bench]"') from e
-    columns = ["uid", "text", "spans", *ds.slice_keys]
+    columns = [ds.columns["uid"], ds.columns["text"], ds.columns["spans"], *ds.slice_keys]
     pf = pq.ParquetFile(path)
     n = 0
     for batch in pf.iter_batches(batch_size=2048, columns=columns):
@@ -212,4 +296,4 @@ def load(ds: Dataset, path: Path, limit: int | None = None) -> Iterator[Doc]:
             if limit is not None and n >= limit:
                 return
             n += 1
-            yield nemotron_doc(row, ds.slice_keys)
+            yield row_doc(ds, row)

@@ -289,6 +289,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--phone-context", choices=("optional", "required"), default="optional")
     s.set_defaults(fn=cmd_bench)
 
+    from prompt_privacy.evaluation.datasets import DATASETS  # stdlib only; pyarrow loads on `run`
+
     ev = sub.add_parser(
         "evaluate", help="score detection on a pinned public dataset (labels and counts only)"
     ).add_subparsers(dest="ecmd", required=True)
@@ -299,7 +301,7 @@ def build_parser() -> argparse.ArgumentParser:
         ("run", cmd_evaluate_run, "score a system (PPE rules, Presidio) on a fetched split"),
     ):
         s = ev.add_parser(name, help=helptext)
-        s.add_argument("dataset", choices=("nemotron-pii",))
+        s.add_argument("dataset", choices=tuple(DATASETS))
         s.add_argument(
             "--data-dir", required=True, help="outside the repository; datasets are never committed"
         )
