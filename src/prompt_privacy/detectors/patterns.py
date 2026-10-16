@@ -21,7 +21,8 @@ _CARD = re.compile(
     r"(?<![\w-])(?:\d{13,19}|\d{4}([ -])\d{4}\1\d{4}\1\d{1,7}|\d{4}([ -])\d{6}\2\d{5})(?![\w-])"
 )
 _IBAN = re.compile(r"(?<![A-Za-z0-9])[A-Za-z]{2}\d{2}(?:[ ]?[A-Za-z0-9]){11,30}(?![A-Za-z0-9])")
-_EMAIL = re.compile(r"(?<![\w.+-])[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}(?![\w-])")
+# Letters and digits of any script ([^\W_]): internationalised addresses (RFC 6531, IDNA) count too.
+_EMAIL = re.compile(r"(?<![\w.+-])(?:[^\W_]|[._%+-])+@(?:(?:[^\W_]|-)+\.)+[^\W\d_]{2,}(?![\w-])")
 # International (+CC ...) or common national formats; validated by digit count below.
 _PHONE = re.compile(
     r"(?<![\w+])(?:\+\d{1,3}[ .-]?)?(?:\(\d{1,4}\)[ .-]?)?\d{2,4}(?:[ .-]?\d{2,4}){1,4}(?![\w])"
@@ -29,11 +30,29 @@ _PHONE = re.compile(
 # A full stop may end the sentence after an address; a dot followed by a digit continues a longer
 # dotted number (version, OID) and is not an address.
 _IPV4 = re.compile(r"(?<![\d.])(?:\d{1,3}\.){3}\d{1,3}(?!\d|\.\d)")
-_IPV6 = re.compile(r"(?<![0-9A-Fa-f:])(?:[0-9A-Fa-f]{0,4}:){2,7}[0-9A-Fa-f]{0,4}(?![0-9A-Fa-f:])")
+# Not inside a word on either side (`\w`, any script): EDIFACT's "Name::2" is not "e::2".
+_IPV6 = re.compile(r"(?<![\w:])(?:[0-9A-Fa-f]{0,4}:){2,7}[0-9A-Fa-f]{0,4}(?![\w:])")
 
 
 def _digits(s: str) -> str:
     return "".join(c for c in s if c.isdigit())
+
+
+def _iban_end(s: str, strict: bool) -> int:
+    """Length of the IBAN at the start of an `_IBAN` match, or 0. The optional space lets a match run on
+    into the following words ("DE89 3704 ... 3000 and more"), so in strict mode every cut at a space is
+    tried, longest first, and the longest one with valid check digits wins."""
+    if not s[:2].isalpha():
+        return 0
+    if not strict:
+        return len(s) if len(s.replace(" ", "")) >= 15 else 0
+    for end in [len(s), *(i for i in range(len(s) - 1, 0, -1) if s[i] == " ")]:
+        compact = s[:end].replace(" ", "")
+        if len(compact) < 15:
+            break
+        if iban_valid(compact):
+            return end
+    return 0
 
 
 def find_structured(
@@ -46,9 +65,9 @@ def find_structured(
         if not strict or nric_valid(re.sub(r"[ -]", "", m.group())):
             yield m.start(), m.end(), EntityType.NRIC
     for m in _IBAN.finditer(shadow):
-        compact = m.group().replace(" ", "")
-        if compact[:2].isalpha() and (iban_valid(compact) if strict else len(compact) >= 15):
-            yield m.start(), m.end(), EntityType.IBAN
+        end = _iban_end(m.group(), strict)
+        if end:
+            yield m.start(), m.start() + end, EntityType.IBAN
     for m in _CARD.finditer(shadow):
         d = _digits(m.group())
         if 13 <= len(d) <= 19 and (luhn_valid(d) if strict else True):

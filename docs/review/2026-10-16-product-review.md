@@ -40,7 +40,9 @@ tracks what has been fixed since, and the proof.
    C-49 fail (13 failures). On the fixed tree all of them pass with their markers removed. The only
    changes to the conformance files since the review are: the 11 markers removed; the proxy harness
    serving through `ProxyTestServer` (the runner `ppe serve` uses); C-43 restated (see F-04); one published
-   sample IMEI allow-listed in C-46. No assertion was weakened (`git diff 2656090 -- tests/conformance`).
+   sample IMEI allow-listed in C-46 (and, with the Gretel run, the published IBAN example
+   `DE89370400440532013000`, which the new detector tests use); C-07's xfail made per snippet when 4 of
+   its 10 snippets were fixed. No assertion was weakened (`git diff 2656090 -- tests/conformance`).
 3. **Mutation checks on the new tests.** Each fix was reverted in turn and at least one test failed
    (access-log override, `auto_decompress`, opaque-error handler, Host check, Origin check, decode cap,
    field withholding, carried counts, flock). The review's mutation script still scores 30/32 with the
@@ -57,6 +59,7 @@ tracks what has been fixed since, and the proof.
 | F-11 | **Fixed** | `F11.*` 3 / 2 / 0 | C-30, C-31, `tests/audit/test_log_writers.py` |
 | F-14 | **Fixed going forward**; history open | `F14.*` 2 / 2 / 0 | C-46 |
 | F-20 | **Fixed** | `F20.*` 8 / 1 / 2 (ADR-0002 alphabet, ADR-0010 dev-token rail) | C-47, C-48, C-49, explain tests |
+| F-02 | **Partly fixed** (later the same day, found on the Gretel finance benchmark): an IPv6 match may no longer start or end inside a word, so `std::io`, `ns::util`, `Foo::Bar`, `a::before` and EDIFACT's `Name::2` give nothing. Open: a bare `::`, the `assignment` rule, IMEI, `…@openssh.com`, card IIN ranges | none (benchmark: `bench/2026-10-16-gretel-pii-finance.md`) | C-07: 4 of 10 cases pass, the other 6 stay strict xfail; `tests/detectors/test_patterns.py` |
 
 **Where the result differs from the fix as written, or goes beyond it**
 - **F-01:** "add C-44 to CI": C-44 runs with the test suite; there is no CI yet (F-13).
@@ -337,7 +340,7 @@ an ADR as design, not yet built (documented, so not a defect of the code, but th
 | C-04 | NRIC/FIN incl. M-series, Luhn, IBAN correct | README | PASS (independent M vector); robustness nit F-21 |
 | C-05 | Phone knob trade-off numbers (1.000/0.917; 0.850/1.000) | knobs.py | PASS (reproduced exactly) |
 | C-06 | Corpus deterministic, sha256 3a4f7aa9… | RESUME, generator | PASS |
-| C-07 | Detectors usable on coding-agent traffic | PLAN §1 audience | **FAIL F-02** (about 133 findings per MB of code) |
+| C-07 | Detectors usable on coding-agent traffic | PLAN §1 audience | **FAIL F-02** (about 133 findings per MB of code; 4 of the 10 snippet cases fixed 2026-10-16, see §0) |
 | C-08 | Cards = Luhn + IIN ranges | ADR-0005 | **FAIL F-02** (10.3 % of random 16-digit ids, IMEIs) |
 | C-09 | No identifier leaves in clear, even partly | threat model §1 | **FAIL F-15** (`::ffff:192.0.2.10` keeps `.0.2.10`) |
 | C-10 | Confusables, de-spacing, bounded decoding | ADR-0005 Stage 0 | DESIGN (F-15): homoglyph, spaced, %-encoded, HTML-entity, dotted card all missed |

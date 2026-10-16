@@ -91,9 +91,16 @@ _CODE = {
 }
 
 
-@pytest.mark.parametrize("name", sorted(_CODE))
-@pytest.mark.xfail(
-    strict=True, reason="F-02: Stage 1 false positives on source code (IPv6 '::', assignment rule, IMEI)"
+# Fixed 2026-10-16 (IPv6 not inside a word, found on the Gretel finance run): the four `::` cases
+# joined to words. Still open under F-02: a bare `::`, the assignment rule, IMEI, an ssh algorithm name.
+_C07_FIXED = {"rust use", "cpp scope", "ruby const", "css pseudo"}
+_C07_OPEN = pytest.mark.xfail(
+    strict=True, reason="F-02: Stage 1 false positives on source code (bare '::', assignment rule, IMEI)"
+)
+
+
+@pytest.mark.parametrize(
+    "name", [n if n in _C07_FIXED else pytest.param(n, marks=_C07_OPEN) for n in sorted(_CODE)]
 )
 def test_c07_ordinary_code_has_no_findings(name: str) -> None:
     """C-07 (PLAN §1: coding CLIs/IDEs/agents are the main audience): ordinary code is not an identifier."""
