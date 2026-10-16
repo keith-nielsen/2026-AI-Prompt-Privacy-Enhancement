@@ -64,5 +64,7 @@ A 40 KB dense document needs > 13k output tokens (> 15 min).
    no output cost, does not occupy a Kent slot — but takes CPU cores that Kent's MoE also uses.
 4. One injection sample showed no effect; this is not evidence of robustness (ratchet rule stays).
 
-Raw results: session scratchpad (`kent_throughput.jsonl`, `kent_review_results.jsonl`,
-`raw_10kb_doc1700.txt`); harness `kent_review_bench.py`.
+Raw results: `results/2026-10-03/` (`kent_throughput.jsonl`, `kent_review_results.jsonl`); the raw model
+output that listed corpus identifiers (`raw_10kb_doc1700.txt`, `raw_1kb.json`) is replaced by
+`raw_outputs_summary.json` (counts per type and the originals' SHA-256; review F-14); harness
+`kent_review_bench.py`.

@@ -542,6 +542,13 @@ robustness, UX or docs drift · Effort: S (hours), M (days), L (a week or more).
   - exclude `bench/results/` from the sdist;
   - refine the rule to "published sample values (`S1234567D`, `4111…`) or values generated at test time".
 - **Evidence:** `results/selfscan.txt`, C-46.
+- **Status (2026-10-16): fixed going forward; history open.** The two raw files are replaced by
+  `raw_outputs_summary.json` (counts per type, checksum-valid counts, the originals' SHA-256); bench
+  results, review results and `docs/private` are excluded from the sdist; CONTRIBUTING's rule names
+  published sample values and forbids committing generated checksum-valid ones; the published sample
+  IMEI is allow-listed in C-46, which passes. The files remain in public history (`main` up to
+  `85032e1`, tag `v0.1.0.dev1`) and in the published v0.1.0.dev1 sdist: purging them is a rewrite of
+  `main`, deferred by the operator to a clean-up step after the fixes.
 
 ### F-15 · Medium · Detection gaps: partial-span leak, plus unbuilt Stage 0 normalisations · S / M
 - **What:**

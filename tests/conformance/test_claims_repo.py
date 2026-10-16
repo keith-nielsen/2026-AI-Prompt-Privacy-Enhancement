@@ -10,8 +10,6 @@ import subprocess
 import tomllib
 from pathlib import Path
 
-import pytest
-
 from prompt_privacy import __version__, knobs, policy
 from prompt_privacy.core.checksums import iban_valid, luhn_valid, nric_valid
 from prompt_privacy.core.types import EntityType as T
@@ -54,13 +52,17 @@ def test_c51_version_is_consistent_and_marked_pre_alpha() -> None:
     assert "pre-alpha" in readme.lower() and __version__ in readme
 
 
-@pytest.mark.xfail(
-    strict=True, reason="F-14: bench/results commits corpus-generated checksum-valid identifiers"
-)
 def test_c46_no_generated_checksum_valid_identifiers_committed() -> None:
     """C-46 (corpus/generator.py: generated values 'can coincide with a real one by chance, so the corpus is
     generated at test time and not committed'). Published sample values used in docs/tests are allowed."""
-    allowed = {"S1234567D", "T9119134I", "M1235467X", "4111111111111111", "GB82WEST12345698765432"}
+    allowed = {
+        "S1234567D",
+        "T9119134I",
+        "M1235467X",
+        "4111111111111111",
+        "GB82WEST12345698765432",
+        "490154203237518",  # published sample IMEI (Luhn-valid; a code false-positive probe)
+    }
     found: list[str] = []
     for p in _tracked("bench/*"):
         if p.suffix in (".txt", ".json", ".jsonl", ".log", ".md"):
