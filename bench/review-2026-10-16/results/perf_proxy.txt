@@ -1,0 +1,5 @@
+small request direct to upstream   p50   0.24 ms  p99   0.34 ms
+small request through ppe serve    p50   0.68 ms  p99   3.06 ms
+throughput through ppe serve (32 concurrent):     926 req/s (each also fsyncs a sealed record)
+stream chunk gap idle:        max    7.6 ms  p99    6.9 ms
+stream chunk gap during 2 MB prompt scan: max  156.0 ms  p99   72.8 ms  (2 MB request itself 74 ms)

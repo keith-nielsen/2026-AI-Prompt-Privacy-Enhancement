@@ -1,0 +1,6 @@
+bad header (NUL) carrying NRIC     response echoes NRIC: True
+bad chunk size carrying NRIC       response echoes NRIC: True
+bad request line carrying NRIC     response echoes NRIC: True
+obs-fold carrying NRIC             response echoes NRIC: True
+log output: 2407 chars; NRIC present in logs: True (4 times)
+   e.g.:     b'X-Note: S1234567D\x00'

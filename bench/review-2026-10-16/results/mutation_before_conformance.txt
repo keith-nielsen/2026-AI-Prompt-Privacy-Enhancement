@@ -1,0 +1,38 @@
+Targeted mutation run, 2026-10-16 ~04:15 +08, against the suite as of commit 85032e1 (130 tests, before
+tests/conformance existed). One injected bug per run; full pytest suite (-x). "SURVIVED" = no test noticed.
+Script: bench/review-2026-10-16/scripts/mutate.py (M30 did not apply in this run: it targeted pre-bisect code).
+
+M01 SURVIVED  20.3s  M-series FIN check letter wrong
+M02 killed     1.0s  Luhn doubles the wrong digits
+M03 SURVIVED  20.1s  IBAN accepts mod-97 == 0
+M04 killed     1.0s  NRIC checksum not required
+M05 killed     1.0s  card Luhn not required
+M06 killed     1.0s  zero-width/bidi no longer stripped
+M07 killed     1.0s  secrets lose overlap priority
+M08 SURVIVED  19.7s  assistant history freshly detected (R3)
+M09 SURVIVED  19.8s  token TYPE label not checked (R2)
+M10 SURVIVED  20.5s  surrogate may equal a real value
+M11 killed    19.6s  NRIC surrogate may be valid (G2)
+M12 killed    20.1s  card surrogate may pass Luhn (G2)
+M13 killed    19.5s  NANP surrogate outside 555-01xx (G1)
+M14 killed     0.8s  header not bound to ciphertext (enc side)
+M15 killed     0.8s  token share alone = DEK (2-of-2 broken)
+M16 killed    19.8s  chain linkage not verified
+M17 killed     1.0s  dev token accepted in any profile
+M18 SURVIVED  20.1s  machine key perms not enforced
+M19 SURVIVED  20.2s  token key perms not enforced
+M20 killed    20.4s  no per-conversation dedup
+M21 SURVIVED  20.3s  digest not bound to type
+M22 killed     5.9s  hop-by-hop request headers forwarded
+M23 killed    19.3s  listen on any address
+M24 killed    19.9s  cleartext http to cloud upstream
+M25 killed    19.0s  pure-Python parser accepted
+M26 killed     3.8s  dot segments forwarded
+M27 killed    19.6s  responses decompressed in transit
+M28 killed    20.2s  splice order wrong (offsets corrupt)
+M29 SURVIVED  20.5s  email domain case not normalised
+M30 NOT APPLIED
+M31 killed    20.1s  assistant turns scanned as prompt
+M32 SURVIVED  22.5s  finer padding buckets (more size leakage)
+
+mutation score: 21/31 killed
