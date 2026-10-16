@@ -31,6 +31,10 @@ dev = ["aiohttp>=3.14.5", "pytest>=8", "hypothesis>=6.100", "ruff>=0.6", "mypy>=
 [project.scripts]
 ppe = "prompt_privacy.cli.main:main"
 
+[tool.hatch.build.targets.sdist]
+# Bench outputs are evidence for the repo, not sources for a build (review F-14).
+exclude = ["/bench/results", "/bench/review-*/results", "/docs/private"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/prompt_privacy"]
 

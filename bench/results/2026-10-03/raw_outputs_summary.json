@@ -1,0 +1,38 @@
+{
+  "note": "Summary replacing raw model output (review F-14, 2026-10-16). The raw files listed identifiers copied from the synthetic corpus, some checksum-valid, which can coincide with real people's; they are no longer committed. Regenerate: `ppe corpus --out corpus.jsonl` (fixed seed, sha256 3a4f7aa9...) and the harness named in bench/2026-10-03-kent-model-review.md.",
+  "files": {
+    "raw_10kb_doc1700.txt": {
+      "bytes": 2536,
+      "sha256": "cc86e938324d13860cc053c265d187d27c62c14c12048f3b02c837853f592de8",
+      "lines": 111,
+      "stage1_findings_by_type": {
+        "EMAIL": 32,
+        "IPV4": 15,
+        "IPV6": 3,
+        "NRIC": 10,
+        "PHONE": 24,
+        "SECRET": 19
+      },
+      "checksum_valid_by_type": {
+        "NRIC": 10
+      }
+    },
+    "raw_1kb.json": {
+      "bytes": 2133,
+      "sha256": "a196d5f2542a5234a142a428c16e52104a7cd0a30a87bce32f492b0ff6285eba",
+      "lines": 0,
+      "stage1_findings_by_type": {
+        "CARD": 3,
+        "EMAIL": 1,
+        "IBAN": 1,
+        "IPV4": 1,
+        "PHONE": 2,
+        "SECRET": 3
+      },
+      "checksum_valid_by_type": {
+        "CARD": 3,
+        "IBAN": 1
+      }
+    }
+  }
+}
