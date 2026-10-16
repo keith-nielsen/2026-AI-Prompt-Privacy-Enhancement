@@ -1,0 +1,223 @@
+nemotron-pii/test (100000 docs, 55 docs/s), presidio presidio_analyzer=2.2.364 spacy=3.8.16 tldextract=5.4.0 (bundled suffix-list snapshot, offline) model=en_core_web_lg-3.8.0 configuration=defaults (no custom recognisers, no context words added, no allow list)
+
+min_score=0.0
+
+type               support R_overlap  R_strict    pred  P_typed   P_any      F1
+AGE                   7167     0.000     0.000       0      n/a     n/a     n/a
+CARD                 12867     0.118     0.118    1969    0.773   0.996   0.205
+DATE_TIME           129673     0.896     0.816  208004    0.565   0.739   0.693
+EMAIL                53930     0.992     0.991   53610    0.998   1.000   0.995
+IBAN                     0       n/a       n/a       8    0.250   0.625     n/a
+IPV4                  6078     1.000     0.999    9282    0.655   0.983   0.791
+IPV6                  3139     0.908     0.907    2894    0.985   0.985   0.945
+LOCATION             85484     0.654     0.606   68104    0.821   0.959   0.728
+MAC_ADDRESS           4250     1.000     0.999    4261    0.997   0.999   0.999
+MEDICAL_LICENSE          0       n/a       n/a     527    0.000   0.983     n/a
+NRP                      0       n/a       n/a   15422    0.000   0.874     n/a
+ORGANIZATION         54837     0.702     0.611  137580    0.280   0.490   0.400
+PERSON              143639     0.858     0.166   99864    0.799   0.942   0.827
+PHONE                30353     0.943     0.941   59152    0.484   0.988   0.639
+SECRET               11652     0.000     0.000       0      n/a     n/a     n/a
+UK_NHS                   0       n/a       n/a    3652    0.000   0.992     n/a
+URL                  37847     0.922     0.391  104760    0.333   0.988   0.490
+US_BANK_NUMBER           0       n/a       n/a   46003    0.000   0.976     n/a
+US_DRIVER_LICENSE        0       n/a       n/a   98771    0.000   0.933     n/a
+US_ITIN                  0       n/a       n/a     544    0.000   0.855     n/a
+US_PASSPORT              0       n/a       n/a   15780    0.000   0.964     n/a
+US_SSN                6062     0.995     0.995   19093    0.316   0.970   0.480
+micro†              575326     0.820     0.578  768573    0.559   0.823   0.664
+micro‡              586978     0.803     0.566  768573    0.559   0.823   0.659
+  † micro over the system's claimed types that dataset labels map to: AGE, CARD, DATE_TIME, EMAIL, IPV4, IPV6, LOCATION, MAC_ADDRESS, ORGANIZATION, PERSON, PHONE, URL, US_SSN
+  ‡ micro over every type that dataset labels map to (same denominator for every system)
+
+any-type coverage, all 55 dataset labels: 634972/850340 = 0.747
+
+dataset label                     support      maps_to  covered
+ipv4                                 6078         IPV4    1.000
+mac_address                          4250  MAC_ADDRESS    1.000
+date_of_birth                       18079    DATE_TIME    1.000
+url                                 37847          URL    1.000
+bank_routing_number                  8354            -    1.000
+biometric_identifier                11379            -    0.999
+ssn                                  6062       US_SSN    0.996
+email                               53930        EMAIL    0.996
+medical_record_number               11098            -    0.974
+date                                73867    DATE_TIME    0.967
+phone_number                        23930        PHONE    0.962
+fax_number                           6423        PHONE    0.956
+date_time                           13221    DATE_TIME    0.945
+ipv6                                 3139         IPV6    0.928
+last_name                           59596       PERSON    0.905
+first_name                          84043       PERSON    0.904
+county                               8465     LOCATION    0.894
+certificate_license_number           3002            -    0.891
+country                             23475     LOCATION    0.885
+city                                18347     LOCATION    0.865
+account_number                      16693            -    0.864
+religious_belief                     6257            -    0.821
+state                               18318     LOCATION    0.809
+http_cookie                          4892            -    0.782
+pin                                  6456            -    0.769
+tax_id                               1302            -    0.769
+company_name                        54837 ORGANIZATION    0.744
+credit_debit_card                   12867         CARD    0.707
+health_plan_beneficiary_number      10558            -    0.696
+customer_id                         20502            -    0.695
+national_id                          2847            -    0.682
+time                                24506    DATE_TIME    0.662
+political_view                       6402            -    0.645
+age                                  7167          AGE    0.615
+race_ethnicity                       9248            -    0.581
+street_address                      16879     LOCATION    0.507
+user_name                           15800            -    0.490
+postcode                             6279            -    0.477
+employee_id                          8878            -    0.469
+device_identifier                    2507            -    0.430
+language                             8651            -    0.372
+coordinate                           7659            -    0.303
+license_plate                        4078            -    0.287
+unique_id                            1777            -    0.265
+password                             6985       SECRET    0.218
+swift_bic                            5559            -    0.090
+vehicle_identifier                   4561            -    0.090
+occupation                          36888            -    0.070
+api_key                              4667       SECRET    0.061
+cvv                                  4843            -    0.057
+education_level                      9378            -    0.052
+sexuality                            3312            -    0.009
+blood_type                           5539            -    0.009
+gender                               7645            -    0.005
+employment_status                   11018            -    0.004
+
+system spans by overlapped gold label (top 6 per type):
+  CARD              credit_debit_card 1523, device_identifier 283, account_number 136, national_id 13, (no gold span) 7, url 3
+  DATE_TIME         date 70865, (no gold span) 54199, date_of_birth 18664, time 15434, date_time 12612, credit_debit_card 6439
+  EMAIL             email 53488, user_name 42, last_name 25, first_name 24, company_name 20, url 14
+  IBAN              (no gold span) 3, account_number 2, url 2, country 1
+  IPV4              ipv4 6077, url 3039, (no gold span) 162, api_key 3, ipv6 1
+  IPV6              ipv6 2851, (no gold span) 43
+  LOCATION          country 20196, city 13512, state 13330, county 7341, (no gold span) 2825, http_cookie 2259
+  MAC_ADDRESS       mac_address 4250, (no gold span) 4, device_identifier 2, ipv6 2, url 2, street_address 1
+  MEDICAL_LICENSE   customer_id 202, account_number 145, health_plan_beneficiary_number 87, biometric_identifier 70, (no gold span) 9, unique_id 7
+  NRP               race_ethnicity 3943, religious_belief 3718, language 2727, (no gold span) 1948, political_view 1635, first_name 189
+  ORGANIZATION      (no gold span) 70140, company_name 38484, street_address 2895, first_name 2762, http_cookie 2363, occupation 2300
+  PERSON            first_name 71500, last_name 51604, (no gold span) 5809, street_address 3291, user_name 2708, company_name 1485
+  PHONE             phone_number 22582, fax_number 6036, biometric_identifier 5395, customer_id 3958, account_number 3538, ipv4 2923
+  UK_NHS            phone_number 1288, account_number 476, biometric_identifier 460, customer_id 437, medical_record_number 337, fax_number 313
+  URL               email 64495, url 34907, user_name 3393, (no gold span) 1273, http_cookie 492, first_name 124
+  US_BANK_NUMBER    account_number 8343, bank_routing_number 8339, customer_id 7647, biometric_identifier 5615, medical_record_number 5420, date 2086
+  US_DRIVER_LICENSE account_number 14764, customer_id 13442, biometric_identifier 11361, medical_record_number 9329, bank_routing_number 8349, (no gold span) 6651
+  US_ITIN           customer_id 109, phone_number 99, (no gold span) 79, tax_id 66, health_plan_beneficiary_number 51, account_number 40
+  US_PASSPORT       bank_routing_number 8319, account_number 2128, customer_id 1959, medical_record_number 1086, health_plan_beneficiary_number 1073, (no gold span) 567
+  US_SSN            bank_routing_number 7837, ssn 6033, customer_id 1942, medical_record_number 577, (no gold span) 564, national_id 500
+
+report (labels and counts only) -> bench/results/2026-10-16-presidio-baseline/presidio-min0.json
+
+min_score=0.5
+
+type               support R_overlap  R_strict    pred  P_typed   P_any      F1
+AGE                   7167     0.000     0.000       0      n/a     n/a     n/a
+CARD                 12867     0.118     0.118    1969    0.773   0.996   0.205
+DATE_TIME           129673     0.892     0.815  206923    0.565   0.740   0.692
+EMAIL                53930     0.992     0.991   53610    0.998   1.000   0.995
+IBAN                     0       n/a       n/a       8    0.250   0.625     n/a
+IPV4                  6078     1.000     0.999    9282    0.655   0.983   0.791
+IPV6                  3139     0.908     0.907    2894    0.985   0.985   0.945
+LOCATION             85484     0.654     0.606   68104    0.821   0.959   0.728
+MAC_ADDRESS           4250     1.000     0.999    4261    0.997   0.999   0.999
+MEDICAL_LICENSE          0       n/a       n/a     527    0.000   0.983     n/a
+NRP                      0       n/a       n/a   15422    0.000   0.874     n/a
+ORGANIZATION         54837     0.702     0.611  137580    0.280   0.490   0.400
+PERSON              143639     0.858     0.166   99864    0.799   0.942   0.827
+PHONE                30353     0.617     0.615   30680    0.610   0.993   0.613
+SECRET               11652     0.000     0.000       0      n/a     n/a     n/a
+UK_NHS                   0       n/a       n/a    3652    0.000   0.992     n/a
+URL                  37847     0.922     0.391  104760    0.333   0.988   0.490
+US_DRIVER_LICENSE        0       n/a       n/a    1078    0.000   0.941     n/a
+US_ITIN                  0       n/a       n/a     107    0.000   0.972     n/a
+US_SSN                6062     0.995     0.995    7456    0.809   0.943   0.892
+micro†              575326     0.802     0.561  727383    0.576   0.815   0.670
+micro‡              586978     0.786     0.549  727383    0.576   0.815   0.665
+  † micro over the system's claimed types that dataset labels map to: AGE, CARD, DATE_TIME, EMAIL, IPV4, IPV6, LOCATION, MAC_ADDRESS, ORGANIZATION, PERSON, PHONE, URL, US_SSN
+  ‡ micro over every type that dataset labels map to (same denominator for every system)
+
+any-type coverage, all 55 dataset labels: 566346/850340 = 0.666
+
+dataset label                     support      maps_to  covered
+mac_address                          4250  MAC_ADDRESS    1.000
+date_of_birth                       18079    DATE_TIME    1.000
+ipv4                                 6078         IPV4    1.000
+url                                 37847          URL    1.000
+email                               53930        EMAIL    0.996
+ssn                                  6062       US_SSN    0.995
+date_time                           13221    DATE_TIME    0.944
+date                                73867    DATE_TIME    0.941
+ipv6                                 3139         IPV6    0.925
+last_name                           59596       PERSON    0.905
+first_name                          84043       PERSON    0.904
+county                               8465     LOCATION    0.894
+country                             23475     LOCATION    0.885
+city                                18347     LOCATION    0.865
+religious_belief                     6257            -    0.821
+state                               18318     LOCATION    0.809
+http_cookie                          4892            -    0.770
+company_name                        54837 ORGANIZATION    0.744
+fax_number                           6423        PHONE    0.716
+phone_number                        23930        PHONE    0.689
+time                                24506    DATE_TIME    0.661
+political_view                       6402            -    0.644
+age                                  7167          AGE    0.615
+credit_debit_card                   12867         CARD    0.589
+race_ethnicity                       9248            -    0.581
+street_address                      16879     LOCATION    0.496
+user_name                           15800            -    0.442
+postcode                             6279            -    0.429
+tax_id                               1302            -    0.419
+account_number                      16693            -    0.393
+national_id                          2847            -    0.385
+language                             8651            -    0.372
+medical_record_number               11098            -    0.368
+health_plan_beneficiary_number      10558            -    0.363
+certificate_license_number           3002            -    0.320
+bank_routing_number                  8354            -    0.315
+license_plate                        4078            -    0.284
+pin                                  6456            -    0.267
+device_identifier                    2507            -    0.217
+customer_id                         20502            -    0.189
+employee_id                          8878            -    0.182
+biometric_identifier                11379            -    0.171
+password                             6985       SECRET    0.135
+unique_id                            1777            -    0.120
+swift_bic                            5559            -    0.090
+vehicle_identifier                   4561            -    0.088
+occupation                          36888            -    0.070
+api_key                              4667       SECRET    0.060
+cvv                                  4843            -    0.057
+coordinate                           7659            -    0.052
+education_level                      9378            -    0.052
+sexuality                            3312            -    0.009
+blood_type                           5539            -    0.009
+gender                               7645            -    0.005
+employment_status                   11018            -    0.004
+
+system spans by overlapped gold label (top 6 per type):
+  CARD              credit_debit_card 1523, device_identifier 283, account_number 136, national_id 13, (no gold span) 7, url 3
+  DATE_TIME         date 70365, (no gold span) 53803, date_of_birth 18664, time 15434, date_time 12610, credit_debit_card 6439
+  EMAIL             email 53488, user_name 42, last_name 25, first_name 24, company_name 20, url 14
+  IBAN              (no gold span) 3, account_number 2, url 2, country 1
+  IPV4              ipv4 6077, url 3039, (no gold span) 162, api_key 3, ipv6 1
+  IPV6              ipv6 2851, (no gold span) 43
+  LOCATION          country 20196, city 13512, state 13330, county 7341, (no gold span) 2825, http_cookie 2259
+  MAC_ADDRESS       mac_address 4250, (no gold span) 4, device_identifier 2, ipv6 2, url 2, street_address 1
+  MEDICAL_LICENSE   customer_id 202, account_number 145, health_plan_beneficiary_number 87, biometric_identifier 70, (no gold span) 9, unique_id 7
+  NRP               race_ethnicity 3943, religious_belief 3718, language 2727, (no gold span) 1948, political_view 1635, first_name 189
+  ORGANIZATION      (no gold span) 70140, company_name 38484, street_address 2895, first_name 2762, http_cookie 2363, occupation 2300
+  PERSON            first_name 71500, last_name 51604, (no gold span) 5809, street_address 3291, user_name 2708, company_name 1485
+  PHONE             phone_number 14526, fax_number 4188, account_number 3326, health_plan_beneficiary_number 2593, bank_routing_number 1839, medical_record_number 1696
+  UK_NHS            phone_number 1288, account_number 476, biometric_identifier 460, customer_id 437, medical_record_number 337, fax_number 313
+  URL               email 64495, url 34907, user_name 3393, (no gold span) 1273, http_cookie 492, first_name 124
+  US_DRIVER_LICENSE customer_id 263, biometric_identifier 186, license_plate 168, certificate_license_number 118, account_number 82, (no gold span) 64
+  US_ITIN           tax_id 66, national_id 20, medical_record_number 6, phone_number 5, (no gold span) 3, bank_routing_number 2
+  US_SSN            ssn 6031, national_id 465, (no gold span) 425, tax_id 306, medical_record_number 150, phone_number 25
+
+report (labels and counts only) -> bench/results/2026-10-16-presidio-baseline/presidio-min0.5.json

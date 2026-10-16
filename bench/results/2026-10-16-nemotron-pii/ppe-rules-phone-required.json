@@ -14,7 +14,7 @@
   "age": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "AGE",
    "support": 7167
   },
   "api_key": {
@@ -50,13 +50,13 @@
   "city": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "LOCATION",
    "support": 18347
   },
   "company_name": {
    "coverage_any_type": 0.0004,
    "covered_any_type": 20,
-   "maps_to": null,
+   "maps_to": "ORGANIZATION",
    "support": 54837
   },
   "coordinate": {
@@ -68,13 +68,13 @@
   "country": {
    "coverage_any_type": 0.0,
    "covered_any_type": 1,
-   "maps_to": null,
+   "maps_to": "LOCATION",
    "support": 23475
   },
   "county": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "LOCATION",
    "support": 8465
   },
   "credit_debit_card": {
@@ -98,19 +98,19 @@
   "date": {
    "coverage_any_type": 0.0,
    "covered_any_type": 1,
-   "maps_to": null,
+   "maps_to": "DATE_TIME",
    "support": 73867
   },
   "date_of_birth": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "DATE_TIME",
    "support": 18079
   },
   "date_time": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "DATE_TIME",
    "support": 13221
   },
   "device_identifier": {
@@ -152,7 +152,7 @@
   "first_name": {
    "coverage_any_type": 0.0003,
    "covered_any_type": 24,
-   "maps_to": null,
+   "maps_to": "PERSON",
    "support": 84043
   },
   "gender": {
@@ -194,7 +194,7 @@
   "last_name": {
    "coverage_any_type": 0.0004,
    "covered_any_type": 25,
-   "maps_to": null,
+   "maps_to": "PERSON",
    "support": 59596
   },
   "license_plate": {
@@ -206,7 +206,7 @@
   "mac_address": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "MAC_ADDRESS",
    "support": 4250
   },
   "medical_record_number": {
@@ -278,19 +278,19 @@
   "ssn": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "US_SSN",
    "support": 6062
   },
   "state": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "LOCATION",
    "support": 18318
   },
   "street_address": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "LOCATION",
    "support": 16879
   },
   "swift_bic": {
@@ -308,7 +308,7 @@
   "time": {
    "coverage_any_type": 0.0,
    "covered_any_type": 0,
-   "maps_to": null,
+   "maps_to": "DATE_TIME",
    "support": 24506
   },
   "unique_id": {
@@ -320,7 +320,7 @@
   "url": {
    "coverage_any_type": 0.0808,
    "covered_any_type": 3058,
-   "maps_to": null,
+   "maps_to": "URL",
    "support": 37847
   },
   "user_name": {
@@ -338,16 +338,44 @@
  },
  "by_slice": {
   "document_format=structured": {
+   "AGE": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 3931
+   },
    "CARD": {
     "f1_overlap": 0.2084,
     "found_overlap": 826,
     "found_strict": 824,
     "precision_any_label": 0.9915,
     "precision_typed": 0.7815,
+    "pred_any_label": 1048,
+    "pred_typed": 826,
     "predicted": 1057,
     "recall_overlap": 0.1202,
     "recall_strict": 0.1199,
     "support": 6871
+   },
+   "DATE_TIME": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 82415
    },
    "EMAIL": {
     "f1_overlap": 0.9957,
@@ -355,6 +383,8 @@
     "found_strict": 29193,
     "precision_any_label": 0.9999,
     "precision_typed": 0.9972,
+    "pred_any_label": 29301,
+    "pred_typed": 29222,
     "predicted": 29304,
     "recall_overlap": 0.9942,
     "recall_strict": 0.9932,
@@ -366,6 +396,8 @@
     "found_strict": 0,
     "precision_any_label": 0.5714,
     "precision_typed": 0.1429,
+    "pred_any_label": 4,
+    "pred_typed": 1,
     "predicted": 7,
     "recall_overlap": null,
     "recall_strict": null,
@@ -377,6 +409,8 @@
     "found_strict": 3202,
     "precision_any_label": 0.9726,
     "precision_typed": 0.6392,
+    "pred_any_label": 4872,
+    "pred_typed": 3202,
     "predicted": 5009,
     "recall_overlap": 1.0,
     "recall_strict": 1.0,
@@ -388,10 +422,38 @@
     "found_strict": 1426,
     "precision_any_label": 0.9768,
     "precision_typed": 0.9768,
+    "pred_any_label": 1431,
+    "pred_typed": 1431,
     "predicted": 1465,
     "recall_overlap": 0.9109,
     "recall_strict": 0.9077,
     "support": 1571
+   },
+   "LOCATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 49479
+   },
+   "MAC_ADDRESS": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2172
    },
    "NRIC": {
     "f1_overlap": null,
@@ -399,10 +461,38 @@
     "found_strict": 0,
     "precision_any_label": 1.0,
     "precision_typed": 1.0,
+    "pred_any_label": 2,
+    "pred_typed": 2,
     "predicted": 2,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
+   },
+   "ORGANIZATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 33644
+   },
+   "PERSON": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 71505
    },
    "PHONE": {
     "f1_overlap": 0.9155,
@@ -410,34 +500,92 @@
     "found_strict": 13974,
     "precision_any_label": 0.9934,
     "precision_typed": 0.9908,
+    "pred_any_label": 14182,
+    "pred_typed": 14144,
     "predicted": 14276,
     "recall_overlap": 0.8509,
     "recall_strict": 0.8407,
     "support": 16622
    },
    "SECRET": {
-    "f1_overlap": 0.1349,
+    "f1_overlap": 0.1348,
     "found_overlap": 442,
     "found_strict": 441,
     "precision_any_label": 0.9831,
     "precision_typed": 0.9831,
+    "pred_any_label": 874,
+    "pred_typed": 874,
     "predicted": 889,
     "recall_overlap": 0.0724,
     "recall_strict": 0.0722,
     "support": 6109
+   },
+   "URL": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 19410
+   },
+   "US_SSN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 3230
    }
   },
   "document_format=unstructured": {
+   "AGE": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 3236
+   },
    "CARD": {
-    "f1_overlap": 0.2,
+    "f1_overlap": 0.2001,
     "found_overlap": 694,
     "found_strict": 693,
     "precision_any_label": 0.9957,
     "precision_typed": 0.7383,
+    "pred_any_label": 936,
+    "pred_typed": 694,
     "predicted": 940,
     "recall_overlap": 0.1157,
     "recall_strict": 0.1156,
     "support": 5996
+   },
+   "DATE_TIME": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 47258
    },
    "EMAIL": {
     "f1_overlap": 0.9966,
@@ -445,6 +593,8 @@
     "found_strict": 24384,
     "precision_any_label": 0.9999,
     "precision_typed": 0.9984,
+    "pred_any_label": 24446,
+    "pred_typed": 24410,
     "predicted": 24449,
     "recall_overlap": 0.9948,
     "recall_strict": 0.9938,
@@ -456,6 +606,8 @@
     "found_strict": 0,
     "precision_any_label": 1.0,
     "precision_typed": 0.4444,
+    "pred_any_label": 9,
+    "pred_typed": 4,
     "predicted": 9,
     "recall_overlap": null,
     "recall_strict": null,
@@ -467,6 +619,8 @@
     "found_strict": 2875,
     "precision_any_label": 0.9942,
     "precision_typed": 0.6725,
+    "pred_any_label": 4250,
+    "pred_typed": 2875,
     "predicted": 4275,
     "recall_overlap": 0.9997,
     "recall_strict": 0.9997,
@@ -478,10 +632,38 @@
     "found_strict": 1416,
     "precision_any_label": 0.993,
     "precision_typed": 0.993,
+    "pred_any_label": 1416,
+    "pred_typed": 1416,
     "predicted": 1426,
     "recall_overlap": 0.9031,
     "recall_strict": 0.9031,
     "support": 1568
+   },
+   "LOCATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 36005
+   },
+   "MAC_ADDRESS": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2078
    },
    "NRIC": {
     "f1_overlap": null,
@@ -489,10 +671,38 @@
     "found_strict": 0,
     "precision_any_label": 1.0,
     "precision_typed": 1.0,
+    "pred_any_label": 1,
+    "pred_typed": 1,
     "predicted": 1,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
+   },
+   "ORGANIZATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 21193
+   },
+   "PERSON": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 72134
    },
    "PHONE": {
     "f1_overlap": 0.8796,
@@ -500,6 +710,8 @@
     "found_strict": 10699,
     "precision_any_label": 0.9993,
     "precision_typed": 0.997,
+    "pred_any_label": 10830,
+    "pred_typed": 10805,
     "predicted": 10838,
     "recall_overlap": 0.7869,
     "recall_strict": 0.7792,
@@ -511,23 +723,79 @@
     "found_strict": 277,
     "precision_any_label": 0.9957,
     "precision_typed": 0.9928,
+    "pred_any_label": 693,
+    "pred_typed": 691,
     "predicted": 696,
     "recall_overlap": 0.05,
     "recall_strict": 0.05,
     "support": 5543
+   },
+   "URL": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 18437
+   },
+   "US_SSN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2832
    }
   },
   "locale=intl": {
+   "AGE": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2716
+   },
    "CARD": {
     "f1_overlap": 0.2023,
     "found_overlap": 730,
     "found_strict": 730,
     "precision_any_label": 0.9948,
     "precision_typed": 0.7549,
+    "pred_any_label": 962,
+    "pred_typed": 730,
     "predicted": 967,
     "recall_overlap": 0.1168,
     "recall_strict": 0.1168,
     "support": 6251
+   },
+   "DATE_TIME": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 68673
    },
    "EMAIL": {
     "f1_overlap": 0.996,
@@ -535,6 +803,8 @@
     "found_strict": 31681,
     "precision_any_label": 0.9999,
     "precision_typed": 0.9979,
+    "pred_any_label": 31796,
+    "pred_typed": 31731,
     "predicted": 31799,
     "recall_overlap": 0.9941,
     "recall_strict": 0.9926,
@@ -546,6 +816,8 @@
     "found_strict": 0,
     "precision_any_label": 1.0,
     "precision_typed": 0.5,
+    "pred_any_label": 4,
+    "pred_typed": 2,
     "predicted": 4,
     "recall_overlap": null,
     "recall_strict": null,
@@ -557,6 +829,8 @@
     "found_strict": 2853,
     "precision_any_label": 0.9798,
     "precision_typed": 0.6544,
+    "pred_any_label": 4272,
+    "pred_typed": 2853,
     "predicted": 4360,
     "recall_overlap": 0.9996,
     "recall_strict": 0.9996,
@@ -568,10 +842,38 @@
     "found_strict": 1343,
     "precision_any_label": 0.9818,
     "precision_typed": 0.9818,
+    "pred_any_label": 1346,
+    "pred_typed": 1346,
     "predicted": 1371,
     "recall_overlap": 0.9052,
     "recall_strict": 0.9032,
     "support": 1487
+   },
+   "LOCATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 36734
+   },
+   "MAC_ADDRESS": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2119
    },
    "NRIC": {
     "f1_overlap": null,
@@ -579,10 +881,38 @@
     "found_strict": 0,
     "precision_any_label": 1.0,
     "precision_typed": 1.0,
+    "pred_any_label": 3,
+    "pred_typed": 3,
     "predicted": 3,
     "recall_overlap": null,
     "recall_strict": null,
     "support": 0
+   },
+   "ORGANIZATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 28953
+   },
+   "PERSON": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 70694
    },
    "PHONE": {
     "f1_overlap": 0.8751,
@@ -590,34 +920,92 @@
     "found_strict": 11909,
     "precision_any_label": 0.997,
     "precision_typed": 0.9939,
+    "pred_any_label": 12220,
+    "pred_typed": 12182,
     "predicted": 12257,
     "recall_overlap": 0.7816,
     "recall_strict": 0.7641,
     "support": 15585
    },
    "SECRET": {
-    "f1_overlap": 0.1273,
+    "f1_overlap": 0.1272,
     "found_overlap": 390,
     "found_strict": 390,
     "precision_any_label": 0.9936,
     "precision_typed": 0.9936,
+    "pred_any_label": 780,
+    "pred_typed": 780,
     "predicted": 785,
     "recall_overlap": 0.068,
     "recall_strict": 0.068,
     "support": 5739
+   },
+   "URL": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 17478
+   },
+   "US_SSN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2087
    }
   },
   "locale=us": {
+   "AGE": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 4451
+   },
    "CARD": {
     "f1_overlap": 0.2066,
     "found_overlap": 790,
     "found_strict": 787,
     "precision_any_label": 0.9922,
     "precision_typed": 0.767,
+    "pred_any_label": 1022,
+    "pred_typed": 790,
     "predicted": 1030,
     "recall_overlap": 0.1194,
     "recall_strict": 0.119,
     "support": 6616
+   },
+   "DATE_TIME": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 61000
    },
    "EMAIL": {
     "f1_overlap": 0.9963,
@@ -625,6 +1013,8 @@
     "found_strict": 21896,
     "precision_any_label": 0.9999,
     "precision_typed": 0.9976,
+    "pred_any_label": 21951,
+    "pred_typed": 21901,
     "predicted": 21954,
     "recall_overlap": 0.995,
     "recall_strict": 0.9947,
@@ -636,6 +1026,8 @@
     "found_strict": 0,
     "precision_any_label": 0.75,
     "precision_typed": 0.25,
+    "pred_any_label": 9,
+    "pred_typed": 3,
     "predicted": 12,
     "recall_overlap": null,
     "recall_strict": null,
@@ -647,6 +1039,8 @@
     "found_strict": 3224,
     "precision_any_label": 0.985,
     "precision_typed": 0.6548,
+    "pred_any_label": 4850,
+    "pred_typed": 3224,
     "predicted": 4924,
     "recall_overlap": 1.0,
     "recall_strict": 1.0,
@@ -658,10 +1052,64 @@
     "found_strict": 1499,
     "precision_any_label": 0.9875,
     "precision_typed": 0.9875,
+    "pred_any_label": 1501,
+    "pred_typed": 1501,
     "predicted": 1520,
     "recall_overlap": 0.9086,
     "recall_strict": 0.9074,
     "support": 1652
+   },
+   "LOCATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 48750
+   },
+   "MAC_ADDRESS": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 2131
+   },
+   "ORGANIZATION": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 25884
+   },
+   "PERSON": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 72945
    },
    "PHONE": {
     "f1_overlap": 0.9243,
@@ -669,35 +1117,93 @@
     "found_strict": 12764,
     "precision_any_label": 0.9949,
     "precision_typed": 0.993,
+    "pred_any_label": 12792,
+    "pred_typed": 12767,
     "predicted": 12857,
     "recall_overlap": 0.8645,
     "recall_strict": 0.8643,
     "support": 14768
    },
    "SECRET": {
-    "f1_overlap": 0.1052,
+    "f1_overlap": 0.1053,
     "found_overlap": 329,
     "found_strict": 328,
     "precision_any_label": 0.9838,
     "precision_typed": 0.9812,
+    "pred_any_label": 787,
+    "pred_typed": 785,
     "predicted": 800,
     "recall_overlap": 0.0556,
     "recall_strict": 0.0555,
     "support": 5913
+   },
+   "URL": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 20369
+   },
+   "US_SSN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": null,
+    "precision_typed": null,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 0,
+    "recall_overlap": 0.0,
+    "recall_strict": 0.0,
+    "support": 3975
    }
   }
  },
  "by_type": {
+  "AGE": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 7167
+  },
   "CARD": {
    "f1_overlap": 0.2045,
    "found_overlap": 1520,
    "found_strict": 1517,
    "precision_any_label": 0.9935,
    "precision_typed": 0.7611,
+   "pred_any_label": 1984,
+   "pred_typed": 1520,
    "predicted": 1997,
    "recall_overlap": 0.1181,
    "recall_strict": 0.1179,
    "support": 12867
+  },
+  "DATE_TIME": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 129673
   },
   "EMAIL": {
    "f1_overlap": 0.9961,
@@ -705,6 +1211,8 @@
    "found_strict": 53577,
    "precision_any_label": 0.9999,
    "precision_typed": 0.9977,
+   "pred_any_label": 53747,
+   "pred_typed": 53632,
    "predicted": 53753,
    "recall_overlap": 0.9945,
    "recall_strict": 0.9935,
@@ -716,6 +1224,8 @@
    "found_strict": 0,
    "precision_any_label": 0.8125,
    "precision_typed": 0.3125,
+   "pred_any_label": 13,
+   "pred_typed": 5,
    "predicted": 16,
    "recall_overlap": null,
    "recall_strict": null,
@@ -727,6 +1237,8 @@
    "found_strict": 6077,
    "precision_any_label": 0.9826,
    "precision_typed": 0.6546,
+   "pred_any_label": 9122,
+   "pred_typed": 6077,
    "predicted": 9284,
    "recall_overlap": 0.9998,
    "recall_strict": 0.9998,
@@ -738,10 +1250,38 @@
    "found_strict": 2842,
    "precision_any_label": 0.9848,
    "precision_typed": 0.9848,
+   "pred_any_label": 2847,
+   "pred_typed": 2847,
    "predicted": 2891,
    "recall_overlap": 0.907,
    "recall_strict": 0.9054,
    "support": 3139
+  },
+  "LOCATION": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 85484
+  },
+  "MAC_ADDRESS": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 4250
   },
   "NRIC": {
    "f1_overlap": null,
@@ -749,10 +1289,38 @@
    "found_strict": 0,
    "precision_any_label": 1.0,
    "precision_typed": 1.0,
+   "pred_any_label": 3,
+   "pred_typed": 3,
    "predicted": 3,
    "recall_overlap": null,
    "recall_strict": null,
    "support": 0
+  },
+  "ORGANIZATION": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 54837
+  },
+  "PERSON": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 143639
   },
   "PHONE": {
    "f1_overlap": 0.8996,
@@ -760,23 +1328,61 @@
    "found_strict": 24673,
    "precision_any_label": 0.9959,
    "precision_typed": 0.9934,
+   "pred_any_label": 25012,
+   "pred_typed": 24949,
    "predicted": 25114,
    "recall_overlap": 0.822,
    "recall_strict": 0.8129,
    "support": 30353
   },
   "SECRET": {
-   "f1_overlap": 0.1161,
+   "f1_overlap": 0.1162,
    "found_overlap": 719,
    "found_strict": 718,
    "precision_any_label": 0.9886,
    "precision_typed": 0.9874,
+   "pred_any_label": 1567,
+   "pred_typed": 1565,
    "predicted": 1585,
    "recall_overlap": 0.0617,
    "recall_strict": 0.0616,
    "support": 11652
+  },
+  "URL": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 37847
+  },
+  "US_SSN": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": null,
+   "precision_typed": null,
+   "pred_any_label": 0,
+   "pred_typed": 0,
+   "predicted": 0,
+   "recall_overlap": 0.0,
+   "recall_strict": 0.0,
+   "support": 6062
   }
  },
+ "claimed_types": [
+  "CARD",
+  "EMAIL",
+  "IPV4",
+  "IPV6",
+  "PHONE",
+  "SECRET"
+ ],
  "compatible": {
   "IBAN": [
    "account_number"
@@ -874,7 +1480,8 @@
   "notes": [
    "The test split holds 100,000 rows: 50,000 uids, each once with locale=us and once with locale=intl (different texts). The card's '50k test' counts uids.",
    "Span offsets are authoritative: every span's text equals the text at its offsets except for letter case (6,195) or an integer-typed value (6,747); the scorer uses offsets only.",
-   "No Singapore NRIC/FIN or IBAN label exists; those PPE types are scored for precision only."
+   "No Singapore NRIC/FIN or IBAN label exists; those PPE types are scored for precision only.",
+   "A name is labelled as first_name and last_name separately; a system span over the full name overlaps both (found for overlap recall), but matches neither exactly (strict recall)."
   ],
   "repo": "nvidia/Nemotron-PII",
   "revision": "b70ffaf5ff39e079776134c5bf4381f00a9fd1ed",
@@ -882,30 +1489,62 @@
  },
  "docs": 100000,
  "label_map": {
+  "age": "AGE",
   "api_key": "SECRET",
+  "city": "LOCATION",
+  "company_name": "ORGANIZATION",
+  "country": "LOCATION",
+  "county": "LOCATION",
   "credit_debit_card": "CARD",
+  "date": "DATE_TIME",
+  "date_of_birth": "DATE_TIME",
+  "date_time": "DATE_TIME",
   "email": "EMAIL",
   "fax_number": "PHONE",
+  "first_name": "PERSON",
   "ipv4": "IPV4",
   "ipv6": "IPV6",
+  "last_name": "PERSON",
+  "mac_address": "MAC_ADDRESS",
   "password": "SECRET",
-  "phone_number": "PHONE"
+  "phone_number": "PHONE",
+  "ssn": "US_SSN",
+  "state": "LOCATION",
+  "street_address": "LOCATION",
+  "time": "DATE_TIME",
+  "url": "URL"
  },
  "limit": null,
- "micro_mapped_types": {
+ "micro_all_mapped_types": {
+  "f1_overlap": 0.2637,
+  "found_overlap": 89744,
+  "found_strict": 89404,
+  "precision_any_label": 0.9964,
+  "precision_typed": 0.9574,
+  "pred_any_label": 94279,
+  "pred_typed": 90590,
+  "predicted": 94624,
+  "recall_overlap": 0.1529,
+  "recall_strict": 0.1523,
+  "support": 586978
+ },
+ "micro_claimed_types": {
   "f1_overlap": 0.8476,
   "found_overlap": 89744,
   "found_strict": 89404,
   "precision_any_label": 0.9964,
   "precision_typed": 0.9574,
+  "pred_any_label": 94279,
+  "pred_typed": 90590,
   "predicted": 94624,
   "recall_overlap": 0.7604,
   "recall_strict": 0.7575,
   "support": 118019
  },
  "system": {
+  "min_score": 0.0,
   "name": "ppe-rules",
   "phone_context": "required",
-  "ppe_version": "0.1.0.dev1"
+  "ppe": "0.1.0.dev1"
  }
 }

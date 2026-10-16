@@ -1,18 +1,28 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-16, latest): EXTERNAL BENCHMARK HARNESS on `feat/external-bench-nemotron`
+## Status (2026-10-16, latest): PRESIDIO BASELINE on `feat/external-bench-nemotron`
 
-- `main` = `c987808` (review "Now" fixes + validation, pushed). This branch adds `ppe evaluate`
-  (`src/prompt_privacy/evaluation/`: pinned datasets with SHA-256, one scoring protocol, systems),
-  the NVIDIA Nemotron-PII run (`bench/2026-10-16-nemotron-pii.md`, results in
-  `bench/results/2026-10-16-nemotron-pii/`), the python-stdnum check-digit cross-check
-  (`tests/unit/test_checksums_stdnum.py`), and one detector fix it found (IPv4 before a full stop:
-  recall 0.797 → 1.000). New strict xfail: `iban_valid` has no per-country registry (precision gap).
-  Dataset copy: `/media/administrator/DATA/datasets/nvidia-Nemotron-PII/` (outside the repo, never
-  committed). Mutation check `bench/harness/mutate_evaluation.py` 13/13.
-- **Operator direction (2026-10-16):** validate Nemotron first, *then* extend to a Presidio baseline
-  across other datasets (Gretel finance, CredData; TAB when masking lands). Presidio plugs in as a
-  system in `evaluation/systems.py` with an entity → type map; datasets as `Dataset` entries.
+- `main` = `104aa84` (pushed): `ppe evaluate`, the Nemotron-PII run, the stdnum cross-check, the IPv4
+  fix. This branch, on top (local commit, not pushed): **Presidio 2.2.364 as shipped** through the same
+  harness (`bench/2026-10-16-presidio-baseline.md`, results `bench/results/2026-10-16-presidio-baseline/`,
+  head-to-head `head-to-head.txt`). Shared types (card, e-mail, IPv4/6, phone): parity except phone,
+  where PPE `phone_context=required` 0.822 / 0.993 beats Presidio 0.943 / 0.484 (≥0.5: 0.617 / 0.610).
+  Coverage of all labelled spans: Presidio 0.747, PPE 0.142; spans on no gold value: Presidio 15.4%,
+  PPE 0.4%. The gap is NER (phase 4).
+- Harness changes: `--system presidio --model-path` (local spaCy dir only; Presidio downloads a name),
+  `--min-score` list; tldextract pinned to its bundled suffix list (it downloaded the PSL into
+  `~/.cache` on first use); label map extended (PERSON, LOCATION, DATE_TIME, URL, US_SSN, ORGANIZATION,
+  AGE, MAC_ADDRESS) before Presidio was scored; two micros (claimed / all mapped); raw counts in the
+  report; ratios rounded once (the table had printed e-mail recall 0.99447 as 0.995) and F1 from
+  unrounded ratios. Tools: `bench/harness/compare_reports.py`, `leak_scan.py` (planted control),
+  `mutate_evaluation.py` now with a control run (an earlier 18/18 was a broken environment) and
+  20 faults.
+- Presidio venv `bench/harness/pvenv` (git-ignored; rebuild from `bench/harness/requirements-presidio.txt`);
+  model `/media/administrator/DATA/models/explosion-en_core_web_lg-3.8.0/` (read-only, SHA256SUMS);
+  gated test: `PPE_PRESIDIO_MODEL=<dir with meta.json> bench/harness/pvenv/bin/python -m pytest tests/evaluation`
+  under the cap. Full Presidio run: 31.6 min, 1.4 GB peak, cores 5-7.
+- **Operator direction (2026-10-16):** after Nemotron + Presidio, extend to other datasets (Gretel
+  finance, CredData for secrets; TAB when masking lands), Presidio as the baseline on each.
 
 ## Earlier status (2026-10-16): REVIEW "NOW" FIXES DONE on `fix/2026-10-review-now`
 
@@ -102,7 +112,8 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected on `feat/external-bench-nemotron`: ruff + strict mypy clean, **254 passed, 28 xfailed** (xfails =
+Expected on `feat/external-bench-nemotron`: ruff + strict mypy clean, **263 passed, 1 skipped, 28 xfailed** (skip = the
+Presidio-gated test; xfails =
 open review findings + the IBAN registry gap), **10/10 self-checks**. External run (needs `.[bench]` and
 the dataset): `ppe evaluate run nemotron-pii --data-dir /media/administrator/DATA/datasets`.
 
@@ -179,8 +190,9 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-**Start here:** Presidio baseline through `ppe evaluate` on Nemotron-PII, then more datasets (operator
-direction 2026-10-16); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
+**Start here:** push the Presidio baseline (operator's go), then the next dataset through `ppe evaluate`
+with both systems: Gretel `synthetic_pii_finance_multilingual` (Apache-2.0), then Samsung CredData
+for secrets (operator direction 2026-10-16); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
 code corpus + CI false-positive gate; gates the exposure ledger), F-19 (`serve --policy`, profile from
 policy, `[::1]:port` parsing), F-07 (constant-size records), F-03 signing (`auditd` + C2SP checkpoints),
 F-13 (CI, hash-locked lock file, CHANGELOG, SBOM), bearer token / UNIX socket for the listener (F-08 rest),
