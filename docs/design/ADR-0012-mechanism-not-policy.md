@@ -95,5 +95,3 @@ are **defaults or examples**, never requirements, unless they're listed as invar
   documentation must keep trade-off statements current with every change.
 - ADR-0011's operational section and any other place where a number reads like a mandate is to be
   read through this ADR: those are defaults and examples.
-</content>
-</invoke>

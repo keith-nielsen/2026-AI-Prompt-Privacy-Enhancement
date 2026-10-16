@@ -136,5 +136,3 @@ on what can go wrong.
 | H11 | **Hybrid post-quantum wraps** (X-Wing / ML-KEM-768 + X25519) for both shares, algorithm id in the envelope; hybrid ML-DSA checkpoints planned; prefer TPM v1.85 | HNDL, NIST IR 8547, CNSA 2.0 |
 | H12 | **Canary records**: synthetic, sealed records whose decoy identifiers (G1/G2 surrogates) are watched for in egress and observation. If a canary value ever appears in traffic, someone decrypted the audit outside a release | detection of offline compromise |
 | H13 | Monitor the monitors: alarms on key/cert expiry, TPM health, broker heartbeat, checkpoint gaps | Equifax |
-</content>
-</invoke>

@@ -154,7 +154,7 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 ## Next steps (recommended order)
 
 **Start here (2026-10-16 review):** get the operator's answers to the pending decisions above, then
-fix review §8 "Now" in order: F-01 (strip stray `</content></invoke>` markup from 23 docs + README
+fix review §8 "Now" in order: F-01 (strip stray closing-tag markup from 23 docs + README
 script), F-04 (`handler_args={"auto_decompress": False}`), F-05 (no request bytes in logs/400 bodies),
 F-06 (gap record when observation fails), F-08 (Host/Origin check, optional bearer), F-11 (audit-log
 lock + torn-line tolerance), F-03 README wording (not tamper-evident until signed checkpoints), F-14,

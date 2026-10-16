@@ -70,5 +70,3 @@ before vendoring (TruffleHog's AGPL is incompatible with copying into an Apache-
    operator opt-in.
 3. Weights: safetensors only (no pickle), pinned by revision hash + file SHA-256.
 4. Model choice must be re-validated per release (IMDA PETs guide: "periodic reviews").
-</content>
-</invoke>

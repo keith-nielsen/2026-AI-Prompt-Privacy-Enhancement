@@ -130,5 +130,3 @@ Claude Code gateway model) — better for organisations, adds a key to custody.
   (loopback, sub-millisecond plus detection time).
 - The PLAN's "mask in `async_pre_call_deployment_hook`" becomes the **fallback design** if T3
   proves impractical in testing; its research stays valid.
-</content>
-</invoke>

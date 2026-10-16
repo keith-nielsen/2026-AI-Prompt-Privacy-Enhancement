@@ -19,5 +19,3 @@ GitHub metadata via API; READMEs read where noted. None evaluated hands-on.
 3. A tamper-evident, plaintext-free audit trail with crypto-shredding retention and audited lookups.
 4. Published per-class detection metrics on a synthetic corpus (PDPC §8.3).
 5. A controls mapping (NIST 800-53 AC-4 family, PDPC, CSA, EDPB).
-</content>
-</invoke>

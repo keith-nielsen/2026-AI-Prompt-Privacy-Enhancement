@@ -120,5 +120,3 @@ Default `none`, until the bench shows it helps.
   a universal decoder (ADR-0002), and FF1 output can be a real, valid identifier (no G1/G2 guarantee).
   Rejected for default.
 - *Random fakes without determinism*: break byte-stable history. Rejected.
-</content>
-</invoke>

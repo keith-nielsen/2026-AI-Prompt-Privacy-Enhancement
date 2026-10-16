@@ -68,5 +68,3 @@ address cross-domain solution needs … such as high-assurance guards".
    sub-keys by an SP 800-108/56C KDF, cryptoperiods per SP 800-57. FPE (FF1) stays an option only;
    800-38G Rev. 1 is still a draft.
 3. The deployer's NIST AI 600-1 MEASURE 2.10 evidence is the package's bench report and audit.
-</content>
-</invoke>

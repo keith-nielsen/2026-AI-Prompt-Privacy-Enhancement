@@ -232,5 +232,3 @@ weaker setting and states what is given up.
   disaster-recovery escrow).
 - *Give the investigator a short-lived decryption key*: can't be revoked. Rejected.
 - *Always-on decrypted SOC view*: concentrates the vulnerability permanently. Rejected (ADR-0010).
-</content>
-</invoke>

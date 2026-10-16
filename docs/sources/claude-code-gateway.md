@@ -52,5 +52,3 @@ simpler. Facts quoted from the docs.
 5. Non-bypassability for Claude Code: managed `allowedProviders` + egress block of
    `api.anthropic.com` for every account except PPE's (the direct calls in the last bullet then fail
    closed, which is the intended behaviour; fast mode degrades).
-</content>
-</invoke>

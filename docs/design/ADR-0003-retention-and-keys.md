@@ -98,5 +98,3 @@ and points to the provider's retention terms for the content side.
   be chosen with legal input (deployer). Backups must not capture keys (or must be on the same
   rotation), or shredding is void: `ppe doctor` warns if the key directory is inside a backed-up path.
 - Open: default retention 12 months is a proposal (PLAN §6.4); the deployer writes the rationale.
-</content>
-</invoke>

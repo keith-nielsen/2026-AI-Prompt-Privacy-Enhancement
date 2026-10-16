@@ -120,5 +120,3 @@ key_ids        {tok, aud}
   integrity is verifiable with standard tooling; SIEM gets what it needs.
 - Negative: dedup means "how many times did V leave" is approximate (per scope, not per request);
   per-request counts exist only as aggregates. Two extra processes (auditd, optional escrow).
-</content>
-</invoke>

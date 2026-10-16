@@ -27,5 +27,3 @@ litellm-hooks.md remain the only in-process point where the real target is known
    deployments at PPE.
 2. Never place plaintext in anything LiteLLM logs (return values, metadata, exceptions).
 3. Separate venv / service account for PPE; LiteLLM gets no read access to PPE keys.
-</content>
-</invoke>

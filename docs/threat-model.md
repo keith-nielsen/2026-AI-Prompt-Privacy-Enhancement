@@ -127,5 +127,3 @@ B3: key store ⟂ LiteLLM account;  B4: operator group ⟂ everyone else
 - Root on the host defeats all local controls.
 - Stand-alone installs without egress control can be bypassed by any client not configured to use PPE.
 - Opaque content (images, PDFs) is not inspected in v1 — policy blocks or keeps it local.
-</content>
-</invoke>

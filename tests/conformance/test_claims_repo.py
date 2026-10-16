@@ -31,9 +31,6 @@ def _tracked(*patterns: str) -> list[Path]:
     return [ROOT / p for p in out.stdout.split()]
 
 
-@pytest.mark.xfail(
-    strict=True, reason="F-01: 23 published docs end with stray tool-call markup (README embeds a script)"
-)
 def test_c44_docs_contain_no_stray_tool_markup() -> None:
     """C-44 (docs quality; agent safety): no leftover `</invoke>`-style markup in tracked text files."""
     pattern = re.compile(r"</?(?:invoke|parameter)\b|</content>")
