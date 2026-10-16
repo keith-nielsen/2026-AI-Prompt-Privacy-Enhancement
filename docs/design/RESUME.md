@@ -1,10 +1,25 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-16, latest): GRETEL FINANCE + PRESIDIO BASELINE
+## Status (2026-10-17, latest): GRETEL FINANCE + PRESIDIO BASELINE, PUSHED
 
-- Branches: `feat/external-bench-nemotron` (Presidio baseline, 2 commits after `104aa84`) and
-  `feat/external-bench-gretel` on top of it (Gretel run + 3 detector fixes). Operator direction: finish
-  Gretel, then push both (fast-forward `main`).
+- **Pushed 2026-10-16 (operator's go):** `main` = `5b3ae8a` on GitHub, fast-forwarded through
+  `feat/external-bench-nemotron` (`ef01fe1`, Presidio baseline) and `feat/external-bench-gretel`
+  (`5b3ae8a`: detector fixes `86758e9`, Gretel loader `49dd9cf`, results + docs). This resume-card
+  update is one local commit on `feat/external-bench-gretel` after `5b3ae8a` (not pushed; `main` not
+  moved). Working tree otherwise clean. No model, server or background job is running.
+- **Resume checklist:** `git status`; branch `feat/external-bench-gretel`; run the quick-start gate
+  (expect 287 passed, 1 skipped, 24 xfailed; `ppe verify` 10/10). Before any model run: check Kent
+  (:8080) and the operator's :8081 tests are idle, then use the cap (`systemd-run --user --scope -q -p
+  MemoryMax=4G -p MemorySwapMax=0 nice -n 19 taskset -c 5-7 …`). Presidio runs from `bench/harness/pvenv`
+  (`--model-path` = the `en_core_web_lg-3.8.0` directory holding `meta.json`, under
+  `/media/administrator/DATA/models/explosion-en_core_web_lg-3.8.0/`; the operator said hardening it to
+  the read-only `/srv/kent/models` path can wait while testing).
+- **Method that held up (keep doing it):** fix the label map before scoring; regenerate every result
+  after a detector change and recompute every quoted figure from the raw counts (`compare_reports.py`,
+  a short script over the JSON); leak-scan results and docs with a planted control
+  (`leak_scan.py <dataset>`); mutation check with its control run (`mutate_evaluation.py`, both venvs);
+  stage before running the gate so C-46 sees new bench files; no test parameters or sample identifiers
+  in committed result files.
 - **Presidio 2.2.364 as shipped** through the same harness (`bench/2026-10-16-presidio-baseline.md`):
   on Nemotron, pattern types at parity; phone: PPE `required` 0.822 / 0.993 vs Presidio 0.943 / 0.484;
   coverage Presidio 0.747 vs PPE 0.142, spans on no gold value 15.4% vs 0.4%.
@@ -193,10 +208,14 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-**Start here:** Samsung CredData for secrets through `ppe evaluate` with both systems (read its
-download script before anything runs; obfuscated values, Apache-2.0 metadata); candidate detector
-work from the Gretel run: card IIN ranges (ADR-0005, C-08) and per-language phone formats and context
-words (operator direction 2026-10-16: datasets first); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
+**Start here:** Samsung CredData for secrets through `ppe evaluate` with both systems (operator
+direction 2026-10-16: datasets first). CredData ships metadata plus a download script that pulls
+source repositories from GitHub: read the script before anything runs, run nothing from the dataset,
+keep the data under `/media/administrator/DATA/datasets/`, add a `Dataset` entry (or a second loader
+if it is not parquet) with a pinned revision and hashes, and fix its label map before scoring. Then
+candidate detector work from the Gretel run: card IIN ranges (ADR-0005, C-08: 51 of 62 no-gold card
+findings had no brand prefix) and per-language phone formats and context words (French recall
+0.529 / 0.218 required); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
 code corpus + CI false-positive gate; gates the exposure ledger), F-19 (`serve --policy`, profile from
 policy, `[::1]:port` parsing), F-07 (constant-size records), F-03 signing (`auditd` + C2SP checkpoints),
 F-13 (CI, hash-locked lock file, CHANGELOG, SBOM), bearer token / UNIX socket for the listener (F-08 rest),
