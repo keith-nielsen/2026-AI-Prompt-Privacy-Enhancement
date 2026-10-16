@@ -45,7 +45,24 @@ SHA-256 verified against the Hugging Face API on 2026-10-03.
 | `kent_review_bench.py --dry-run / --throughput / --run` | Kent's llama-server: token speeds, identifier extraction, injection | `KENT_LLAMA_URL` (default `http://127.0.0.1:8080`); refuses unless all slots idle; run with `watchdog.sh` |
 | `watchdog.sh <pid> <swap_baseline_mb> <log>` | kills `<pid>` if swap grows > 1 GB | `setsid -f watchdog.sh …` |
 | `nemotron_miss_shapes.py <data-dir> [limit]` (2026-10-16) | shape classes of found/missed Nemotron-PII gold spans, counts only | from the repo root; no model, CPU only |
-| `mutate_evaluation.py` (2026-10-16) | breaks the scorer, downloader, parser, check digits, surrogates, detector one at a time; every fault must fail a test | from the repo root; restores every file |
+| `mutate_evaluation.py` (2026-10-16) | breaks the scorer, downloader, parser, check digits, surrogates, detector and Presidio wrapper one at a time; every fault must fail a test. A control run on the unmutated tree must pass first | from the repo root; restores every file. With `pvenv/bin/python` and `PPE_PRESIDIO_MODEL`, also the Presidio-gated fault (capped) |
+| `compare_reports.py OUT REPORT…` (2026-10-16) | head-to-head of `ppe evaluate run --json` reports on the same dataset pin: shared claimed types rebuilt from raw counts, own-scope and all-mapped micros, per-label coverage | refuses reports from different pins or limits, or without raw counts |
+
+## Presidio baseline venv (2026-10-16)
+
+Presidio is a separately installed baseline, never a PPE dependency:
+
+```bash
+~/ai-env/bin/uv venv --python 3.12 bench/harness/pvenv          # git-ignored
+~/ai-env/bin/uv pip install --python bench/harness/pvenv/bin/python -r bench/harness/requirements-presidio.txt
+~/ai-env/bin/uv pip install --python bench/harness/pvenv/bin/python -e ".[bench]"
+```
+
+The spaCy model is loaded from a path, never by name (Presidio downloads a name it cannot find):
+`en_core_web_lg` 3.8.0 from the spaCy GitHub release (Hugging Face carries 3.7.1 only), unpacked
+read-only under `/media/administrator/DATA/models/explosion-en_core_web_lg-3.8.0/`, tarball SHA-256
+in its `SHA256SUMS` (recorded at download; the release publishes no digest). Pass the inner
+directory that holds `meta.json` as `--model-path`.
 
 The external benchmark itself is part of the package (`ppe evaluate`, `src/prompt_privacy/evaluation/`,
 linted and tested); see `bench/2026-10-16-nemotron-pii.md`. Datasets live outside the repository

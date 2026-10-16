@@ -2,9 +2,13 @@
 time, run the tests, restore. Every mutation must make at least one test fail.
 
     .venv/bin/python bench/harness/mutate_evaluation.py   # from the repository root; restores every file
+
+Mutations marked "(presidio)" need real Presidio: run the script with bench/harness/pvenv/bin/python
+and PPE_PRESIDIO_MODEL set to the local spaCy model directory (a model run, so under the usual cap);
+otherwise they are reported as not run.
 """
 
-import subprocess, sys, pathlib
+import os, subprocess, sys, pathlib
 M = [
  ("scoring: adjacency counts as overlap", "src/prompt_privacy/evaluation/scoring.py", "return self.start < other.end and other.start < self.end", "return self.start <= other.end and other.start <= self.end"),
  ("scoring: strict == overlap", "src/prompt_privacy/evaluation/scoring.py", "exact = any(p.label == t and p.start == g.start and p.end == g.end for p in preds)", "exact = hit"),
@@ -18,20 +22,42 @@ M = [
  ("iban: check digits off by one", "src/prompt_privacy/core/checksums.py", 'return f"{98 - n % 97:02d}"', 'return f"{(99 - n % 97) % 100:02d}"'),
  ("iban surrogate: valid check digits", "src/prompt_privacy/core/surrogates.py", "bad = (valid + r.randint(1, 96)) % 100", "bad = valid"),
  ("detector: IPv4 full-stop fix reverted", "src/prompt_privacy/detectors/patterns.py", r'(?!\d|\.\d)")', r'(?![\d.])")'),
+ ("scoring: claimed scope ignored", "src/prompt_privacy/evaluation/scoring.py", "claimed = mapped if self.claimed is None else mapped & self.claimed", "claimed = mapped"),
+ ("cli: score threshold not applied", "src/prompt_privacy/cli/main.py", "[s for s in spans if s.score >= t]", "list(spans)"),
+ ("presidio: IPv6 labelled IPv4", "src/prompt_privacy/evaluation/systems.py", 'label = "IPV6" if ":" in text[r.start : r.end] else "IPV4"', 'label = "IPV4"'),
+ ("presidio: model name accepted", "src/prompt_privacy/evaluation/systems.py", 'if not model_path.is_dir() or not (model_path / "meta.json").is_file():', "if False:"),
+ ("presidio: suffix list fetched online (presidio)", "src/prompt_privacy/evaluation/systems.py", "suffix_list_urls=(), fallback_to_snapshot", 'suffix_list_urls=("http://127.0.0.1:9/psl.dat",), fallback_to_snapshot'),  # loopback, refused: no fetch leaves the host
+ ("table: stored ratios rounded again", "src/prompt_privacy/evaluation/scoring.py", 'if "pred_typed" not in c:', "if True:"),
+ ("scoring: F1 from rounded ratios", "src/prompt_privacy/evaluation/scoring.py", "round(2 * exact_r * exact_p / (exact_r + exact_p), 4)", "round(2 * r * p / (r + p), 4)"),
  ("detector: IBAN grouped form not matched", "src/prompt_privacy/detectors/patterns.py", r'(?:[ ]?[A-Za-z0-9]){11,30}', r'(?:[A-Za-z0-9]){11,30}'),
 ]
 tests = ["tests/evaluation", "tests/unit/test_checksums_stdnum.py", "tests/detectors/test_patterns.py", "tests/unit/test_checksums.py"]
-caught = 0
+try:
+    import presidio_analyzer  # noqa: F401
+    have_presidio = bool(os.environ.get("PPE_PRESIDIO_MODEL"))
+except ImportError:
+    have_presidio = False
+cmd = [sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider", *tests]
+# Control: the unmutated tree must pass, or every "caught" below would only reflect a broken setup.
+base = subprocess.run(cmd, capture_output=True, text=True)
+if base.returncode != 0:
+    sys.exit("control run failed on the unmutated tree:\n" + base.stdout[-2000:])
+print("control  unmutated tree passes")
+caught = run = 0
 for name, path, old, new in M:
+    if "(presidio)" in name and not have_presidio:
+        print(f"NOT RUN  {name:<42} (needs Presidio and PPE_PRESIDIO_MODEL)")
+        continue
+    run += 1
     p = pathlib.Path(path); src = p.read_text()
     assert src.count(old) == 1, (name, src.count(old))
     p.write_text(src.replace(old, new))
     try:
-        r = subprocess.run([".venv/bin/pytest", "-q", "-x", "-p", "no:cacheprovider", *tests], capture_output=True, text=True)
+        r = subprocess.run(cmd, capture_output=True, text=True)
     finally:
         p.write_text(src)
     killed = r.returncode != 0
     caught += killed
     failed = [l.split("::")[-1].split(" ")[0] for l in r.stdout.splitlines() if l.startswith("FAILED")]
     print(f"{'CAUGHT ' if killed else 'MISSED '} {name:<42} {failed[:1]}")
-print(f"\n{caught}/{len(M)} mutations caught")
+print(f"\n{caught}/{run} mutations caught ({len(M) - run} not run)")
