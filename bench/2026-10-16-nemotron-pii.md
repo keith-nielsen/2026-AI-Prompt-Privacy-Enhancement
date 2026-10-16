@@ -33,12 +33,19 @@ three cores (`nice -n 19 taskset -c 5-7`). Results: `bench/results/2026-10-16-ne
 
 ## Protocol (`src/prompt_privacy/evaluation/scoring.py`)
 
-One protocol for every system, so a later Presidio or span-model run is scored identically.
+One protocol for every system, so Presidio (done) or a later span-model run is scored identically.
 
-- **Label map.** A dataset label maps to a PPE type only when *every* span with that label is that
-  type: `email`→EMAIL, `phone_number`/`fax_number`→PHONE, `credit_debit_card`→CARD, `ipv4`→IPV4,
-  `ipv6`→IPV6, `api_key`/`password`→SECRET. The other 47 labels are not claimed by the rules and are
-  scored for any-type coverage only.
+- **Label map.** A dataset label maps to a canonical type only when *every* span with that label is
+  that type: `email`→EMAIL, `phone_number`/`fax_number`→PHONE, `credit_debit_card`→CARD,
+  `ipv4`→IPV4, `ipv6`→IPV6, `api_key`/`password`→SECRET. For the Presidio baseline the map was
+  extended, before Presidio was scored and the same for every system, to types PPE's rules do not
+  claim: `first_name`/`last_name`→PERSON, `city`/`county`/`state`/`country`/`street_address`→LOCATION,
+  `date`/`date_time`/`date_of_birth`/`time`→DATE_TIME, `url`→URL, `ssn`→US_SSN,
+  `company_name`→ORGANIZATION, `age`→AGE, `mac_address`→MAC_ADDRESS. The other 31 labels
+  (`account_number`, `customer_id`, `postcode`, …) are scored for any-type coverage only.
+- **Two micro averages.** Over the types the system claims (its own scope; for PPE's rules: CARD,
+  EMAIL, IPV4, IPV6, PHONE, SECRET, IBAN, NRIC, of which the first six have labels), and over every
+  mapped type (the same 586,978 gold spans for every system).
 - **Compatible labels** count for precision only (they can hold the type among other things):
   IBAN on `account_number`, NRIC on `national_id`, SECRET on `http_cookie`.
 - **Recall, overlap:** a mapped gold span is found when a finding *of the same type* overlaps it.
@@ -56,22 +63,30 @@ One protocol for every system, so a later Presidio or span-model run is scored i
 
 | type | support | R overlap | R strict | findings | P typed | P any | F1 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| CARD | 12,867 | 0.118 | 0.118 | 1,997 | 0.761 | 0.994 | 0.204 |
-| EMAIL | 53,930 | 0.995 | 0.994 | 53,753 | 0.998 | 1.000 | 0.996 |
+| CARD | 12,867 | 0.118 | 0.118 | 1,997 | 0.761 | 0.993 | 0.205 |
+| EMAIL | 53,930 | 0.994 | 0.993 | 53,753 | 0.998 | 1.000 | 0.996 |
 | IPV4 | 6,078 | **1.000** | 1.000 | 9,284 | 0.655 | 0.983 | 0.791 |
 | IPV6 | 3,139 | 0.907 | 0.905 | 2,891 | 0.985 | 0.985 | 0.944 |
 | PHONE | 30,353 | 0.917 | 0.906 | 52,041 | 0.535 | 0.994 | 0.675 |
 | SECRET | 11,652 | 0.062 | 0.062 | 1,585 | 0.987 | 0.989 | 0.116 |
 | IBAN | (no label) | | | 16 | 0.312 | 0.812 | |
 | NRIC | (no label) | | | 3 | 1.000 | 1.000 | |
-| **micro, mapped types** | 118,019 | 0.785 | 0.782 | 121,551 | 0.769 | 0.996 | 0.777 |
+| **micro, claimed types** | 118,019 | 0.785 | 0.782 | 121,551 | 0.769 | 0.996 | 0.777 |
+| micro, all mapped types | 586,978 | 0.158 | 0.157 | 121,551 | 0.769 | 0.996 | 0.262 |
 
 `phone_context=required` changes PHONE only: recall 0.822, typed precision **0.993**, F1 0.900;
-micro recall 0.760, precision 0.957, F1 0.848.
+micro over claimed types: recall 0.760, precision 0.957, F1 0.848 (all mapped types: 0.153 / 0.957 /
+0.264). The all-mapped micro counts names, places, dates and the other spaCy-style types against
+the rules, which claim none of them; Presidio's numbers on the same denominator are in
+[`2026-10-16-presidio-baseline.md`](2026-10-16-presidio-baseline.md).
 
 Any-type coverage over all 850,340 gold spans: **0.142** (optional) / 0.111 (required). Names,
 addresses, dates, SSNs, account numbers and the like need span models (phase 4) or rules not yet
 written; the per-label table is in the `.txt` results.
+
+Ratios in these tables are computed from the raw counts and rounded once. (Until 2026-10-16 the
+console table re-rounded the 4-place ratios stored in the JSON, which printed EMAIL recall 0.99447
+as 0.995, and F1 was computed from rounded ratios; both fixed, the counts were never affected.)
 
 ## What the numbers mean (from `miss_shapes.txt`, counts only)
 
@@ -112,12 +127,17 @@ never imports):
   (`ast.literal_eval` builds literals only); download kept only on exact size and hash, aborted while
   streaming when too long, nothing left behind on mismatch; tampered or missing file refused;
   parquet reading; an end-to-end `ppe evaluate run` whose output must not contain the input's text.
-- **Mutation check** (`bench/harness/mutate_evaluation.py`, output `mutation.txt`): 13 deliberate
-  faults in the scorer, downloader, parser, check-digit code, surrogates and detector; **13/13**
-  caught. The first run caught 12; the survivor (the streaming size cap) got its own test.
-- **No dataset text in the results:** every gold value of length ≥ 4 (283,260 distinct) was searched
-  for in the committed result files. The only matches are coincidences: counts (numbers of up to 6
-  digits), label names, words from our own notes, the date, and the column name `support`.
+- **Mutation check** (`bench/harness/mutate_evaluation.py`, output `mutation.txt`): a control run
+  on the unmutated tree must pass first; then deliberate faults in the scorer, downloader, parser,
+  check-digit code, surrogates, detector and Presidio wrapper. First run: 13 faults, 12 caught; the
+  survivor (the streaming size cap) got its own test. Now 20 faults, **20/20** caught with Presidio
+  installed (19/19 without, the Presidio-gated fault marked not run).
+- **No dataset text in the results** (`bench/harness/leak_scan.py`; output in
+  `bench/results/2026-10-16-presidio-baseline/leak_scan.txt`, covering both result directories):
+  every gold value of length ≥ 4 (283,260 distinct) is searched for in the committed result files,
+  and every run of 35+ characters of document text, with the 55 label names masked. No document
+  text; the value matches are coincidences: our own counts, label names, words from our own notes,
+  the date, and the column name `support`. A planted excerpt is caught.
 - **Fetch exercised against the Hub:** `ppe evaluate fetch` downloaded the pinned file in 10 s,
   byte-identical to the separately downloaded copy, and a second call did no download.
 
@@ -127,4 +147,5 @@ never imports):
 the train split of the same dataset); `docs/sources/detector-models.md`. That is not comparable with
 the table above: different label set, different matching rules, in-distribution training. The
 comparison becomes like-for-like only when other systems run through this harness with this label
-map. Next: a Presidio baseline, then further datasets (Gretel finance, CredData for secrets).
+map. Done for Presidio: [`2026-10-16-presidio-baseline.md`](2026-10-16-presidio-baseline.md). Next:
+further datasets (Gretel finance, CredData for secrets).

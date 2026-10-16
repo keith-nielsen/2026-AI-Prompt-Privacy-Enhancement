@@ -50,9 +50,14 @@ ANTHROPIC_BASE_URL=http://127.0.0.1:8787 claude # any Anthropic Messages client
 Benchmark numbers come from a synthetic corpus written alongside the detectors. Treat them as a
 regression floor, not as evidence of real-world accuracy (see `bench/`). The first external
 measurement, on NVIDIA's public synthetic Nemotron-PII test split with a published scoring protocol,
-is in [`bench/2026-10-16-nemotron-pii.md`](bench/2026-10-16-nemotron-pii.md): e.g. e-mail recall 0.995,
+is in [`bench/2026-10-16-nemotron-pii.md`](bench/2026-10-16-nemotron-pii.md): e.g. e-mail recall 0.994,
 IPv4 1.000, phone 0.917 (typed precision 0.535; 0.993 with `phone_context: required`); 14% of all
 labelled spans covered, because names, addresses and most ID types need span models (not built).
+Microsoft Presidio with its default set-up, scored on the same data with the same protocol
+([`bench/2026-10-16-presidio-baseline.md`](bench/2026-10-16-presidio-baseline.md)), matches the rules
+on e-mail, IP and card, finds more phone numbers at lower precision (0.943 / 0.484), and covers 75% of
+labelled spans (names, places and dates through its NER model, many ID numbers only through
+low-confidence patterns), while 15% of its spans fall on no labelled value (PPE: 0.4%).
 
 ## Built and designed
 

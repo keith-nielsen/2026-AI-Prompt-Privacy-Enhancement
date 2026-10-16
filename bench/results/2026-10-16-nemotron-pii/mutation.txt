@@ -1,3 +1,5 @@
+# bench/harness/mutate_evaluation.py, run with bench/harness/pvenv/bin/python and PPE_PRESIDIO_MODEL set (capped)
+control  unmutated tree passes
 CAUGHT  scoring: adjacency counts as overlap       ['test_adjacent_spans_do_not_overlap']
 CAUGHT  scoring: strict == overlap                 ['test_strict_and_overlap_differ_on_boundaries']
 CAUGHT  scoring: compatible ignored                ['test_strict_and_overlap_differ_on_boundaries']
@@ -10,6 +12,17 @@ CAUGHT  luhn: wrong position doubled               ['test_luhn_agrees']
 CAUGHT  iban: check digits off by one              ['test_every_stdnum_valid_iban_is_valid_and_detected']
 CAUGHT  iban surrogate: valid check digits         ['test_surrogates_are_invalid_for_stdnum']
 CAUGHT  detector: IPv4 full-stop fix reverted      ['test_cli_run_end_to_end']
+CAUGHT  scoring: claimed scope ignored             ['test_claimed_scope_micro_versus_all_mapped']
+CAUGHT  cli: score threshold not applied           ['test_cli_min_score_writes_one_report_per_threshold']
+CAUGHT  presidio: IPv6 labelled IPv4               ['test_presidio_spans_maps_splits_and_passes_through']
+CAUGHT  presidio: model name accepted              ['test_presidio_refuses_a_model_name_or_missing_directory']
+CAUGHT  presidio: suffix list fetched online (presidio) ['test_presidio_end_to_end']
+CAUGHT  table: stored ratios rounded again         ['test_table_rounds_from_counts_once']
+CAUGHT  scoring: F1 from rounded ratios            ['test_f1_from_unrounded_ratios']
 CAUGHT  detector: IBAN grouped form not matched    ['test_every_stdnum_valid_iban_is_valid_and_detected']
 
-13/13 mutations caught
+20/20 mutations caught (0 not run)
+
+# same script with .venv/bin/python (no Presidio): the gated fault is not run
+NOT RUN  presidio: suffix list fetched online (presidio) (needs Presidio and PPE_PRESIDIO_MODEL)
+19/19 mutations caught (1 not run)
