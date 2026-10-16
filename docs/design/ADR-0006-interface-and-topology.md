@@ -130,3 +130,10 @@ Claude Code gateway model) — better for organisations, adds a key to custody.
   (loopback, sub-millisecond plus detection time).
 - The PLAN's "mask in `async_pre_call_deployment_hook`" becomes the **fallback design** if T3
   proves impractical in testing; its research stays valid.
+
+## Amendment 2026-10-16 (review F-20): no path prefix in phase 2a
+
+`ppe serve` (phase 2a) has one upstream per listener and forwards the request path unchanged, so
+stand-alone clients use `ANTHROPIC_BASE_URL=http://127.0.0.1:8787` with no `/anthropic` prefix. The
+per-provider prefixes above (`/anthropic`, `/openai/v1`) arrive with the OpenAI formats (phase 2d), when
+one listener serves several providers.

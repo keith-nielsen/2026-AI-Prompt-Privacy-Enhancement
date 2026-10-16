@@ -99,3 +99,9 @@ permission error, i.e. a coverage alert, not a silent bypass.
   attestation PPE cannot verify.
 - *Treat everything as cloud (always mask)* — safe but kills keep-local and wastes latency on local
   traffic; available as the `paranoid` policy for users with no local model.
+
+## Amendment 2026-10-16 (review F-20): profile names
+
+This ADR predates the profile names in ADR-0012 and the policy schema (`lab`, `personal`, `team`,
+`regulated`, `high-assurance`). Read `standard` as `personal`/`team` and `hardened` as
+`regulated`/`high-assurance`. Zone verification (L1-L3) is not built yet.

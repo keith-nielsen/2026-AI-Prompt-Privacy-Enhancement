@@ -40,6 +40,21 @@ KNOBS: tuple[Knob, ...] = (
         "ADR-0005",
     ),
     Knob(
+        "detection.dictionary",
+        ("empty", "terms"),
+        "empty",
+        {
+            "empty": "no list of sensitive names to keep or protect",
+            "terms": "client names, code names and staff names no rule recognises are protected",
+        },
+        {
+            "empty": "names and code names leak unless a span model finds them (not built yet)",
+            "terms": "exact match only (no misspellings or inflections); the list itself is sensitive (A7)",
+        },
+        "tests/unit/test_engine.py::test_masked_text_contains_no_real_values",
+        "ADR-0005",
+    ),
+    Knob(
         "swap.form",
         ("surrogate", "token"),
         "surrogate",
@@ -126,7 +141,7 @@ KNOBS: tuple[Knob, ...] = (
             "model_legs": "data sources invisible",
             "model_legs+sources": "more sensors, more (sealed) records",
         },
-        "coverage test (Phase 2)",
+        "tests/proxy (cloud leg, Anthropic Messages: built); choosing a mode needs `serve --policy`",
         "ADR-0007",
         implemented=False,
     ),
@@ -178,8 +193,12 @@ def explain(policy: dict[str, Any]) -> str:
     lines.append("")
     for k in KNOBS:
         value = get(policy, k.path) or k.default
+        shown = value
+        if isinstance(value, list):  # e.g. dictionary terms: sensitive, never printed
+            value = "terms" if value else "empty"
+            shown = f"{value} ({len(get(policy, k.path) or [])} entries)"
         state = "" if k.implemented else "  [designed, not built yet]"
-        lines.append(f"{k.path} = {value}{state}   ({k.adr})")
+        lines.append(f"{k.path} = {shown}{state}   ({k.adr})")
         lines.append(f"    protects: {k.gain.get(value, '?')}")
         lines.append(f"    gives up: {k.give_up.get(value, '?')}")
         others = [o for o in k.options if o != value]

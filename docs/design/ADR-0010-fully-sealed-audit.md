@@ -129,3 +129,9 @@ can't be correlated without decrypting.
   happen in order on one machine. The XOR split allows separate places. Rejected.
 - *Clear occurrence records with restricted access* (ADR-0009): rejected by the operator — the
   breadcrumb argument.
+
+## Amendment 2026-10-16 (review F-20): profile names
+
+Read `standard` as `personal`/`team` and `hardened` as `regulated`/`high-assurance` (ADR-0012 profile
+names). As built, the dev-token rail is wider than stated above: every profile other than `lab` refuses
+the dev token.

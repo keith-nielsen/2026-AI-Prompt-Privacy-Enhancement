@@ -144,3 +144,11 @@ header `x-ppe-allow: <class>` honoured only for callers whose policy permits it 
 
 Covered above: B (value-in-token), fakes, positional numbering (`<PERSON_1>`), plain hashes (rejected
 by PDPC: "pre-computed tables … especially for … NRICs").
+
+## Amendment 2026-10-16 (review F-20): token alphabet
+
+The token suffix is built with RFC 4648 base32 in lower case (`a-z2-7`, `core/surrogates.py`), not
+Crockford base32 as written above. Both give 5 bits per character, so the 50-bit suffix stands; restore
+matches tokens case-insensitively either way. Crockford's advantage (no `i`/`l`/`o`/`u`, fewer
+look-alikes when a model or a person copies a token) is not needed while tokens are only matched by
+machine; revisit if token recall from model output turns out to suffer from look-alike characters.

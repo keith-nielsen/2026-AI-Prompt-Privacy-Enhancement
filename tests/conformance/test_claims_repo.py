@@ -76,9 +76,6 @@ def test_c46_no_generated_checksum_valid_identifiers_committed() -> None:
     assert found == []
 
 
-@pytest.mark.xfail(
-    strict=True, reason="F-20: SECURITY.md/CONTRIBUTING.md still say 'design phase, no executable code'"
-)
 def test_c47_security_and_contributing_describe_the_current_state() -> None:
     """C-47 (SECURITY.md 'Status'): the policy describes what is actually shipped (v0.1.0.dev1 has code)."""
     for name in ("SECURITY.md", "CONTRIBUTING.md"):
@@ -86,16 +83,12 @@ def test_c47_security_and_contributing_describe_the_current_state() -> None:
         assert "no executable code" not in text and "design phase" not in text, name
 
 
-@pytest.mark.xfail(strict=True, reason="F-20: README 'Read' table lists ADR-0001 … ADR-0012; ADR-0013 exists")
 def test_c48_readme_adr_index_is_current() -> None:
     """C-48 (README 'Read' table)."""
     adrs = sorted(p.name[:8] for p in (ROOT / "docs/design").glob("ADR-*.md"))
     assert f"ADR-0001 … {adrs[-1]}" in (ROOT / "README.md").read_text()
 
 
-@pytest.mark.xfail(
-    strict=True, reason="F-20: detection.dictionary is configurable but has no knob/trade-off entry"
-)
 def test_c49_every_policy_setting_has_a_knob_with_trade_off_and_test() -> None:
     """C-49 (knobs.py: 'every setting with its trade-off and the test that proves it'; ADR-0012 §3)."""
     leaves: list[str] = []

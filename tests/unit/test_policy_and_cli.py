@@ -27,6 +27,14 @@ def test_explain_names_every_knob_and_flags_unbuilt() -> None:
     assert "[designed, not built yet]" in text
 
 
+def test_explain_summarises_the_dictionary_without_printing_terms() -> None:
+    text = knobs.explain(
+        {"profile": "team", "detection": {"dictionary": [{"term": "Project Falcon", "type": "TERM"}]}}
+    )
+    assert "detection.dictionary = terms (1 entries)" in text and "Falcon" not in text
+    assert "detection.dictionary = empty" in knobs.explain({"profile": "team"})
+
+
 def test_scan_never_prints_values(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     f = tmp_path / "in.txt"
     f.write_text("NRIC S1234567D card 4111 1111 1111 1111")
