@@ -1,19 +1,25 @@
 """Pinned public datasets: where they come from, how they are checked, how they are read.
 
-A dataset is fetched once into a directory outside the repository (`ppe evaluate fetch`). The
-download is pinned to a revision and every file is checked against its published size and SHA-256
-before it is kept; `run` checks the hash again, so a result always names the exact bytes it scored.
-Only data is downloaded; nothing from a dataset repository is executed.
+A Hugging Face dataset is fetched once into a directory outside the repository (`ppe evaluate
+fetch`). The download is pinned to a revision and every file is checked against its published size
+and SHA-256 before it is kept; `run` checks the hash again, so a result always names the exact bytes
+it scored. Only data is downloaded; nothing from a dataset repository is executed.
+
+CredData is built, not downloaded: its own script fetches the labelled files from GitHub and
+obfuscates the credentials. PPE does not run that script; the one-off build is documented in
+`bench/harness/build_creddata.sh`, and `run` pins its output by a manifest of every file's SHA-256.
 """
 
 from __future__ import annotations
 
 import ast
+import csv
 import hashlib
 import json
 import os
 import urllib.request
-from collections.abc import Iterator, Mapping
+from collections import defaultdict
+from collections.abc import Iterator, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -26,14 +32,14 @@ _CHUNK = 1 << 20
 @dataclass(frozen=True)
 class DataFile:
     path: str  # relative to the dataset repository and to the local data directory
-    sha256: str
-    size: int
+    sha256: str  # of the file; for a built tree (a directory), of its manifest (`manifest_sha256`)
+    size: int  # bytes; for a built tree, the total over the files in its manifest
 
 
 @dataclass(frozen=True)
 class Dataset:
     name: str
-    repo: str  # Hugging Face dataset repository
+    repo: str  # Hugging Face dataset repository, or GitHub for a built dataset
     revision: str  # commit; never a branch name
     licence: str
     attribution: str
@@ -49,8 +55,16 @@ class Dataset:
     # A gold span outside its text: "reject" the dataset (an error), or "drop" the span and count it in
     # the report. Only for a dataset whose card or profile shows such spans; the default is strict.
     out_of_range: str = "reject"
+    # Open-ended labels (see `scoring`): label prefix -> type, and type -> compatible label prefixes.
+    label_prefixes: Mapping[str, str] = field(default_factory=dict)
+    compatible_prefixes: Mapping[str, tuple[str, ...]] = field(default_factory=dict)
+    # "huggingface": one parquet file per split, fetched by PPE. "creddata": a tree built by the
+    # dataset's own script (never run by PPE), read as source files plus line labels.
+    source: str = "huggingface"
 
     def url(self, f: DataFile) -> str:
+        if self.source != "huggingface":
+            raise ValueError(f"{self.name} is built, not downloaded: see bench/harness/build_creddata.sh")
         return f"https://huggingface.co/datasets/{self.repo}/resolve/{self.revision}/{f.path}"
 
 
@@ -176,7 +190,50 @@ GRETEL_PII_FINANCE = Dataset(
     ),
 )
 
-DATASETS: dict[str, Dataset] = {d.name: d for d in (NEMOTRON_PII, GRETEL_PII_FINANCE)}
+CREDDATA = Dataset(
+    name="creddata",
+    repo="Samsung/CredData",
+    revision="218aa1708441b2edbd006b98f143c267a16850f0",
+    licence="Apache-2.0 (labels and scripts); each source file keeps its own project's licence",
+    attribution=(
+        "CredData (Credential Dataset), Samsung, https://github.com/Samsung/CredData. Labels are "
+        "Apache-2.0; every file is under its original project's licence. Only aggregate counts derived "
+        "from it are published here; no file content, paths or values."
+    ),
+    splits={
+        "all": DataFile(
+            "repo", "8fce8386db5380f7cb768c8ff63083f5114b87fec577766ef2d96e27cf685aa8", 1025762915
+        )
+    },
+    # Every label is `<verdict>:<CredSweeper rule(s)>`. Chosen from the labels' meaning before any
+    # system was scored on this dataset (2026-10-17): T (a real credential, whatever the rule) is
+    # SECRET; X (reviewers undecided) is neither support nor a false positive; F (reviewed, not a
+    # credential) is unmapped, so a SECRET span on it is a false positive.
+    label_map={},
+    label_prefixes={"T:": "SECRET"},
+    compatible_prefixes={"SECRET": ("X:",)},
+    slice_keys=("path_kind",),
+    out_of_range="drop",
+    source="creddata",
+    notes=(
+        "At this revision 10 of 67,896 labels do not lie inside their file (6 with an empty value, 4 "
+        "past the line or file end; all F or X, no T); they are dropped and counted in the report.",
+        "Labels are lines from 337 open-source repositories that several secret scanners flagged, "
+        "reviewed by people: T credential, F not a credential, X undecided. A finding on an "
+        "unlabelled line counts as a false positive, though no tool flagged that line and it may hold "
+        "an unlabelled credential.",
+        "A label with value offsets is scored on the value; without them (most F, a few T), on its "
+        "whole line(s). Precision any-label counts spans on F lines as hits: use typed precision.",
+        "True credentials were replaced by seeded random look-alikes of the same shape (CredData's "
+        "obfuscation), so prefix and length rules see realistic values; checksums are not kept.",
+        "Files are scored in a fixed order of the SHA-256 of their path, so `--limit N` is a spread "
+        "sample across repositories, the same for every system.",
+        "Slice path_kind: test_or_example when the dataset's path scope names test, mock, fixture, "
+        "example or sample; other otherwise.",
+    ),
+)
+
+DATASETS: dict[str, Dataset] = {d.name: d for d in (NEMOTRON_PII, GRETEL_PII_FINANCE, CREDDATA)}
 
 
 def sha256_file(path: Path) -> str:
@@ -211,7 +268,25 @@ def fetch_file(url: str, dest: Path, sha256: str, size: int) -> None:
         tmp.unlink(missing_ok=True)
 
 
+def manifest(root: Path) -> list[tuple[str, int, str]]:
+    """A built CredData tree: (path, size, sha256) of every file under data/ plus the label files."""
+    files = [p for p in (root / "data").rglob("*") if p.is_file()] + list((root / "meta").glob("*.csv"))
+    out = []
+    for p in sorted(files, key=lambda q: q.relative_to(root).as_posix()):
+        if p.is_symlink():
+            raise ValueError(f"{p}: symbolic link in a built dataset")
+        out.append((p.relative_to(root).as_posix(), p.stat().st_size, sha256_file(p)))
+    return out
+
+
+def manifest_sha256(entries: list[tuple[str, int, str]]) -> str:
+    text = "".join(f"{path}\t{size}\t{h}\n" for path, size, h in entries)
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
 def fetch(ds: Dataset, data_dir: Path, split: str) -> Path:
+    if ds.source != "huggingface":
+        raise ValueError(f"{ds.name} is built, not downloaded: see bench/harness/build_creddata.sh")
     f = ds.splits[split]
     dest = local_path(ds, data_dir, split)
     if dest.exists() and sha256_file(dest) == f.sha256:
@@ -231,6 +306,15 @@ def verify(ds: Dataset, data_dir: Path, split: str) -> Path:
     path = local_path(ds, data_dir, split)
     if not path.exists():
         raise FileNotFoundError(f"{path} missing: run `ppe evaluate fetch {ds.name} --data-dir {data_dir}`")
+    if ds.source == "creddata":
+        entries = manifest(path)
+        got = manifest_sha256(entries)
+        if got != ds.splits[split].sha256 or sum(e[1] for e in entries) != ds.splits[split].size:
+            raise ValueError(
+                f"{path}: manifest sha256 {got} over {sum(e[1] for e in entries)} bytes is not the pinned "
+                f"{ds.splits[split].sha256} over {ds.splits[split].size}"
+            )
+        return path
     got = sha256_file(path)
     if got != ds.splits[split].sha256:
         raise ValueError(f"{path}: sha256 {got} is not the pinned {ds.splits[split].sha256}")
@@ -283,7 +367,76 @@ def row_doc(ds: Dataset, row: Mapping[str, Any]) -> Doc:
     )
 
 
+_TEST_WORDS = ("test", "mock", "fixture", "example", "sample")
+
+
+def creddata_doc(
+    rel: str, raw: bytes, rows: Sequence[Mapping[str, str]], out_of_range: str = "reject"
+) -> Doc:
+    """One CredData file with its labels as character spans.
+
+    Lines are numbered from 1 and value offsets are positions on the line, as in CredData's markup.
+    The text is decoded and its line ends normalised the way CredData's obfuscation step reads it.
+    """
+    text = raw.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    starts = [0]
+    k = text.find("\n")
+    while k != -1:
+        starts.append(k + 1)
+        k = text.find("\n", k + 1)
+
+    def line_end(n: int) -> int:  # end of line n (1-based), without its line break
+        return starts[n] - 1 if n < len(starts) else len(text)
+
+    def num(v: str) -> int:
+        return int(v) if v.strip() else -1
+
+    gold, dropped = [], []
+    for r in rows:
+        verdict, category = r["GroundTruth"], r["Category"]
+        if verdict not in ("T", "F", "X") or not category:
+            raise ValueError(f"{rel}: label {verdict!r}/{category!r}")
+        label = f"{verdict}:{category}"
+        ls, le, vs, ve = num(r["LineStart"]), num(r["LineEnd"]), num(r["ValueStart"]), num(r["ValueEnd"])
+        if not 1 <= ls <= le <= len(starts):
+            if out_of_range != "drop":
+                raise ValueError(f"{rel}: lines {ls}-{le} outside a file of {len(starts)} lines")
+            dropped.append(label)
+            continue
+        start = starts[ls - 1] + max(vs, 0)
+        end = starts[le - 1] + ve if ve >= 0 else line_end(le)
+        if not (start < end <= line_end(le) and start <= line_end(ls)):
+            if out_of_range != "drop":
+                raise ValueError(f"{rel}: value {vs}-{ve} outside lines {ls}-{le}")
+            dropped.append(label)
+            continue
+        gold.append(Span(start, end, label))
+    scope = rel.split("/")[2:-1]  # data/<repo>/<scope words...>/<file>
+    kind = "test_or_example" if any(w in s for s in scope for w in _TEST_WORDS) else "other"
+    return Doc(uid=rel, text=text, gold=tuple(gold), tags=(("path_kind", kind),), dropped=tuple(dropped))
+
+
+def _load_creddata(ds: Dataset, root: Path, limit: int | None) -> Iterator[Doc]:
+    rows: dict[str, list[dict[str, str]]] = defaultdict(list)
+    for meta in sorted((root / "meta").glob("*.csv")):
+        with meta.open(newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                rows[r["FilePath"]].append(r)
+    base = (root / "data").resolve()
+    order = sorted(rows, key=lambda p: hashlib.sha256(p.encode()).hexdigest())
+    for n, rel in enumerate(order):
+        if limit is not None and n >= limit:
+            return
+        f = (root / rel).resolve()
+        if not rel.startswith("data/") or not f.is_relative_to(base):
+            raise ValueError(f"{rel}: label file path outside data/")
+        yield creddata_doc(rel, f.read_bytes(), rows[rel], ds.out_of_range)
+
+
 def load(ds: Dataset, path: Path, limit: int | None = None) -> Iterator[Doc]:
+    if ds.source == "creddata":
+        yield from _load_creddata(ds, path, limit)
+        return
     try:
         import pyarrow.parquet as pq  # type: ignore[import-untyped]
     except ImportError as e:  # pragma: no cover - depends on the environment

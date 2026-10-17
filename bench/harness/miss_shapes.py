@@ -17,6 +17,7 @@ from pathlib import Path
 from prompt_privacy.core.checksums import iban_valid, luhn_valid
 from prompt_privacy.detectors.base import detect
 from prompt_privacy.evaluation import datasets
+from prompt_privacy.evaluation.scoring import Scorer
 
 _SECRET_PREFIX = re.compile(
     r"^(?:AKIA|ASIA|gh[pousr]_|github_pat_|sk-ant-|sk-|xox[abposr]-|AIza|[sr]k_(?:live|test)_|eyJ|-----BEGIN)"
@@ -65,17 +66,19 @@ def main() -> None:
     ds = datasets.DATASETS[sys.argv[1]]
     data_dir, dest = Path(sys.argv[2]), Path(sys.argv[3])
     limit = int(sys.argv[4]) if len(sys.argv) > 4 else None
-    path = datasets.verify(ds, data_dir, "test")
+    path = datasets.verify(ds, data_dir, next(iter(ds.splits)))
     counts: dict[str, Counter[str]] = defaultdict(Counter)
+    labels = Scorer(ds.label_map, ds.compatible, None, ds.label_prefixes, ds.compatible_prefixes)
     for doc in datasets.load(ds, path, limit):
         found = detect(doc.text)
         for g in doc.gold:
-            t = ds.label_map.get(g.label)
+            t = labels.maps_to(g.label)
             if t is None or t not in _SHAPED:
                 continue
             hit = any(f.type.value == t and f.start < g.end and g.start < f.end for f in found)
             counts[g.label][f"{shape(t, doc.text[g.start : g.end])} {'found' if hit else 'MISSED'}"] += 1
-    out = [f"shape classes of mapped gold spans ({ds.name} test, limit={limit}, phone_context=optional)"]
+    split = next(iter(ds.splits))
+    out = [f"shape classes of mapped gold spans ({ds.name} {split}, limit={limit}, phone_context=optional)"]
     for label in sorted(counts):
         c = counts[label]
         out.append(f"\n{label} ({sum(c.values())})")

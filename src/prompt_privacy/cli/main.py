@@ -82,7 +82,15 @@ def cmd_evaluate_list(a: argparse.Namespace) -> int:
 def cmd_evaluate_fetch(a: argparse.Namespace) -> int:
     from prompt_privacy.evaluation.datasets import DATASETS, fetch
 
-    path = fetch(DATASETS[a.dataset], Path(a.data_dir), a.split)
+    ds = DATASETS[a.dataset]
+    if ds.source != "huggingface":
+        print(
+            f"refused: {ds.name} is built by the dataset's own script, not fetched by PPE; "
+            "see bench/harness/build_creddata.sh"
+        )
+        return 2
+    a.split = a.split or next(iter(ds.splits))
+    path = fetch(ds, Path(a.data_dir), a.split)
     print(f"{a.dataset}/{a.split}: {path} (size and sha256 match the pin)")
     return 0
 
@@ -93,6 +101,7 @@ def cmd_evaluate_run(a: argparse.Namespace) -> int:
     from prompt_privacy.evaluation import datasets, scoring, systems
 
     ds = datasets.DATASETS[a.dataset]
+    a.split = a.split or next(iter(ds.splits))
     path = datasets.verify(ds, Path(a.data_dir), a.split)
     if a.system == "presidio":
         if not a.model_path:
@@ -102,7 +111,12 @@ def cmd_evaluate_run(a: argparse.Namespace) -> int:
     else:
         system = systems.ppe_rules(phone_context=a.phone_context == "required")
     thresholds = sorted({float(x) for x in a.min_score.split(",")})
-    scorers = {t: scoring.Scorer(ds.label_map, ds.compatible, system.claimed) for t in thresholds}
+    scorers = {
+        t: scoring.Scorer(
+            ds.label_map, ds.compatible, system.claimed, ds.label_prefixes, ds.compatible_prefixes
+        )
+        for t in thresholds
+    }
     t0 = time.perf_counter()
     batch: list[scoring.Doc] = []
 
@@ -305,7 +319,7 @@ def build_parser() -> argparse.ArgumentParser:
         s.add_argument(
             "--data-dir", required=True, help="outside the repository; datasets are never committed"
         )
-        s.add_argument("--split", default="test")
+        s.add_argument("--split", help="default: the dataset's first split (test; all for creddata)")
         s.set_defaults(fn=fn)
         if name == "run":
             s.add_argument("--system", choices=("ppe-rules", "presidio"), default="ppe-rules")
