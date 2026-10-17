@@ -17,6 +17,8 @@ from typing import Any, Protocol
 from prompt_privacy import __version__
 from prompt_privacy.core.types import EntityType
 from prompt_privacy.detectors.base import detect
+from prompt_privacy.detectors.gitleaks import GITLEAKS_VERSION
+from prompt_privacy.detectors.secrets import RULES_VERSION
 from prompt_privacy.evaluation.scoring import Span, System
 
 
@@ -34,7 +36,11 @@ def ppe_rules(phone_context: bool = False) -> System:
         "ppe-rules",
         claimed,
         run,
-        {"ppe": __version__, "phone_context": "required" if phone_context else "optional"},
+        {
+            "ppe": __version__,
+            "phone_context": "required" if phone_context else "optional",
+            "secret_rules": f"ppe v{RULES_VERSION} + gitleaks {GITLEAKS_VERSION}",
+        },
     )
 
 

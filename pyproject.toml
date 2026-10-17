@@ -8,7 +8,7 @@ version = "0.1.0.dev1"
 description = "Testable privacy harness for LLM prompts: detect, swap with surrogates, restore, sealed audit."
 readme = "README.md"
 license = "Apache-2.0"
-license-files = ["LICENSE", "NOTICE"]
+license-files = ["LICENSE", "NOTICE", "src/prompt_privacy/detectors/gitleaks_rules/LICENSE"]
 requires-python = ">=3.12"
 authors = [{ name = "Keith Nielsen" }]
 classifiers = [
@@ -22,6 +22,7 @@ dependencies = [
     "argon2-cffi>=25.1",  # dev token stand-in derivation (ADR-0010)
     "pyyaml>=6",
     "jsonschema>=4.23",
+    "google-re2>=1.1.20251105",  # RE2 for the imported Gitleaks rules: Go regex syntax, linear time
 ]
 
 [project.optional-dependencies]

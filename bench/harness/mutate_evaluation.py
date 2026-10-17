@@ -1,4 +1,4 @@
-"""Negative proof for the evaluation harness and the stdnum cross-check: break one mechanism at a
+"""Negative proof for the evaluation harness, the imported Gitleaks rules and the stdnum cross-check: break one mechanism at a
 time, run the tests, restore. Every mutation must make at least one test fail.
 
     .venv/bin/python bench/harness/mutate_evaluation.py   # from the repository root; restores every file
@@ -33,15 +33,39 @@ M = [
  ("detector: IBAN not cut back to a valid prefix", "src/prompt_privacy/detectors/patterns.py", 'for end in [len(s), *(i for i in range(len(s) - 1, 0, -1) if s[i] == " ")]:', "for end in [len(s)]:"),
  ("detector: e-mail ASCII only", "src/prompt_privacy/detectors/patterns.py", r'(?:[^\W_]|[._%+-])+@(?:(?:[^\W_]|-)+\.)+[^\W\d_]{2,}', r'[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}'),
  ("datasets: out-of-range span silently dropped everywhere", "src/prompt_privacy/evaluation/datasets.py", 'dropped: list[str] | None = [] if ds.out_of_range == "drop" else None', "dropped: list[str] | None = []"),
+ ("scoring: label prefixes ignored", "src/prompt_privacy/evaluation/scoring.py", "return next((t for p, t in self.label_prefixes.items() if label.startswith(p)), None)", "return None"),
+ ("scoring: compatible prefixes ignored", "src/prompt_privacy/evaluation/scoring.py", "or gold.label.startswith(self.compatible_prefixes.get(pred.label, ()))", "or False"),
+ ("scoring: prefix wins over exact label", "src/prompt_privacy/evaluation/scoring.py", "if label in self.label_map:", "if False:"),
+ ("creddata: manifest not checked", "src/prompt_privacy/evaluation/datasets.py", "if got != ds.splits[split].sha256 or sum(", "if False and sum("),
+ ("creddata: value offsets ignored", "src/prompt_privacy/evaluation/datasets.py", "start = starts[ls - 1] + max(vs, 0)", "start = starts[ls - 1]"),
+ ("creddata: whole line keeps its line break", "src/prompt_privacy/evaluation/datasets.py", "return starts[n] - 1 if n < len(starts) else len(text)", "return starts[n] if n < len(starts) else len(text)"),
+ ("creddata: label path outside data/ read", "src/prompt_privacy/evaluation/datasets.py", 'if not rel.startswith("data/") or not f.is_relative_to(base):', "if False:"),
+ ("creddata: files in path order", "src/prompt_privacy/evaluation/datasets.py", "order = sorted(rows, key=lambda p: hashlib.sha256(p.encode()).hexdigest())", "order = sorted(rows)"),
  ("detector: IBAN grouped form not matched", "src/prompt_privacy/detectors/patterns.py", r'(?:[ ]?[A-Za-z0-9]){11,30}', r'(?:[A-Za-z0-9]){11,30}'),
+ ('gitleaks: rule file hash not checked', 'src/prompt_privacy/detectors/gitleaks.py', 'if hashlib.sha256(raw).hexdigest() != sha256:', 'if False:'),
+ ('gitleaks: unknown rule keys accepted', 'src/prompt_privacy/detectors/gitleaks.py', 'unknown = set(r) - _RULE_KEYS', 'unknown = set()'),
+ ('gitleaks: rules that need a path kept', 'src/prompt_privacy/detectors/gitleaks.py', 'if "regex" not in r or ("path" in r and re2.search(r["path"], "") is None):', 'if "regex" not in r:'),
+ ('gitleaks: keyword prefilter off', 'src/prompt_privacy/detectors/gitleaks.py', 'if rule.keywords and not any(k in present for k in rule.keywords):', 'if False:'),
+ ('gitleaks: line breaks kept in the match', 'src/prompt_privacy/detectors/gitleaks.py', 'ms += len(whole) - len(whole.lstrip("\\n"))', 'ms += 0'),
+ ('gitleaks: secretGroup ignored', 'src/prompt_privacy/detectors/gitleaks.py', 'if rule.secret_group:', 'if False:'),
+ ('gitleaks: last non-empty group', 'src/prompt_privacy/detectors/gitleaks.py', 'for g in range(1, rule.regex.groups + 1):', 'for g in range(rule.regex.groups, 0, -1):'),
+ ('gitleaks: entropy <= became <', 'src/prompt_privacy/detectors/gitleaks.py', 'if rule.entropy and shannon_entropy(secret) <= rule.entropy:', 'if rule.entropy and shannon_entropy(secret) < rule.entropy:'),
+ ('gitleaks: entropy over characters, not bytes', 'src/prompt_privacy/detectors/gitleaks.py', 'n = len(s.encode("utf-8"))', 'n = len(s)'),
+ ('gitleaks: stop words checked on the target', 'src/prompt_privacy/detectors/gitleaks.py', 'low = secret.lower()', 'low = target.lower()'),
+ ('gitleaks: AND allow-list treated as OR', 'src/prompt_privacy/detectors/gitleaks.py', 'match_all=condition in ("AND", "&&"),', 'match_all=False,'),
+ ('gitleaks: path checks pass for a prompt', 'src/prompt_privacy/detectors/gitleaks.py', 'checks = [False] if self.needs_path_or_commit else []', 'checks = []'),
+ ('gitleaks: generic findings not deduplicated', 'src/prompt_privacy/detectors/gitleaks.py', 'if "generic" not in rid.lower() or not any(r != rid and sec in s2 for r, s2 in specific.get(ls, ()))', 'if True'),
+ ('detect: Gitleaks rules not run', 'src/prompt_privacy/detectors/base.py', 'for s, e, rule_id in gitleaks.find(shadow.text):', 'for s, e, rule_id in []:'),
+ ('detect: assignment placeholders kept', 'src/prompt_privacy/detectors/base.py', 'if rule_id in PLACEHOLDER_FILTERED and gitleaks.has_stopword(shadow.text[s:e]):', 'if False:'),
 ]
-tests = ["tests/evaluation", "tests/unit/test_checksums_stdnum.py", "tests/detectors/test_patterns.py", "tests/unit/test_checksums.py"]
+tests = ["tests/evaluation", "tests/unit/test_checksums_stdnum.py", "tests/detectors/test_patterns.py", "tests/detectors/test_gitleaks.py", "tests/unit/test_checksums.py"]
 try:
     import presidio_analyzer  # noqa: F401
     have_presidio = bool(os.environ.get("PPE_PRESIDIO_MODEL"))
 except ImportError:
     have_presidio = False
-cmd = [sys.executable, "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider", *tests]
+# -B: a mutant must never leave bytecode behind (a same-size edit within one second would be reused).
+cmd = [sys.executable, "-B", "-m", "pytest", "-q", "-x", "-p", "no:cacheprovider", *tests]
 # Control: the unmutated tree must pass, or every "caught" below would only reflect a broken setup.
 base = subprocess.run(cmd, capture_output=True, text=True)
 if base.returncode != 0:
