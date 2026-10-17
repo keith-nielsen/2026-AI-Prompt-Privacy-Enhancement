@@ -1,14 +1,15 @@
 shape classes of mapped gold spans (gretel-pii-finance test, limit=None, phone_context=optional)
 
 api_key (90)
-  generic-len32+ MISSED                         25
-  vendor-prefix found                           25
-  generic-len64+ MISSED                         12
-  generic-len16+ MISSED                         10
+  vendor-prefix found                           27
+  generic-len32+ MISSED                         14
+  generic-len32+ found                          11
   generic-len0+ MISSED                           8
-  vendor-prefix MISSED                           7
-  generic-len16+ found                           2
-  generic-len64+ found                           1
+  generic-len64+ MISSED                          8
+  generic-len16+ found                           7
+  vendor-prefix MISSED                           5
+  generic-len16+ MISSED                          5
+  generic-len64+ found                           5
 
 credit_card_number (120)
   luhn-invalid MISSED                           59

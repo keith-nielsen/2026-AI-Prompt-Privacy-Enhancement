@@ -59,6 +59,9 @@ entropy + plugins). **Live verification must never be used here**: it sends the 
 API — itself an egress of the secret. Use rules (prefixes, structure, checksums such as GitHub's
 CRC32 token suffix) + entropy + PEM/JWT structure, offline only. Check the licence of any ruleset
 before vendoring (TruffleHog's AGPL is incompatible with copying into an Apache-2.0 package).
+*Done 2026-10-18:* Gitleaks 8.30.1's rule file is vendored (`src/prompt_privacy/detectors/gitleaks_rules/`,
+MIT, NOTICE) and runs on RE2; Gitleaks and detect-secrets were scored on CredData as baselines
+(`bench/2026-10-17-creddata.md`).
 
 ## Implications
 

@@ -1,4 +1,4 @@
-gretel-pii-finance/test (5594 docs, 1148 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=optional
+gretel-pii-finance/test (5594 docs, 902 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=optional secret_rules=ppe v2 + gitleaks 8.30.1
 
 min_score=0.0
 
@@ -13,13 +13,13 @@ LOCATION         4304     0.000     0.000       0      n/a     n/a     n/a
 ORGANIZATION     6341     0.000     0.000       0      n/a     n/a     n/a
 PERSON          10792     0.000     0.000       0      n/a     n/a     n/a
 PHONE             946     0.729     0.645    1346    0.511   0.585   0.601
-SECRET            191     0.178     0.178      37    0.919   0.919   0.298
-micro†           3178     0.812     0.760    3376    0.760   0.803   0.785
-micro‡          35169     0.073     0.069    3376    0.760   0.803   0.134
+SECRET            191     0.293     0.283      62    0.903   0.903   0.443
+micro†           3178     0.818     0.766    3401    0.761   0.804   0.788
+micro‡          35169     0.074     0.069    3401    0.761   0.804   0.135
   † micro over the system's claimed types that dataset labels map to: CARD, EMAIL, IBAN, IPV4, IPV6, PHONE, SECRET
   ‡ micro over every type that dataset labels map to (same denominator for every system)
 
-any-type coverage, all 29 dataset labels: 2723/36990 = 0.074
+any-type coverage, all 29 dataset labels: 2745/36990 = 0.074
 gold spans dropped (outside their text, not scored): {'api_key': 1, 'company': 1, 'ipv4': 2, 'last_name': 1, 'name': 19, 'street_address': 3}
 
 dataset label                     support      maps_to  covered
@@ -28,9 +28,9 @@ email                                1422        EMAIL    0.967
 ipv6                                  134         IPV6    0.813
 iban                                  203         IBAN    0.783
 phone_number                          946        PHONE    0.729
+api_key                                90       SECRET    0.556
 credit_card_number                    120         CARD    0.458
 local_latlng                           97            -    0.392
-api_key                                90       SECRET    0.311
 driver_license_number                 140            -    0.221
 ssn                                   153            -    0.111
 user_name                              71            -    0.099
@@ -60,6 +60,6 @@ system spans by overlapped gold label (top 6 per type):
   IPV4         ipv4 160, street_address 1
   IPV6         ipv6 109, (no gold span) 25, local_latlng 1, street_address 1
   PHONE        phone_number 688, (no gold span) 559, local_latlng 46, driver_license_number 31, ssn 17, bank_routing_number 1
-  SECRET       api_key 28, password 6, (no gold span) 3
+  SECRET       api_key 50, (no gold span) 6, password 6
 
 report (labels and counts only) -> bench/results/2026-10-16-gretel-pii-finance/ppe-rules-phone-optional.json

@@ -3,8 +3,15 @@ Copyright 2026 Keith Nielsen
 
 Licensed under the Apache License, Version 2.0 (see LICENSE).
 
-This repository currently contains design documentation only. Third-party
-documents cited in docs/sources/ are linked, not redistributed (local copies
-are git-ignored). Components the design plans to use (LiteLLM, llama.cpp and
-the parallel-decision fork, GLiNER2, OpenAI Privacy Filter, Presidio) are not
+Third-party documents cited in docs/sources/ are linked, not redistributed
+(local copies are git-ignored).
+
+This product includes the default rule file of Gitleaks 8.30.1
+(src/prompt_privacy/detectors/gitleaks_rules/gitleaks.toml, unchanged),
+Copyright (c) 2019 Zachary Rice, licensed under the MIT License (see
+src/prompt_privacy/detectors/gitleaks_rules/LICENSE).
+https://github.com/gitleaks/gitleaks
+
+Components the design plans to use (LiteLLM, llama.cpp and the
+parallel-decision fork, GLiNER2, OpenAI Privacy Filter, Presidio) are not
 bundled; their licences are recorded in docs/sources/detector-models.md.

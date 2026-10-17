@@ -1,0 +1,12 @@
+creddata all @ 218aa1708441: PPE's Gitleaks 8.30.1 rules vs Gitleaks itself
+rules loaded 217, skipped (need a file path) 5: freemius-secret-key, hashicorp-tf-password, kubernetes-secret-yaml, nuget-config-password, pkcs12-file
+
+total  same 8281  overlap 6  PPE only 15  Gitleaks only 49
+
+rules with any difference
+  curl-auth-user                     same    10  overlap     0  PPE only     1  Gitleaks only     1
+  generic-api-key                    same  6684  overlap     0  PPE only     8  Gitleaks only    16
+  hashicorp-tf-password              same     0  overlap     0  PPE only     0  Gitleaks only    11
+  kubernetes-secret-yaml             same     0  overlap     0  PPE only     0  Gitleaks only     9
+  private-key                        same  1246  overlap     6  PPE only     0  Gitleaks only    12
+  sourcegraph-access-token           same     0  overlap     0  PPE only     6  Gitleaks only     0

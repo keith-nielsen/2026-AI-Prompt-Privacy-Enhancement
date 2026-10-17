@@ -1,14 +1,19 @@
 """Stage 1 secret rules (ADR-0005). Offline only: secrets are never validated against their issuer.
 
 Rules are owned and versioned here. Each rule is (id, regex). The regex runs on the shadow text;
-group "s" (if present) marks the secret itself, otherwise the whole match is the secret.
+group "s" (if present) marks the secret itself, otherwise the whole match is the secret. Gitleaks'
+rules run beside these (`gitleaks.py`).
 """
 
 from __future__ import annotations
 
 import re
 
-RULES_VERSION = 1
+RULES_VERSION = 2  # 2: `assignment` values with a Gitleaks placeholder word are dropped (base.detect)
+
+# Rules whose values are dropped when they contain one of Gitleaks' placeholder words (`changeme`,
+# `example`, ...): rules without a fixed format, where a placeholder is the common false hit.
+PLACEHOLDER_FILTERED = frozenset({"assignment"})
 
 SECRET_RULES: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("aws_access_key_id", re.compile(r"\b(?P<s>(?:AKIA|ASIA)[0-9A-Z]{16})\b")),

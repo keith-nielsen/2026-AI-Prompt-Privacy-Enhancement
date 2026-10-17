@@ -133,3 +133,19 @@ def test_f1_from_unrounded_ratios() -> None:
     s.add(d, [Span(0, 5, "EMAIL"), *(Span(30 + i * 6, 35 + i * 6, "EMAIL") for i in range(8))])
     c = s.report()["by_type"]["EMAIL"]
     assert (c["recall_overlap"], c["precision_typed"], c["f1_overlap"]) == (0.3333, 0.1111, 0.1667)
+
+
+def test_label_prefixes_map_and_mark_compatible() -> None:
+    """CredData-style labels: T:* is SECRET, X:* is neither support nor a false positive, F:* is a miss."""
+    d = doc(
+        [Span(0, 10, "T:Password"), Span(20, 30, "X:Token"), Span(40, 50, "F:Key"), Span(60, 70, "T:Info")]
+    )
+    s = Scorer({"T:Info": "URL"}, {}, None, {"T:": "SECRET"}, {"SECRET": ("X:",)})
+    s.add(d, [Span(0, 10, "SECRET"), Span(20, 30, "SECRET"), Span(40, 50, "SECRET")])
+    r = s.report()
+    sec = r["by_type"]["SECRET"]
+    assert (sec["support"], sec["found_strict"], sec["predicted"], sec["pred_typed"]) == (1, 1, 3, 2)
+    assert r["by_label"]["T:Password"]["maps_to"] == "SECRET" and r["by_label"]["X:Token"]["maps_to"] is None
+    assert r["by_label"]["T:Info"]["maps_to"] == "URL"  # an exact entry wins over a prefix
+    assert r["label_prefixes"] == {"T:": "SECRET"} and r["compatible_prefixes"] == {"SECRET": ["X:"]}
+    assert set(r["micro_all_mapped_types"]) and "label_prefixes" not in score([(d, [])])

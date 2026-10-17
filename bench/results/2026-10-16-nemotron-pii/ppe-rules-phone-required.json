@@ -1,8 +1,8 @@
 {
  "any_type_coverage_all_labels": {
-  "covered": 94370,
+  "covered": 95378,
   "gold_spans": 850340,
-  "rate": 0.111
+  "rate": 0.1122
  },
  "by_label": {
   "account_number": {
@@ -18,8 +18,8 @@
    "support": 7167
   },
   "api_key": {
-   "coverage_any_type": 0.102,
-   "covered_any_type": 476,
+   "coverage_any_type": 0.2805,
+   "covered_any_type": 1309,
    "maps_to": "SECRET",
    "support": 4667
   },
@@ -30,8 +30,8 @@
    "support": 8354
   },
   "biometric_identifier": {
-   "coverage_any_type": 0.0004,
-   "covered_any_type": 4,
+   "coverage_any_type": 0.0006,
+   "covered_any_type": 7,
    "maps_to": null,
    "support": 11379
   },
@@ -114,8 +114,8 @@
    "support": 13221
   },
   "device_identifier": {
-   "coverage_any_type": 0.1173,
-   "covered_any_type": 294,
+   "coverage_any_type": 0.1177,
+   "covered_any_type": 295,
    "maps_to": null,
    "support": 2507
   },
@@ -168,8 +168,8 @@
    "support": 10558
   },
   "http_cookie": {
-   "coverage_any_type": 0.1731,
-   "covered_any_type": 847,
+   "coverage_any_type": 0.2087,
+   "covered_any_type": 1021,
    "maps_to": null,
    "support": 4892
   },
@@ -228,8 +228,8 @@
    "support": 36888
   },
   "password": {
-   "coverage_any_type": 0.0355,
-   "covered_any_type": 248,
+   "coverage_any_type": 0.0311,
+   "covered_any_type": 217,
    "maps_to": "SECRET",
    "support": 6985
   },
@@ -312,20 +312,20 @@
    "support": 24506
   },
   "unique_id": {
-   "coverage_any_type": 0.0017,
-   "covered_any_type": 3,
+   "coverage_any_type": 0.0101,
+   "covered_any_type": 18,
    "maps_to": null,
    "support": 1777
   },
   "url": {
-   "coverage_any_type": 0.0808,
-   "covered_any_type": 3059,
+   "coverage_any_type": 0.0811,
+   "covered_any_type": 3069,
    "maps_to": "URL",
    "support": 37847
   },
   "user_name": {
-   "coverage_any_type": 0.0031,
-   "covered_any_type": 49,
+   "coverage_any_type": 0.0033,
+   "covered_any_type": 52,
    "maps_to": null,
    "support": 15800
   },
@@ -508,16 +508,16 @@
     "support": 16622
    },
    "SECRET": {
-    "f1_overlap": 0.1348,
-    "found_overlap": 442,
-    "found_strict": 441,
-    "precision_any_label": 0.9831,
-    "precision_typed": 0.9831,
-    "pred_any_label": 874,
-    "pred_typed": 874,
-    "predicted": 889,
-    "recall_overlap": 0.0724,
-    "recall_strict": 0.0722,
+    "f1_overlap": 0.2724,
+    "found_overlap": 967,
+    "found_strict": 839,
+    "precision_any_label": 0.9876,
+    "precision_typed": 0.9758,
+    "pred_any_label": 1509,
+    "pred_typed": 1491,
+    "predicted": 1528,
+    "recall_overlap": 0.1583,
+    "recall_strict": 0.1373,
     "support": 6109
    },
    "URL": {
@@ -718,16 +718,16 @@
     "support": 13731
    },
    "SECRET": {
-    "f1_overlap": 0.0952,
-    "found_overlap": 277,
-    "found_strict": 277,
-    "precision_any_label": 0.9957,
-    "precision_typed": 0.9928,
-    "pred_any_label": 693,
-    "pred_typed": 691,
-    "predicted": 696,
-    "recall_overlap": 0.05,
-    "recall_strict": 0.05,
+    "f1_overlap": 0.1815,
+    "found_overlap": 554,
+    "found_strict": 416,
+    "precision_any_label": 0.9981,
+    "precision_typed": 0.985,
+    "pred_any_label": 1064,
+    "pred_typed": 1050,
+    "predicted": 1066,
+    "recall_overlap": 0.0999,
+    "recall_strict": 0.075,
     "support": 5543
    },
    "URL": {
@@ -928,16 +928,16 @@
     "support": 15585
    },
    "SECRET": {
-    "f1_overlap": 0.1272,
-    "found_overlap": 390,
-    "found_strict": 390,
-    "precision_any_label": 0.9936,
-    "precision_typed": 0.9936,
-    "pred_any_label": 780,
-    "pred_typed": 780,
-    "predicted": 785,
-    "recall_overlap": 0.068,
-    "recall_strict": 0.068,
+    "f1_overlap": 0.2505,
+    "found_overlap": 824,
+    "found_strict": 674,
+    "precision_any_label": 0.994,
+    "precision_typed": 0.9797,
+    "pred_any_label": 1319,
+    "pred_typed": 1300,
+    "predicted": 1327,
+    "recall_overlap": 0.1436,
+    "recall_strict": 0.1174,
     "support": 5739
    },
    "URL": {
@@ -1125,16 +1125,16 @@
     "support": 14768
    },
    "SECRET": {
-    "f1_overlap": 0.1053,
-    "found_overlap": 329,
-    "found_strict": 328,
-    "precision_any_label": 0.9838,
-    "precision_typed": 0.9812,
-    "pred_any_label": 787,
-    "pred_typed": 785,
-    "predicted": 800,
-    "recall_overlap": 0.0556,
-    "recall_strict": 0.0555,
+    "f1_overlap": 0.2104,
+    "found_overlap": 697,
+    "found_strict": 581,
+    "precision_any_label": 0.9897,
+    "precision_typed": 0.9795,
+    "pred_any_label": 1254,
+    "pred_typed": 1241,
+    "predicted": 1267,
+    "recall_overlap": 0.1179,
+    "recall_strict": 0.0983,
     "support": 5913
    },
    "URL": {
@@ -1336,16 +1336,16 @@
    "support": 30353
   },
   "SECRET": {
-   "f1_overlap": 0.1162,
-   "found_overlap": 719,
-   "found_strict": 718,
-   "precision_any_label": 0.9886,
-   "precision_typed": 0.9874,
-   "pred_any_label": 1567,
-   "pred_typed": 1565,
-   "predicted": 1585,
-   "recall_overlap": 0.0617,
-   "recall_strict": 0.0616,
+   "f1_overlap": 0.2304,
+   "found_overlap": 1521,
+   "found_strict": 1255,
+   "precision_any_label": 0.9919,
+   "precision_typed": 0.9796,
+   "pred_any_label": 2573,
+   "pred_typed": 2541,
+   "predicted": 2594,
+   "recall_overlap": 0.1305,
+   "recall_strict": 0.1077,
    "support": 11652
   },
   "URL": {
@@ -1469,12 +1469,15 @@
    "unique_id": 1
   },
   "SECRET": {
-   "(no gold span)": 18,
-   "api_key": 473,
-   "http_cookie": 846,
-   "password": 246,
-   "unique_id": 1,
-   "url": 1
+   "(no gold span)": 21,
+   "api_key": 1306,
+   "biometric_identifier": 3,
+   "device_identifier": 1,
+   "http_cookie": 1020,
+   "password": 215,
+   "unique_id": 16,
+   "url": 11,
+   "user_name": 3
   }
  },
  "dataset": {
@@ -1521,35 +1524,36 @@
  },
  "limit": null,
  "micro_all_mapped_types": {
-  "f1_overlap": 0.2637,
-  "found_overlap": 89754,
-  "found_strict": 89419,
-  "precision_any_label": 0.9963,
-  "precision_typed": 0.9574,
-  "pred_any_label": 94288,
-  "pred_typed": 90600,
-  "predicted": 94634,
-  "recall_overlap": 0.1529,
-  "recall_strict": 0.1523,
+  "f1_overlap": 0.2657,
+  "found_overlap": 90556,
+  "found_strict": 89956,
+  "precision_any_label": 0.9964,
+  "precision_typed": 0.9575,
+  "pred_any_label": 95294,
+  "pred_typed": 91576,
+  "predicted": 95643,
+  "recall_overlap": 0.1543,
+  "recall_strict": 0.1533,
   "support": 586978
  },
  "micro_claimed_types": {
-  "f1_overlap": 0.8477,
-  "found_overlap": 89754,
-  "found_strict": 89419,
-  "precision_any_label": 0.9963,
-  "precision_typed": 0.9574,
-  "pred_any_label": 94288,
-  "pred_typed": 90600,
-  "predicted": 94634,
-  "recall_overlap": 0.7605,
-  "recall_strict": 0.7577,
+  "f1_overlap": 0.8519,
+  "found_overlap": 90556,
+  "found_strict": 89956,
+  "precision_any_label": 0.9964,
+  "precision_typed": 0.9575,
+  "pred_any_label": 95294,
+  "pred_typed": 91576,
+  "predicted": 95643,
+  "recall_overlap": 0.7673,
+  "recall_strict": 0.7622,
   "support": 118019
  },
  "system": {
   "min_score": 0.0,
   "name": "ppe-rules",
   "phone_context": "required",
-  "ppe": "0.1.0.dev1"
+  "ppe": "0.1.0.dev1",
+  "secret_rules": "ppe v2 + gitleaks 8.30.1"
  }
 }

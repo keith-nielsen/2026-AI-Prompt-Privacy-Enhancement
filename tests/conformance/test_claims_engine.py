@@ -24,6 +24,7 @@ from prompt_privacy.core.keys import TokenKey
 from prompt_privacy.core.normalise import norm
 from prompt_privacy.core.surrogates import Guarantee, Surrogate, Surrogator
 from prompt_privacy.core.types import EntityType as T
+from prompt_privacy.detectors import gitleaks
 from prompt_privacy.detectors.base import Dictionary, detect
 from prompt_privacy.detectors.secrets import SECRET_RULES
 
@@ -48,8 +49,9 @@ def test_c01_stage0_folds_fullwidth_zero_width_and_bidi() -> None:
 
 
 def test_c03_twelve_secret_rules() -> None:
-    """C-03 (RESUME 'What exists'): 12 secret rules."""
+    """C-03 (README 'Built and designed'): 12 PPE secret rules plus 217 imported Gitleaks 8.30.1 rules."""
     assert len(SECRET_RULES) == 12
+    assert len(gitleaks.rule_set().rules) == 217
 
 
 def test_c04_nric_fin_check_letters_known_answers() -> None:
@@ -92,10 +94,12 @@ _CODE = {
 
 
 # Fixed 2026-10-16 (IPv6 not inside a word, found on the Gretel finance run): the four `::` cases
-# joined to words. Still open under F-02: a bare `::`, the assignment rule, IMEI, an ssh algorithm name.
-_C07_FIXED = {"rust use", "cpp scope", "ruby const", "css pseudo"}
+# joined to words. Fixed 2026-10-18 (assignment values with a Gitleaks placeholder word dropped): the
+# two placeholder assignment cases. Still open under F-02: a bare `::`, IMEI, an ssh algorithm name, and
+# an assignment from an environment lookup.
+_C07_FIXED = {"rust use", "cpp scope", "ruby const", "css pseudo", "py password field", "py token var"}
 _C07_OPEN = pytest.mark.xfail(
-    strict=True, reason="F-02: Stage 1 false positives on source code (bare '::', assignment rule, IMEI)"
+    strict=True, reason="F-02: Stage 1 false positives on source code (bare '::', IMEI, ssh name, env lookup)"
 )
 
 
