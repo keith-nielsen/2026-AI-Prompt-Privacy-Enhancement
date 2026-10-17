@@ -2,7 +2,7 @@
 
 ## Status
 
-PPE is **pre-alpha** (v0.1.0.dev1): the detectors, swap/restore, the sealed audit log, the CLI and a
+PPE is **pre-alpha** (v0.1.0.dev2): the detectors, swap/restore, the sealed audit log, the CLI and a
 shadow-mode proxy (`ppe serve`) are built and tested; much of the design is not built yet (see the
 README's "Built and designed" table). Do not rely on it to protect real data yet. Reports on the code,
 on the design documents, and on gaps between the two are all welcome. Known open findings are listed
