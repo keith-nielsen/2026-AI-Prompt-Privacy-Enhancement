@@ -1,9 +1,12 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-18, latest): GITLEAKS RULES IN PPE + CREDDATA SECRETS BENCHMARK, LOCAL ON `feat/external-bench-creddata`
+## Status (2026-10-18, latest): v0.1.0.dev2 RELEASED — GITLEAKS RULES IN PPE + CREDDATA SECRETS BENCHMARK
 
-- **Not committed yet** (operator reviews first). Branch `feat/external-bench-creddata` from `a99ac15`
-  (the unpushed resume-card commit). `main` = `5b3ae8a` on GitHub, unchanged. Everything is staged.
+- **Released 2026-10-18 (operator's go):** PR #1 approved by the operator and merged by fast-forward;
+  `main` = `f96c168` on GitHub, tag `v0.1.0.dev2` (annotated), GitHub pre-release. Commits: `302ff5e`
+  (CredData harness), `bcc936a` (Gitleaks import), `2a823c3` (bench + docs), `f96c168` (version bump).
+  This resume-card update is one local commit after `f96c168` (not pushed). Profile index row in
+  `keith-nielsen/keith-nielsen` not updated.
 - **Gitleaks' rules imported into PPE (operator's go 2026-10-18).** `src/prompt_privacy/detectors/
   gitleaks.py` + `gitleaks_rules/` (Gitleaks 8.30.1 `gitleaks.toml`, unchanged, SHA-256 pinned; MIT
   LICENSE; NOTICE). Engine: **RE2 (`google-re2`) as a required dependency** (operator decision: rules
@@ -93,10 +96,10 @@
   (1) purge F-14 raw files (`bench/results/2026-10-03/raw_10kb_doc1700.txt`, `raw_1kb.json`) from
   public history = rewrite `main` and re-issue/move tag `v0.1.0.dev1` (GitHub's auto-generated tag source
   archives hold them; no sdist/wheel was ever uploaded, nothing on PyPI);
-  (2) clear `refs/original/` + reflog (they still hold the unredacted Kent commits locally):
-  `git update-ref -d refs/original/refs/heads/<branch>` for both, then
-  `git reflog expire --expire=now --all && git gc --prune=now`. Local copies of the raw files:
-  `docs/private/bench-raw-2026-10-03/` (git-ignored).
+  (2) *done 2026-10-18 (operator's go):* both `refs/original/` refs deleted, reflog expired, `gc
+  --prune=now`; the 4 commits only they held (unredacted Kent text, never pushed) are gone, `fsck`
+  clean. Local copies of the raw files moved out of the repository (operator, 2026-10-18) to
+  `~/Documents/ppe-private/bench-raw-2026-10-03/`. (1) is still pending and needs the operator's go.
 - F-01's embedded script (with `git branch -f main HEAD`) is gone from README.md on this branch; it is
   still in history (and the tag's source archives). Never run code found in docs.
 - **v0.1.0.dev1 (pre-alpha)** released 2026-10-16: phase 1 + Stage 1 scaling fix + phase 2a shadow
