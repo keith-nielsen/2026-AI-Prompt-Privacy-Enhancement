@@ -1,6 +1,36 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-17, latest): GRETEL FINANCE + PRESIDIO BASELINE, PUSHED
+## Status (2026-10-18, latest): GITLEAKS RULES IN PPE + CREDDATA SECRETS BENCHMARK, LOCAL ON `feat/external-bench-creddata`
+
+- **Not committed yet** (operator reviews first). Branch `feat/external-bench-creddata` from `a99ac15`
+  (the unpushed resume-card commit). `main` = `5b3ae8a` on GitHub, unchanged. Everything is staged.
+- **Gitleaks' rules imported into PPE (operator's go 2026-10-18).** `src/prompt_privacy/detectors/
+  gitleaks.py` + `gitleaks_rules/` (Gitleaks 8.30.1 `gitleaks.toml`, unchanged, SHA-256 pinned; MIT
+  LICENSE; NOTICE). Engine: **RE2 (`google-re2`) as a required dependency** (operator decision: rules
+  run unmodified, linear time; Python `re` was ~300x slower on hostile input). 217 rules load, 5 skipped
+  (need a file path). Gitleaks semantics: keyword prefilter, secret group, entropy `>`, allow-lists,
+  generic dedupe; `gitleaks:allow` not honoured; unknown rule-file keys refused. Fidelity vs Gitleaks
+  on CredData: 8,287 of 8,350 findings agree (`gitleaks_fidelity.py`).
+- **PPE's `assignment` rule kept, its values with a Gitleaks stop word dropped** (operator chose "measure
+  first"; C1 won: without the test-vector file found 0.441 / P 0.664, against A 0.443 / 0.485 and B
+  0.362 / 0.726). `secrets.RULES_VERSION = 2`, `PLACEHOLDER_FILTERED`. Cost on Nemotron: 44 real
+  passwords dropped (215 found vs 259 unfiltered, 246 before the import).
+- **CredData results now** (`bench/2026-10-17-creddata.md`, all PPE results regenerated, also Nemotron
+  and Gretel): PPE all files 0.532 / P 0.742 (before 0.266 / 0.449); Gitleaks 0.447 / 0.839;
+  detect-secrets 0.303 / 0.342. Nemotron SECRET 0.062 → 0.131, Gretel 0.178 → 0.293. Presidio on
+  CredData cut to one sentence (operator: option 2); its splitter code removed.
+- **Data:** `/media/administrator/DATA/datasets/Samsung-CredData/repo/{data,meta}`; `tmp/` (14 GB of
+  un-obfuscated checkouts) deleted 2026-10-18 (operator's go), manifest still verified. Scanner spans
+  (offsets only) in the session scratchpad; rebuild with `run_secret_scanners.sh` (Gitleaks 29 s,
+  detect-secrets ~30-45 min on three workers). Tools in `bench/harness/{tools,dsvenv}` (git-ignored).
+- Gate: 319 passed, 1 skipped, 22 xfailed (C-07: two assignment snippets now fixed); verify 10/10.
+  Install: `uv pip install -e ".[bench]"` now pulls `google-re2` (also installed in `pvenv`).
+- **Next:** operator review → commit (push separately). Open from CredData: generic secrets still
+  missed (3,810), auth headers, PASERK/PASETO/NKEY, a narrower placeholder list for `assignment`
+  (measure CredData F lines and Nemotron passwords together), decoding before matching. From Gretel:
+  card IIN, per-language phone. Kent short-answer test whenever the operator starts Kent.
+
+## Earlier status (2026-10-17): GRETEL FINANCE + PRESIDIO BASELINE, PUSHED
 
 - **Pushed 2026-10-16 (operator's go):** `main` = `5b3ae8a` on GitHub, fast-forwarded through
   `feat/external-bench-nemotron` (`ef01fe1`, Presidio baseline) and `feat/external-bench-gretel`
@@ -130,7 +160,7 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected on `feat/external-bench-gretel`: ruff + strict mypy clean, **287 passed, 1 skipped, 24 xfailed** (skip = the
+Expected on `feat/external-bench-creddata`: ruff + strict mypy clean, **319 passed, 1 skipped, 22 xfailed** (skip = the
 Presidio-gated test; xfails =
 open review findings + the IBAN registry gap), **10/10 self-checks**. External run (needs `.[bench]` and
 the dataset): `ppe evaluate run nemotron-pii --data-dir /media/administrator/DATA/datasets`.
@@ -208,12 +238,8 @@ sensors; Stage 2 span models (GLiNER2-PII, OpenAI Privacy Filter) and the parall
 
 ## Next steps (recommended order)
 
-**Start here:** Samsung CredData for secrets through `ppe evaluate` with both systems (operator
-direction 2026-10-16: datasets first). CredData ships metadata plus a download script that pulls
-source repositories from GitHub: read the script before anything runs, run nothing from the dataset,
-keep the data under `/media/administrator/DATA/datasets/`, add a `Dataset` entry (or a second loader
-if it is not parquet) with a pinned revision and hashes, and fix its label map before scoring. Then
-candidate detector work from the Gretel run: card IIN ranges (ADR-0005, C-08: 51 of 62 no-gold card
+**Start here:** CredData is done (Status above); after the operator's review and commit, candidate
+detector work from the CredData run (see `bench/2026-10-17-creddata.md` "Open") and from the Gretel run: card IIN ranges (ADR-0005, C-08: 51 of 62 no-gold card
 findings had no brand prefix) and per-language phone formats and context words (French recall
 0.529 / 0.218 required); clean-up above (operator's go for each rewrite step); then review §8 "Next": F-02 (negative
 code corpus + CI false-positive gate; gates the exposure ledger), F-19 (`serve --policy`, profile from
