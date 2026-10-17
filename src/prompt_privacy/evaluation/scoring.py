@@ -14,6 +14,9 @@ types. Every view below is reported, none is folded into another:
   label is listed as compatible with it (labels that hold the type among others, e.g. IBANs inside
   `account_number`); any-label when it overlaps any gold span. The rest count as false positives,
   with the caveat that a dataset can leave real identifiers unlabelled.
+
+A dataset with open-ended labels (CredData: verdict plus rule name, e.g. `T:Password`) maps and marks
+compatible by label prefix as well; an exact label entry wins over a prefix.
 """
 
 from __future__ import annotations
@@ -103,6 +106,8 @@ class Scorer:
     label_map: Mapping[str, str]
     compatible: Mapping[str, frozenset[str]] = field(default_factory=dict)  # type -> extra gold labels
     claimed: frozenset[str] | None = None  # the system's scope; None = every mapped type
+    label_prefixes: Mapping[str, str] = field(default_factory=dict)  # label prefix -> type
+    compatible_prefixes: Mapping[str, tuple[str, ...]] = field(default_factory=dict)  # type -> prefixes
     docs: int = 0
     by_type: dict[str, TypeCounts] = field(default_factory=lambda: defaultdict(TypeCounts))
     by_label: dict[str, Counter[str]] = field(default_factory=lambda: defaultdict(Counter))
@@ -112,9 +117,16 @@ class Scorer:
     )
     dropped: Counter[str] = field(default_factory=Counter)
 
+    def maps_to(self, label: str) -> str | None:
+        if label in self.label_map:
+            return self.label_map[label]
+        return next((t for p, t in self.label_prefixes.items() if label.startswith(p)), None)
+
     def _typed_match(self, pred: Span, gold: Span) -> bool:
-        return self.label_map.get(gold.label) == pred.label or gold.label in self.compatible.get(
-            pred.label, frozenset()
+        return (
+            self.maps_to(gold.label) == pred.label
+            or gold.label in self.compatible.get(pred.label, frozenset())
+            or gold.label.startswith(self.compatible_prefixes.get(pred.label, ()))
         )
 
     def add(self, doc: Doc, predicted: Iterable[Span]) -> None:
@@ -127,7 +139,7 @@ class Scorer:
             lab = self.by_label[g.label]
             lab["support"] += 1
             lab["covered_any_type"] += covered
-            t = self.label_map.get(g.label)
+            t = self.maps_to(g.label)
             if t is None:
                 continue
             hit = any(p.label == t and p.overlaps(g) for p in preds)
@@ -149,7 +161,7 @@ class Scorer:
                 self.confusion[p.label][label] += 1
 
     def report(self) -> dict[str, Any]:
-        mapped = set(self.label_map.values())
+        mapped = set(self.label_map.values()) | set(self.label_prefixes.values())
 
         def micro(types: Iterable[str]) -> dict[str, Any]:
             m = TypeCounts()
@@ -168,11 +180,20 @@ class Scorer:
         covered_total = sum(c["covered_any_type"] for c in self.by_label.values())
         # Present only when a dataset drops spans, so reports on strict datasets keep their form.
         dropped = {"gold_dropped_out_of_range": dict(sorted(self.dropped.items()))} if self.dropped else {}
+        prefixes = (  # likewise only for datasets that map by prefix
+            {
+                "label_prefixes": dict(sorted(self.label_prefixes.items())),
+                "compatible_prefixes": {k: list(v) for k, v in sorted(self.compatible_prefixes.items())},
+            }
+            if self.label_prefixes or self.compatible_prefixes
+            else {}
+        )
         return {
             "docs": self.docs,
             **dropped,
             "label_map": dict(sorted(self.label_map.items())),
             "compatible": {k: sorted(v) for k, v in sorted(self.compatible.items())},
+            **prefixes,
             "by_type": {t: self.by_type[t].as_dict() for t in sorted(self.by_type)},
             "claimed_types": sorted(claimed),
             "micro_claimed_types": micro(sorted(claimed)),
@@ -185,7 +206,7 @@ class Scorer:
             "by_label": {
                 label: {
                     "support": c["support"],
-                    "maps_to": self.label_map.get(label),
+                    "maps_to": self.maps_to(label),
                     "covered_any_type": c["covered_any_type"],
                     "coverage_any_type": round(c["covered_any_type"] / c["support"], 4),
                 }

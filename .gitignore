@@ -22,3 +22,6 @@ docs/private/
 
 # Presidio baseline venv (bench/2026-10-16-presidio-baseline.md); rebuildable
 /bench/harness/*venv/
+
+# secret-scanner baselines (bench/harness/install_secret_scanners.sh); rebuildable
+/bench/harness/tools/
