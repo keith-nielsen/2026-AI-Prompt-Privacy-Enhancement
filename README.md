@@ -68,7 +68,7 @@ cover English-speaking countries only (French phone recall 0.529, 0.218 with `ph
 
 | Area | Built (v0.1.0.dev1) | Designed, not built |
 |---|---|---|
-| Detection | Stage 0 shadow text; Stage 1 rules: 12 secret types, checksummed identifiers (SG NRIC/FIN, cards, IBAN), e-mail, phone, IP addresses, operator dictionary | span models, arbiter (ADR-0005) |
+| Detection | Stage 0 shadow text; Stage 1 rules: 12 secret types plus 217 rules imported from Gitleaks 8.30.1 (MIT, run on RE2), checksummed identifiers (SG NRIC/FIN, cards, IBAN), e-mail, phone, IP addresses, operator dictionary | span models, arbiter (ADR-0005) |
 | Swap and restore | surrogates with format transfer; closed-world restore (`ppe mask`) | in the proxy; streaming restore R5; context-aware restore (phase 4) |
 | Proxy | `ppe serve`: loopback, Anthropic Messages API, shadow mode (observes, never modifies) | OpenAI formats, reply-flow observation, masking, bearer token / UNIX socket |
 | Audit | 2-of-2 sealed records, hash chain, shared-writer locking, `ppe audit verify/open` | `auditd` account, signed checkpoints, retention / crypto-shredding job (ADR-0003/0004) |
