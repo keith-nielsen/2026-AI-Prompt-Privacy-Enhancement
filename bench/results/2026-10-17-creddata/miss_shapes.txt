@@ -1,0 +1,812 @@
+shape classes of mapped gold spans (creddata all, limit=None, phone_context=optional)
+
+T:API (21)
+  generic-len0+ MISSED                           8
+  generic-len16+ MISSED                          7
+  generic-len64+ found                           6
+
+T:API:Anthropic API Key:Key (1)
+  vendor-prefix found                            1
+
+T:API:Google API Key:Key (1)
+  vendor-prefix found                            1
+
+T:API:Key (66)
+  generic-len32+ found                          28
+  generic-len16+ found                          24
+  generic-len0+ found                            5
+  generic-len16+ MISSED                          5
+  generic-len32+ MISSED                          2
+  generic-len0+ MISSED                           1
+  generic-len64+ found                           1
+
+T:API:Key:Auth (1)
+  generic-len0+ MISSED                           1
+
+T:API:Key:Grafana Provisioned API Key (1)
+  vendor-prefix found                            1
+
+T:API:Key:Perplexity API Key (2)
+  generic-len48+ found                           2
+
+T:API:Key:Secret (1)
+  generic-len16+ found                           1
+
+T:API:Password (18)
+  generic-len0+ MISSED                          13
+  generic-len0+ found                            3
+  generic-len16+ found                           2
+
+T:API:Password:Salt (1)
+  generic-len0+ MISSED                           1
+
+T:API:Token (112)
+  generic-len64+ MISSED                         99
+  generic-len0+ MISSED                           6
+  generic-len16+ found                           3
+  generic-len32+ found                           3
+  generic-len32+ MISSED                          1
+
+T:API:UUID (1)
+  generic-len32+ MISSED                          1
+
+T:AWS Client ID (162)
+  vendor-prefix found                          113
+  generic-len16+ MISSED                         49
+
+T:AWS Client ID:Key (36)
+  vendor-prefix found                           35
+  vendor-prefix MISSED                           1
+
+T:AWS Multi (31)
+  vendor-prefix found                           31
+
+T:AWS S3 Bucket (92)
+  generic-len48+ MISSED                         57
+  generic-len32+ MISSED                         19
+  generic-len16+ MISSED                         16
+
+T:Akamai Credentials:Token (4)
+  generic-len32+ found                           4
+
+T:Alibaba Access Key ID (1)
+  generic-len16+ MISSED                          1
+
+T:Alibaba Multi (1)
+  generic-len64+ found                           1
+
+T:Auth (174)
+  generic-len0+ MISSED                          49
+  generic-len48+ MISSED                         39
+  generic-len16+ found                          23
+  generic-len64+ MISSED                         20
+  generic-len16+ MISSED                         18
+  generic-len32+ found                          12
+  generic-len32+ MISSED                          9
+  vendor-prefix MISSED                           2
+  generic-len64+ found                           1
+  generic-len0+ found                            1
+
+T:Auth:API:Key:Google API Key (1)
+  vendor-prefix found                            1
+
+T:Auth:Azure Access Token:JSON Web Token:Bearer Authorization (1)
+  vendor-prefix found                            1
+
+T:Auth:BASE64 encoded PEM Private Key (2)
+  generic-len64+ MISSED                          2
+
+T:Auth:Basic Authorization (601)
+  generic-len48+ MISSED                        248
+  generic-len32+ MISSED                        238
+  generic-len16+ MISSED                        103
+  generic-len0+ MISSED                           6
+  generic-len16+ found                           5
+  generic-len64+ MISSED                          1
+
+T:Auth:Bearer Authorization (79)
+  vendor-prefix MISSED                          69
+  generic-len64+ MISSED                          3
+  generic-len32+ found                           2
+  vendor-prefix found                            2
+  generic-len64+ found                           1
+  generic-len48+ MISSED                          1
+  generic-len32+ MISSED                          1
+
+T:Auth:Credential (1)
+  generic-len16+ MISSED                          1
+
+T:Auth:Dropbox App secret:Key (2)
+  generic-len0+ found                            1
+  generic-len0+ MISSED                           1
+
+T:Auth:Dropbox App secret:Password (1)
+  generic-len0+ MISSED                           1
+
+T:Auth:Firebase Domain (1)
+  generic-len16+ MISSED                          1
+
+T:Auth:Grafana Provisioned API Key:Bearer Authorization (1)
+  vendor-prefix found                            1
+
+T:Auth:JSON Web Token (3)
+  vendor-prefix found                            3
+
+T:Auth:JSON Web Token:Bearer Authorization (3)
+  vendor-prefix found                            3
+
+T:Auth:Key (48)
+  generic-len16+ MISSED                         16
+  generic-len16+ found                          13
+  generic-len0+ MISSED                           7
+  generic-len32+ MISSED                          5
+  generic-len64+ MISSED                          3
+  generic-len48+ found                           2
+  generic-len32+ found                           1
+  generic-len64+ found                           1
+
+T:Auth:Key:Password (2)
+  generic-len0+ found                            2
+
+T:Auth:Nonce (27)
+  generic-len32+ found                          11
+  generic-len16+ MISSED                          7
+  generic-len32+ MISSED                          6
+  generic-len0+ MISSED                           3
+
+T:Auth:Nonce:UUID (1)
+  generic-len32+ MISSED                          1
+
+T:Auth:Password (31)
+  generic-len0+ MISSED                          26
+  generic-len0+ found                            2
+  generic-len16+ found                           2
+  generic-len16+ MISSED                          1
+
+T:Auth:Salt (2)
+  generic-len48+ found                           2
+
+T:Auth:Secret (11)
+  generic-len16+ found                           4
+  generic-len0+ found                            2
+  generic-len32+ found                           2
+  generic-len32+ MISSED                          2
+  generic-len16+ MISSED                          1
+
+T:Auth:Secret:Token (15)
+  generic-len16+ found                           6
+  generic-len0+ MISSED                           4
+  generic-len32+ found                           4
+  generic-len32+ MISSED                          1
+
+T:Auth:Slack Token:Token (1)
+  vendor-prefix found                            1
+
+T:Auth:Token (85)
+  generic-len16+ MISSED                         23
+  generic-len32+ found                          12
+  generic-len0+ found                           11
+  generic-len16+ found                          10
+  generic-len64+ MISSED                          8
+  generic-len32+ MISSED                          7
+  generic-len0+ MISSED                           7
+  generic-len48+ found                           4
+  generic-len48+ MISSED                          3
+
+T:Auth:Token:Google OAuth Access Token (1)
+  generic-len64+ MISSED                          1
+
+T:Auth:Token:JSON Web Token (1)
+  vendor-prefix MISSED                           1
+
+T:Auth:Token:Secret (2)
+  generic-len16+ MISSED                          1
+  generic-len32+ MISSED                          1
+
+T:Auth:Token:UUID (2)
+  generic-len32+ MISSED                          1
+  generic-len32+ found                           1
+
+T:Auth:URL Credentials (3)
+  generic-len0+ found                            3
+
+T:Azure Access Token:JSON Web Token (11)
+  vendor-prefix found                           11
+
+T:Azure Access Token:Key:JSON Web Token (2)
+  vendor-prefix found                            2
+
+T:Azure Access Token:Token:JSON Web Token (5)
+  vendor-prefix found                            5
+
+T:BASE64 Private Key (30)
+  generic-len64+ found                          27
+  generic-len64+ MISSED                          3
+
+T:BASE64 Private Key:Key (1)
+  generic-len64+ found                           1
+
+T:BASE64 Private Key:Secret (1)
+  generic-len64+ MISSED                          1
+
+T:BASE64 encoded PEM Private Key (1)
+  generic-len64+ MISSED                          1
+
+T:BASE64 encoded PEM Private Key:Auth:Key (1)
+  generic-len64+ MISSED                          1
+
+T:BASE64 encoded PEM Private Key:Key (2)
+  generic-len64+ MISSED                          2
+
+T:Basic Authorization (89)
+  generic-len16+ MISSED                         46
+  generic-len64+ MISSED                         33
+  generic-len0+ MISSED                           7
+  generic-len48+ MISSED                          3
+
+T:Basic Authorization:Auth (2)
+  generic-len0+ MISSED                           2
+
+T:Bearer Authorization (75)
+  generic-len64+ MISSED                         74
+  generic-len32+ MISSED                          1
+
+T:Bearer Authorization:Auth (2)
+  generic-len48+ MISSED                          2
+
+T:Bearer Authorization:Slack Token:Auth (2)
+  vendor-prefix found                            2
+
+T:CMD ConvertTo-SecureString (13)
+  generic-len0+ MISSED                          10
+  generic-len16+ MISSED                          3
+
+T:CMD Password (25)
+  generic-len0+ MISSED                          24
+  generic-len16+ MISSED                          1
+
+T:CMD Secret (1)
+  generic-len0+ MISSED                           1
+
+T:CMD Token (4)
+  generic-len16+ MISSED                          2
+  generic-len32+ MISSED                          2
+
+T:CMD Token:Docker Swarm Token (2)
+  generic-len64+ MISSED                          2
+
+T:CURL Options (17)
+  generic-len0+ MISSED                          14
+  generic-len16+ MISSED                          3
+
+T:CURL User Password (7)
+  generic-len0+ found                            3
+  generic-len0+ MISSED                           2
+  generic-len16+ found                           1
+  generic-len32+ found                           1
+
+T:Credential (76)
+  vendor-prefix found                           57
+  generic-len0+ MISSED                           7
+  generic-len48+ MISSED                          6
+  generic-len16+ found                           4
+  generic-len16+ MISSED                          1
+  generic-len32+ MISSED                          1
+
+T:Credential:AWS Multi (3)
+  vendor-prefix found                            3
+
+T:Credential:Key (6)
+  generic-len64+ MISSED                          5
+  generic-len64+ found                           1
+
+T:Credential:Password (4)
+  generic-len0+ MISSED                           4
+
+T:Credential:Secret (2)
+  generic-len64+ found                           2
+
+T:Credential:UUID (3)
+  generic-len32+ MISSED                          3
+
+T:Dropbox App secret (16)
+  generic-len0+ MISSED                          15
+  generic-len16+ MISSED                          1
+
+T:Dropbox App secret:Password (44)
+  generic-len0+ found                           28
+  generic-len0+ MISSED                          16
+
+T:Dropbox App secret:Secret (4)
+  generic-len0+ MISSED                           3
+  generic-len0+ found                            1
+
+T:Dropbox App secret:Token (1)
+  generic-len0+ MISSED                           1
+
+T:Dropbox App secret:URL Credentials (1)
+  generic-len0+ found                            1
+
+T:Firebase Domain (38)
+  generic-len16+ MISSED                         35
+  generic-len32+ MISSED                          3
+
+T:Google API Key:API:Key (1)
+  vendor-prefix found                            1
+
+T:Google API Key:Key (8)
+  vendor-prefix found                            8
+
+T:Google Multi (11)
+  generic-len64+ found                           9
+  generic-len64+ MISSED                          2
+
+T:Google OAuth Access Token:Token (2)
+  generic-len16+ MISSED                          1
+  generic-len64+ MISSED                          1
+
+T:Grafana Provisioned API Key (2)
+  vendor-prefix found                            2
+
+T:Grafana Provisioned API Key:Auth (1)
+  vendor-prefix found                            1
+
+T:Grafana Provisioned API Key:Key (1)
+  vendor-prefix found                            1
+
+T:Grafana Service Account Token (2)
+  generic-len32+ found                           2
+
+T:Grafana Service Account Token:Key (1)
+  generic-len32+ found                           1
+
+T:JSON Web Token (84)
+  vendor-prefix found                           83
+  vendor-prefix MISSED                           1
+
+T:JSON Web Token:Azure Access Token (1)
+  vendor-prefix found                            1
+
+T:JSON Web Token:Azure Access Token:Token (2)
+  vendor-prefix found                            2
+
+T:JSON Web Token:Bearer Authorization (17)
+  vendor-prefix found                           17
+
+T:JSON Web Token:Token (48)
+  vendor-prefix found                           48
+
+T:JWK (78)
+  generic-len64+ MISSED                         69
+  generic-len48+ MISSED                          9
+
+T:JWK:Key (1)
+  generic-len64+ MISSED                          1
+
+T:Key (3822)
+  generic-len64+ found                        1137
+  generic-len32+ found                        1108
+  generic-len48+ found                        1083
+  generic-len32+ MISSED                        285
+  generic-len16+ MISSED                         53
+  generic-len16+ found                          48
+  generic-len64+ MISSED                         41
+  generic-len48+ MISSED                         40
+  generic-len0+ MISSED                          25
+  generic-len0+ found                            2
+
+T:Key:API (5)
+  generic-len32+ found                           3
+  generic-len16+ found                           2
+
+T:Key:AWS Client ID (15)
+  vendor-prefix found                           10
+  generic-len16+ MISSED                          5
+
+T:Key:Auth (11)
+  generic-len16+ found                           9
+  generic-len16+ MISSED                          2
+
+T:Key:BASE64 Private Key (7)
+  generic-len64+ MISSED                          4
+  generic-len64+ found                           3
+
+T:Key:BASE64 encoded PEM Private Key (6)
+  generic-len64+ MISSED                          6
+
+T:Key:Google API Key (1)
+  vendor-prefix found                            1
+
+T:Key:Grafana Provisioned API Key (1)
+  vendor-prefix found                            1
+
+T:Key:JWK (1)
+  generic-len64+ MISSED                          1
+
+T:Key:NKEY Seed (1)
+  generic-len48+ found                           1
+
+T:Key:Nonce (1)
+  generic-len48+ found                           1
+
+T:Key:Password (19)
+  generic-len0+ MISSED                          10
+  generic-len0+ found                            5
+  generic-len16+ MISSED                          3
+  generic-len16+ found                           1
+
+T:Key:Password:CMD Password (1)
+  generic-len0+ MISSED                           1
+
+T:Key:Product Activation Key (3)
+  generic-len16+ found                           3
+
+T:Key:Secret (124)
+  generic-len64+ found                          46
+  generic-len32+ found                          28
+  generic-len16+ found                          12
+  generic-len32+ MISSED                         11
+  generic-len0+ MISSED                           9
+  generic-len48+ found                           8
+  generic-len16+ MISSED                          6
+  generic-len64+ MISSED                          2
+  generic-len0+ found                            2
+
+T:Key:Secret:Token (4)
+  generic-len32+ MISSED                          2
+  generic-len16+ MISSED                          2
+
+T:Key:Secret:UUID (1)
+  generic-len32+ found                           1
+
+T:Key:Stripe Credentials (2)
+  vendor-prefix found                            1
+  generic-len32+ found                           1
+
+T:Key:Token (1)
+  generic-len32+ found                           1
+
+T:Key:UUID (5)
+  generic-len32+ found                           5
+
+T:MailGun API Key (8)
+  generic-len32+ MISSED                          6
+  generic-len48+ MISSED                          2
+
+T:NKEY Seed (58)
+  generic-len48+ MISSED                         58
+
+T:NKEY Seed:Key (1)
+  generic-len48+ MISSED                          1
+
+T:NTLM Token (18)
+  generic-len64+ MISSED                         18
+
+T:NTLM Token:Bearer Authorization (3)
+  generic-len64+ MISSED                          3
+
+T:NTLM Token:Bearer Authorization:Auth (105)
+  generic-len64+ MISSED                        105
+
+T:Nonce (148)
+  generic-len32+ MISSED                         61
+  generic-len64+ MISSED                         31
+  generic-len0+ MISSED                          25
+  generic-len16+ MISSED                         20
+  generic-len48+ MISSED                         11
+
+T:Nonce:Salt (1)
+  generic-len48+ MISSED                          1
+
+T:OTP / 2FA Secret (16)
+  generic-len16+ MISSED                         15
+  generic-len32+ MISSED                          1
+
+T:OTP / 2FA Secret:Password (1)
+  generic-len16+ MISSED                          1
+
+T:OTP / 2FA Secret:Secret (16)
+  generic-len16+ MISSED                         11
+  generic-len16+ found                           5
+
+T:PASERK Keys (72)
+  generic-len64+ MISSED                         56
+  generic-len48+ MISSED                         16
+
+T:PASETO Token (2)
+  generic-len64+ MISSED                          2
+
+T:PASETO Token:Token (61)
+  generic-len64+ MISSED                         61
+
+T:PEM Private Key (1161)
+  vendor-prefix found                         1080
+  generic-len64+ found                          81
+
+T:PEM Private Key:Key (9)
+  vendor-prefix found                            9
+
+T:PEM Private Key:Key:Secret (23)
+  vendor-prefix found                           23
+
+T:Password (2573)
+  generic-len0+ MISSED                        1474
+  generic-len0+ found                          638
+  generic-len16+ found                         203
+  generic-len16+ MISSED                        136
+  generic-len32+ found                          59
+  generic-len48+ MISSED                         40
+  generic-len32+ MISSED                         13
+  generic-len48+ found                           8
+  generic-len64+ MISSED                          1
+  generic-len64+ found                           1
+
+T:Password:API (4)
+  generic-len0+ found                            4
+
+T:Password:API:Key (1)
+  generic-len16+ MISSED                          1
+
+T:Password:Auth (9)
+  generic-len0+ MISSED                           8
+  generic-len0+ found                            1
+
+T:Password:Auth:Dropbox App secret (2)
+  generic-len0+ MISSED                           1
+  generic-len0+ found                            1
+
+T:Password:Auth:Secret (3)
+  generic-len16+ MISSED                          3
+
+T:Password:CMD Password (7)
+  generic-len0+ MISSED                           7
+
+T:Password:Credential (1)
+  generic-len0+ MISSED                           1
+
+T:Password:Dropbox App secret (1)
+  generic-len0+ MISSED                           1
+
+T:Password:Key (10)
+  generic-len0+ MISSED                           6
+  generic-len0+ found                            4
+
+T:Password:Key:Secret (5)
+  generic-len16+ MISSED                          4
+  generic-len16+ found                           1
+
+T:Password:OTP / 2FA Secret (2)
+  generic-len16+ MISSED                          1
+  generic-len16+ found                           1
+
+T:Password:SQL Password (4)
+  generic-len0+ MISSED                           3
+  generic-len0+ found                            1
+
+T:Password:Salt (1)
+  generic-len16+ found                           1
+
+T:Password:Secret (18)
+  generic-len16+ found                          10
+  generic-len0+ found                            4
+  generic-len0+ MISSED                           3
+  generic-len16+ MISSED                          1
+
+T:Password:Token (4)
+  generic-len0+ MISSED                           3
+  generic-len16+ found                           1
+
+T:Password:URL Credentials (10)
+  generic-len0+ found                            8
+  generic-len16+ found                           1
+  generic-len0+ MISSED                           1
+
+T:PostHog Credentials (2)
+  generic-len32+ MISSED                          2
+
+T:PostHog Credentials:API:Key (1)
+  generic-len32+ found                           1
+
+T:Postman Credentials (1)
+  generic-len64+ found                           1
+
+T:Postman Credentials:API:Key (1)
+  generic-len64+ found                           1
+
+T:SQL Password (39)
+  generic-len0+ MISSED                          39
+
+T:SQL Password:Dropbox App secret (1)
+  generic-len0+ MISSED                           1
+
+T:Salesforce Credentials (5)
+  generic-len0+ MISSED                           5
+
+T:Salt (85)
+  generic-len32+ MISSED                         49
+  generic-len16+ MISSED                         23
+  generic-len0+ MISSED                           7
+  generic-len64+ MISSED                          5
+  generic-len48+ MISSED                          1
+
+T:Secret (1263)
+  generic-len64+ found                         423
+  generic-len48+ found                         275
+  generic-len32+ found                         261
+  generic-len16+ found                         130
+  generic-len0+ MISSED                          53
+  generic-len16+ MISSED                         47
+  generic-len0+ found                           32
+  generic-len32+ MISSED                         30
+  generic-len64+ MISSED                          7
+  vendor-prefix found                            3
+  generic-len48+ MISSED                          2
+
+T:Secret:Auth (5)
+  generic-len32+ found                           3
+  generic-len64+ found                           1
+  generic-len16+ found                           1
+
+T:Secret:Auth:Token (1)
+  generic-len16+ found                           1
+
+T:Secret:Dropbox App secret (1)
+  generic-len0+ found                            1
+
+T:Secret:Key (39)
+  generic-len32+ found                          30
+  generic-len32+ MISSED                          2
+  generic-len16+ MISSED                          2
+  generic-len0+ MISSED                           2
+  generic-len48+ found                           1
+  generic-len16+ found                           1
+  generic-len64+ MISSED                          1
+
+T:Secret:OTP / 2FA Secret (26)
+  generic-len32+ found                          19
+  generic-len16+ MISSED                          4
+  generic-len32+ MISSED                          2
+  generic-len16+ found                           1
+
+T:Secret:Token (13)
+  generic-len0+ found                            5
+  generic-len64+ found                           3
+  generic-len32+ found                           2
+  generic-len16+ MISSED                          1
+  generic-len0+ MISSED                           1
+  generic-len16+ found                           1
+
+T:Secret:Token:Auth (1)
+  generic-len0+ MISSED                           1
+
+T:Secret:UUID (1)
+  generic-len32+ found                           1
+
+T:Slack Token (4)
+  generic-len64+ found                           2
+  vendor-prefix found                            2
+
+T:Slack Token:Token (8)
+  vendor-prefix found                            4
+  generic-len16+ found                           3
+  generic-len64+ found                           1
+
+T:Tencent WeChat API App ID (47)
+  generic-len16+ MISSED                         47
+
+T:Token (583)
+  generic-len16+ MISSED                        132
+  generic-len64+ found                          94
+  generic-len16+ found                          86
+  generic-len32+ found                          72
+  generic-len48+ found                          61
+  generic-len64+ MISSED                         50
+  generic-len0+ MISSED                          39
+  generic-len32+ MISSED                         15
+  generic-len0+ found                           15
+  generic-len48+ MISSED                         11
+  vendor-prefix found                            5
+  vendor-prefix MISSED                           3
+
+T:Token:API:Key (2)
+  generic-len32+ found                           2
+
+T:Token:API:Key:Google API Key (1)
+  vendor-prefix found                            1
+
+T:Token:Akamai Credentials (2)
+  generic-len32+ found                           2
+
+T:Token:Auth (17)
+  generic-len16+ MISSED                          6
+  generic-len32+ found                           4
+  generic-len16+ found                           3
+  generic-len32+ MISSED                          3
+  generic-len48+ MISSED                          1
+
+T:Token:Auth:Key (2)
+  generic-len16+ MISSED                          2
+
+T:Token:Auth:Secret (6)
+  generic-len0+ MISSED                           3
+  generic-len32+ found                           1
+  generic-len16+ MISSED                          1
+  generic-len0+ found                            1
+
+T:Token:Bearer Authorization (1)
+  generic-len32+ MISSED                          1
+
+T:Token:Github Classic Token (1)
+  vendor-prefix found                            1
+
+T:Token:Google OAuth Refresh Token (1)
+  generic-len64+ MISSED                          1
+
+T:Token:JSON Web Token (2)
+  vendor-prefix found                            2
+
+T:Token:JSON Web Token:Azure Access Token (2)
+  vendor-prefix found                            2
+
+T:Token:Key (2)
+  generic-len0+ found                            1
+  generic-len32+ found                           1
+
+T:Token:OTP / 2FA Secret (3)
+  generic-len32+ MISSED                          3
+
+T:Token:Salesforce Credentials (1)
+  generic-len64+ MISSED                          1
+
+T:Token:Secret (7)
+  generic-len32+ found                           6
+  generic-len16+ found                           1
+
+T:Token:UUID (169)
+  generic-len32+ found                         157
+  generic-len32+ MISSED                         12
+
+T:Twilio Credentials (30)
+  generic-len32+ MISSED                         30
+
+T:Twilio Multi (1)
+  generic-len64+ found                           1
+
+T:URL Credentials (213)
+  generic-len0+ found                          190
+  generic-len16+ found                           9
+  generic-len0+ MISSED                           8
+  generic-len32+ found                           5
+  generic-len16+ MISSED                          1
+
+T:URL Credentials:API:Key (1)
+  vendor-prefix found                            1
+
+T:UUID (2316)
+  generic-len32+ MISSED                       2315
+  generic-len32+ found                           1
+
+T:UUID:Auth (1)
+  generic-len32+ MISSED                          1
+
+T:UUID:Key (4)
+  generic-len32+ found                           4
+
+T:UUID:Password (1)
+  generic-len32+ found                           1
+
+T:UUID:Secret (2)
+  generic-len32+ found                           2
+
+T:UUID:Token (26)
+  generic-len32+ found                          16
+  generic-len32+ MISSED                         10
+
+T:UUID:Token:Auth (6)
+  generic-len32+ MISSED                          6
+
+T:WunderGraph API Key (2)
+  generic-len32+ MISSED                          2
+
+T:WunderGraph API Key:API:Key (9)
+  generic-len32+ found                           9

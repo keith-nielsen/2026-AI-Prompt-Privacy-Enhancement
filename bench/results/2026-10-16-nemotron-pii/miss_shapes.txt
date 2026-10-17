@@ -1,14 +1,15 @@
 shape classes of mapped gold spans (nemotron-pii test, limit=None, phone_context=optional)
 
 api_key (4667)
-  generic-len32+ MISSED                       3575
-  generic-len16+ MISSED                        545
-  vendor-prefix found                          409
-  generic-len32+ found                          50
-  vendor-prefix MISSED                          38
-  generic-len0+ MISSED                          26
-  generic-len16+ found                          14
+  generic-len32+ MISSED                       2878
+  generic-len32+ found                         747
+  generic-len16+ MISSED                        422
+  vendor-prefix found                          418
+  generic-len16+ found                         137
+  vendor-prefix MISSED                          29
+  generic-len0+ MISSED                          22
   generic-len48+ MISSED                          9
+  generic-len0+ found                            4
   generic-len64+ MISSED                          1
 
 credit_debit_card (12867)
@@ -70,10 +71,10 @@ ipv6 (3139)
   plain MISSED                                 297
 
 password (6985)
-  generic-len0+ MISSED                        5765
-  generic-len16+ MISSED                        970
-  generic-len0+ found                          210
-  generic-len16+ found                          36
+  generic-len0+ MISSED                        5775
+  generic-len16+ MISSED                        991
+  generic-len0+ found                          200
+  generic-len16+ found                          15
   generic-len32+ MISSED                          4
 
 phone_number (23930)

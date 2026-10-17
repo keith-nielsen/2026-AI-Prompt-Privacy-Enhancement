@@ -1,4 +1,4 @@
-gretel-pii-finance/test (5594 docs, 1142 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=required
+gretel-pii-finance/test (5594 docs, 890 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=required secret_rules=ppe v2 + gitleaks 8.30.1
 
 min_score=0.0
 
@@ -13,13 +13,13 @@ LOCATION         4304     0.000     0.000       0      n/a     n/a     n/a
 ORGANIZATION     6341     0.000     0.000       0      n/a     n/a     n/a
 PERSON          10792     0.000     0.000       0      n/a     n/a     n/a
 PHONE             946     0.594     0.530     622    0.900   0.900   0.716
-SECRET            191     0.178     0.178      37    0.919   0.919   0.298
-micro†           3178     0.771     0.726    2652    0.919   0.937   0.839
-micro‡          35169     0.070     0.066    2652    0.919   0.937   0.130
+SECRET            191     0.293     0.283      62    0.903   0.903   0.443
+micro†           3178     0.778     0.732    2677    0.919   0.936   0.843
+micro‡          35169     0.070     0.066    2677    0.919   0.936   0.131
   † micro over the system's claimed types that dataset labels map to: CARD, EMAIL, IBAN, IPV4, IPV6, PHONE, SECRET
   ‡ micro over every type that dataset labels map to (same denominator for every system)
 
-any-type coverage, all 29 dataset labels: 2505/36990 = 0.068
+any-type coverage, all 29 dataset labels: 2527/36990 = 0.068
 gold spans dropped (outside their text, not scored): {'api_key': 1, 'company': 1, 'ipv4': 2, 'last_name': 1, 'name': 19, 'street_address': 3}
 
 dataset label                     support      maps_to  covered
@@ -28,8 +28,8 @@ email                                1422        EMAIL    0.967
 ipv6                                  134         IPV6    0.813
 iban                                  203         IBAN    0.778
 phone_number                          946        PHONE    0.594
+api_key                                90       SECRET    0.556
 credit_card_number                    120         CARD    0.450
-api_key                                90       SECRET    0.311
 user_name                              71            -    0.099
 password                              101       SECRET    0.059
 local_latlng                           97            -    0.010
@@ -60,6 +60,6 @@ system spans by overlapped gold label (top 6 per type):
   IPV4         ipv4 160, street_address 1
   IPV6         ipv6 109, (no gold span) 25, local_latlng 1, street_address 1
   PHONE        phone_number 560, (no gold span) 62
-  SECRET       api_key 28, password 6, (no gold span) 3
+  SECRET       api_key 50, (no gold span) 6, password 6
 
 report (labels and counts only) -> bench/results/2026-10-16-gretel-pii-finance/ppe-rules-phone-required.json

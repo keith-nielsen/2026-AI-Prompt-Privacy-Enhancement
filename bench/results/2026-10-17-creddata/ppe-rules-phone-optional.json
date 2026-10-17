@@ -1,0 +1,3003 @@
+{
+ "any_type_coverage_all_labels": {
+  "covered": 11905,
+  "gold_spans": 67886,
+  "rate": 0.1754
+ },
+ "by_label": {
+  "F:API": {
+   "coverage_any_type": 0.0281,
+   "covered_any_type": 101,
+   "maps_to": null,
+   "support": 3598
+  },
+  "F:API:Auth": {
+   "coverage_any_type": 0.0667,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 15
+  },
+  "F:API:Auth:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:API:Key": {
+   "coverage_any_type": 0.127,
+   "covered_any_type": 8,
+   "maps_to": null,
+   "support": 63
+  },
+  "F:API:Key:Dropbox App secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:API:Key:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:API:Nonce": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:API:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 33
+  },
+  "F:API:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:API:Secret:Key": {
+   "coverage_any_type": 0.0769,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 13
+  },
+  "F:API:Token": {
+   "coverage_any_type": 0.0909,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 22
+  },
+  "F:API:Token:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:AWS Client ID": {
+   "coverage_any_type": 0.6667,
+   "covered_any_type": 16,
+   "maps_to": null,
+   "support": 24
+  },
+  "F:AWS Client ID:AWS Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:AWS Client ID:Credential": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:AWS Client ID:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:AWS Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 61,
+   "maps_to": null,
+   "support": 61
+  },
+  "F:Akamai Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Auth": {
+   "coverage_any_type": 0.048,
+   "covered_any_type": 156,
+   "maps_to": null,
+   "support": 3253
+  },
+  "F:Auth:API": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:API:Dropbox App secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:API:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:Basic Authorization": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 16
+  },
+  "F:Auth:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 12
+  },
+  "F:Auth:JSON Web Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:Key": {
+   "coverage_any_type": 0.1429,
+   "covered_any_type": 3,
+   "maps_to": null,
+   "support": 21
+  },
+  "F:Auth:Key:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:Key:Token": {
+   "coverage_any_type": 0.8571,
+   "covered_any_type": 12,
+   "maps_to": null,
+   "support": 14
+  },
+  "F:Auth:Nonce": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Auth:Password": {
+   "coverage_any_type": 0.0476,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 21
+  },
+  "F:Auth:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Auth:Secret": {
+   "coverage_any_type": 0.125,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Auth:Secret:Token": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Auth:Token": {
+   "coverage_any_type": 0.0254,
+   "covered_any_type": 6,
+   "maps_to": null,
+   "support": 236
+  },
+  "F:Auth:Token:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Auth:Twilio Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 10
+  },
+  "F:Auth:UUID": {
+   "coverage_any_type": 0.3333,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:BASE64 Private Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Basic Authorization": {
+   "coverage_any_type": 0.0037,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 538
+  },
+  "F:Basic Authorization:API:Auth:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:CMD ConvertTo-SecureString": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:CMD ConvertTo-SecureString:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 112
+  },
+  "F:CMD Password:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:CMD Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 17
+  },
+  "F:CMD Secret:AWS Client ID:AWS Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:CMD Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:CURL Options": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:CURL User Password": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Credential": {
+   "coverage_any_type": 0.0169,
+   "covered_any_type": 8,
+   "maps_to": null,
+   "support": 474
+  },
+  "F:Credential:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Credential:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:Credential:Twilio Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:Credential:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Dropbox App secret": {
+   "coverage_any_type": 0.2946,
+   "covered_any_type": 33,
+   "maps_to": null,
+   "support": 112
+  },
+  "F:Dropbox App secret:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Facebook Access Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Google OAuth Refresh Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Grafana Access Policy Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Grafana Provisioned API Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 16
+  },
+  "F:JSON Web Token": {
+   "coverage_any_type": 0.1,
+   "covered_any_type": 6,
+   "maps_to": null,
+   "support": 60
+  },
+  "F:JWK": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Jira / Confluence PAT token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:Key": {
+   "coverage_any_type": 0.0793,
+   "covered_any_type": 1567,
+   "maps_to": null,
+   "support": 19770
+  },
+  "F:Key:API": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 30
+  },
+  "F:Key:API:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:API:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:AWS Client ID": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Key:AWS Multi:AWS Client ID": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Key:Auth": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:Key:Auth:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Key:BASE64 Private Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 9
+  },
+  "F:Key:Credential:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:Dropbox App secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 17
+  },
+  "F:Key:Dropbox App secret:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 8,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Key:Nonce": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 5
+  },
+  "F:Key:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 5
+  },
+  "F:Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Key:Secret:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:Token": {
+   "coverage_any_type": 0.1908,
+   "covered_any_type": 50,
+   "maps_to": null,
+   "support": 262
+  },
+  "F:Key:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Key:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 20
+  },
+  "F:Nonce": {
+   "coverage_any_type": 0.0102,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 98
+  },
+  "F:Nonce:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Nonce:Auth:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Nonce:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Nonce:Key:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Nonce:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:OTP / 2FA Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Other": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:PASERK Keys": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:PEM Private Key": {
+   "coverage_any_type": 0.6714,
+   "covered_any_type": 47,
+   "maps_to": null,
+   "support": 70
+  },
+  "F:PEM Private Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password": {
+   "coverage_any_type": 0.0345,
+   "covered_any_type": 301,
+   "maps_to": null,
+   "support": 8730
+  },
+  "F:Password:API": {
+   "coverage_any_type": 0.0667,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 30
+  },
+  "F:Password:API:Auth": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password:API:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password:API:Key:Secret:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Password:AWS Client ID:AWS Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password:Auth": {
+   "coverage_any_type": 0.0667,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 30
+  },
+  "F:Password:Auth:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Password:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 17
+  },
+  "F:Password:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Password:Dropbox App secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Password:Key": {
+   "coverage_any_type": 0.08,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 25
+  },
+  "F:Password:Key:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Password:Key:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password:Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password:SQL Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "F:Password:Salt": {
+   "coverage_any_type": 0.1111,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 9
+  },
+  "F:Password:Secret": {
+   "coverage_any_type": 0.1429,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 7
+  },
+  "F:Password:Secret:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Password:Token": {
+   "coverage_any_type": 0.0526,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 19
+  },
+  "F:Password:URL Credentials": {
+   "coverage_any_type": 0.8875,
+   "covered_any_type": 71,
+   "maps_to": null,
+   "support": 80
+  },
+  "F:SQL Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:SQL Password:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Salt": {
+   "coverage_any_type": 0.0381,
+   "covered_any_type": 4,
+   "maps_to": null,
+   "support": 105
+  },
+  "F:Salt:Auth:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Salt:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Salt:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:Salt:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Secret": {
+   "coverage_any_type": 0.069,
+   "covered_any_type": 110,
+   "maps_to": null,
+   "support": 1595
+  },
+  "F:Secret:API:Credential:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Secret:API:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Secret:Auth:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Secret:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 27
+  },
+  "F:Secret:Key:Password": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Secret:Key:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Secret:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 18
+  },
+  "F:Secret:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Slack Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Token": {
+   "coverage_any_type": 0.0712,
+   "covered_any_type": 300,
+   "maps_to": null,
+   "support": 4213
+  },
+  "F:Token:API": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Token:Auth": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 4
+  },
+  "F:Token:Auth:Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Token:Auth:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Token:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 7
+  },
+  "F:Token:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:Token:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Token:Twilio Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 8
+  },
+  "F:Token:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Token:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:Twilio Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 17
+  },
+  "F:URL Credentials": {
+   "coverage_any_type": 0.9861,
+   "covered_any_type": 142,
+   "maps_to": null,
+   "support": 144
+  },
+  "F:URL Credentials:Auth:Password": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "F:URL Credentials:Password": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 33,
+   "maps_to": null,
+   "support": 33
+  },
+  "F:URL Credentials:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 2
+  },
+  "F:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3652
+  },
+  "F:UUID:Key": {
+   "coverage_any_type": 0.0541,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 37
+  },
+  "T:API": {
+   "coverage_any_type": 0.2857,
+   "covered_any_type": 6,
+   "maps_to": "SECRET",
+   "support": 21
+  },
+  "T:API:Anthropic API Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:API:Google API Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:API:Key": {
+   "coverage_any_type": 0.8788,
+   "covered_any_type": 58,
+   "maps_to": "SECRET",
+   "support": 66
+  },
+  "T:API:Key:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:API:Key:Grafana Provisioned API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:API:Key:Perplexity API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:API:Key:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:API:Password": {
+   "coverage_any_type": 0.2778,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 18
+  },
+  "T:API:Password:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:API:Token": {
+   "coverage_any_type": 0.0536,
+   "covered_any_type": 6,
+   "maps_to": "SECRET",
+   "support": 112
+  },
+  "T:API:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:AWS Client ID": {
+   "coverage_any_type": 0.6975,
+   "covered_any_type": 113,
+   "maps_to": "SECRET",
+   "support": 162
+  },
+  "T:AWS Client ID:Key": {
+   "coverage_any_type": 0.9722,
+   "covered_any_type": 35,
+   "maps_to": "SECRET",
+   "support": 36
+  },
+  "T:AWS Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 31,
+   "maps_to": "SECRET",
+   "support": 31
+  },
+  "T:AWS S3 Bucket": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 92
+  },
+  "T:Akamai Credentials:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 4,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Alibaba Access Key ID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Alibaba Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth": {
+   "coverage_any_type": 0.2126,
+   "covered_any_type": 37,
+   "maps_to": "SECRET",
+   "support": 174
+  },
+  "T:Auth:API:Key:Google API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Azure Access Token:JSON Web Token:Bearer Authorization": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:BASE64 encoded PEM Private Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Auth:Basic Authorization": {
+   "coverage_any_type": 0.0083,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 601
+  },
+  "T:Auth:Bearer Authorization": {
+   "coverage_any_type": 0.0633,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 79
+  },
+  "T:Auth:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Dropbox App secret:Key": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Auth:Dropbox App secret:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Firebase Domain": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Grafana Provisioned API Key:Bearer Authorization": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:JSON Web Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 3,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Auth:JSON Web Token:Bearer Authorization": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 3,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Auth:Key": {
+   "coverage_any_type": 0.3542,
+   "covered_any_type": 17,
+   "maps_to": "SECRET",
+   "support": 48
+  },
+  "T:Auth:Key:Password": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Auth:Nonce": {
+   "coverage_any_type": 0.4074,
+   "covered_any_type": 11,
+   "maps_to": "SECRET",
+   "support": 27
+  },
+  "T:Auth:Nonce:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Password": {
+   "coverage_any_type": 0.129,
+   "covered_any_type": 4,
+   "maps_to": "SECRET",
+   "support": 31
+  },
+  "T:Auth:Salt": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Auth:Secret": {
+   "coverage_any_type": 0.7273,
+   "covered_any_type": 8,
+   "maps_to": "SECRET",
+   "support": 11
+  },
+  "T:Auth:Secret:Token": {
+   "coverage_any_type": 0.8,
+   "covered_any_type": 12,
+   "maps_to": "SECRET",
+   "support": 15
+  },
+  "T:Auth:Slack Token:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Token": {
+   "coverage_any_type": 0.4353,
+   "covered_any_type": 37,
+   "maps_to": "SECRET",
+   "support": 85
+  },
+  "T:Auth:Token:Google OAuth Access Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Token:JSON Web Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Auth:Token:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Auth:Token:UUID": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Auth:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 3,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Azure Access Token:JSON Web Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 11,
+   "maps_to": "SECRET",
+   "support": 11
+  },
+  "T:Azure Access Token:Key:JSON Web Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Azure Access Token:Token:JSON Web Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 5
+  },
+  "T:BASE64 Private Key": {
+   "coverage_any_type": 0.9,
+   "covered_any_type": 27,
+   "maps_to": "SECRET",
+   "support": 30
+  },
+  "T:BASE64 Private Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:BASE64 Private Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:BASE64 encoded PEM Private Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:BASE64 encoded PEM Private Key:Auth:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:BASE64 encoded PEM Private Key:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Basic Authorization": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 89
+  },
+  "T:Basic Authorization:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Bearer Authorization": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 75
+  },
+  "T:Bearer Authorization:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Bearer Authorization:Slack Token:Auth": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:CMD ConvertTo-SecureString": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 13
+  },
+  "T:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 25
+  },
+  "T:CMD Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:CMD Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:CMD Token:Docker Swarm Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:CURL Options": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 17
+  },
+  "T:CURL User Password": {
+   "coverage_any_type": 0.7143,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 7
+  },
+  "T:Credential": {
+   "coverage_any_type": 0.8026,
+   "covered_any_type": 61,
+   "maps_to": "SECRET",
+   "support": 76
+  },
+  "T:Credential:AWS Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 3,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Credential:Key": {
+   "coverage_any_type": 0.1667,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 6
+  },
+  "T:Credential:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Credential:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Credential:UUID": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Dropbox App secret": {
+   "coverage_any_type": 0.0625,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 16
+  },
+  "T:Dropbox App secret:Password": {
+   "coverage_any_type": 0.6364,
+   "covered_any_type": 28,
+   "maps_to": "SECRET",
+   "support": 44
+  },
+  "T:Dropbox App secret:Secret": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Dropbox App secret:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Dropbox App secret:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Firebase Domain": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 38
+  },
+  "T:Google API Key:API:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Google API Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 8,
+   "maps_to": "SECRET",
+   "support": 8
+  },
+  "T:Google Multi": {
+   "coverage_any_type": 0.8182,
+   "covered_any_type": 9,
+   "maps_to": "SECRET",
+   "support": 11
+  },
+  "T:Google OAuth Access Token:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Grafana Provisioned API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Grafana Provisioned API Key:Auth": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Grafana Provisioned API Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Grafana Service Account Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Grafana Service Account Token:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:JSON Web Token": {
+   "coverage_any_type": 0.9881,
+   "covered_any_type": 83,
+   "maps_to": "SECRET",
+   "support": 84
+  },
+  "T:JSON Web Token:Azure Access Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:JSON Web Token:Azure Access Token:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:JSON Web Token:Bearer Authorization": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 17,
+   "maps_to": "SECRET",
+   "support": 17
+  },
+  "T:JSON Web Token:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 48,
+   "maps_to": "SECRET",
+   "support": 48
+  },
+  "T:JWK": {
+   "coverage_any_type": 0.1154,
+   "covered_any_type": 9,
+   "maps_to": "SECRET",
+   "support": 78
+  },
+  "T:JWK:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key": {
+   "coverage_any_type": 0.8841,
+   "covered_any_type": 3379,
+   "maps_to": "SECRET",
+   "support": 3822
+  },
+  "T:Key:API": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 5
+  },
+  "T:Key:AWS Client ID": {
+   "coverage_any_type": 0.6667,
+   "covered_any_type": 10,
+   "maps_to": "SECRET",
+   "support": 15
+  },
+  "T:Key:Auth": {
+   "coverage_any_type": 0.8182,
+   "covered_any_type": 9,
+   "maps_to": "SECRET",
+   "support": 11
+  },
+  "T:Key:BASE64 Private Key": {
+   "coverage_any_type": 0.4286,
+   "covered_any_type": 3,
+   "maps_to": "SECRET",
+   "support": 7
+  },
+  "T:Key:BASE64 encoded PEM Private Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 6
+  },
+  "T:Key:Google API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:Grafana Provisioned API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:JWK": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:NKEY Seed": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:Nonce": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:Password": {
+   "coverage_any_type": 0.3158,
+   "covered_any_type": 6,
+   "maps_to": "SECRET",
+   "support": 19
+  },
+  "T:Key:Password:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:Product Activation Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 3,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Key:Secret": {
+   "coverage_any_type": 0.7742,
+   "covered_any_type": 96,
+   "maps_to": "SECRET",
+   "support": 124
+  },
+  "T:Key:Secret:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Key:Secret:UUID": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:Stripe Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Key:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Key:UUID": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 5
+  },
+  "T:MailGun API Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 8
+  },
+  "T:NKEY Seed": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 58
+  },
+  "T:NKEY Seed:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:NTLM Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 18
+  },
+  "T:NTLM Token:Bearer Authorization": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:NTLM Token:Bearer Authorization:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 105
+  },
+  "T:Nonce": {
+   "coverage_any_type": 0.0676,
+   "covered_any_type": 10,
+   "maps_to": "SECRET",
+   "support": 148
+  },
+  "T:Nonce:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:OTP / 2FA Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 16
+  },
+  "T:OTP / 2FA Secret:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:OTP / 2FA Secret:Secret": {
+   "coverage_any_type": 0.3125,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 16
+  },
+  "T:PASERK Keys": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 72
+  },
+  "T:PASETO Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:PASETO Token:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 61
+  },
+  "T:PEM Private Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1161,
+   "maps_to": "SECRET",
+   "support": 1161
+  },
+  "T:PEM Private Key:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 9,
+   "maps_to": "SECRET",
+   "support": 9
+  },
+  "T:PEM Private Key:Key:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 23,
+   "maps_to": "SECRET",
+   "support": 23
+  },
+  "T:Password": {
+   "coverage_any_type": 0.3537,
+   "covered_any_type": 910,
+   "maps_to": "SECRET",
+   "support": 2573
+  },
+  "T:Password:API": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 4,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Password:API:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Password:Auth": {
+   "coverage_any_type": 0.1111,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 9
+  },
+  "T:Password:Auth:Dropbox App secret": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Password:Auth:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Password:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 7
+  },
+  "T:Password:Credential": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Password:Dropbox App secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Password:Key": {
+   "coverage_any_type": 0.4,
+   "covered_any_type": 4,
+   "maps_to": "SECRET",
+   "support": 10
+  },
+  "T:Password:Key:Secret": {
+   "coverage_any_type": 0.2,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 5
+  },
+  "T:Password:OTP / 2FA Secret": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Password:SQL Password": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Password:Salt": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Password:Secret": {
+   "coverage_any_type": 0.7778,
+   "covered_any_type": 14,
+   "maps_to": "SECRET",
+   "support": 18
+  },
+  "T:Password:Token": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Password:URL Credentials": {
+   "coverage_any_type": 0.9,
+   "covered_any_type": 9,
+   "maps_to": "SECRET",
+   "support": 10
+  },
+  "T:PostHog Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:PostHog Credentials:API:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Postman Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Postman Credentials:API:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:SQL Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 39
+  },
+  "T:SQL Password:Dropbox App secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Salesforce Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 5
+  },
+  "T:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 85
+  },
+  "T:Secret": {
+   "coverage_any_type": 0.8899,
+   "covered_any_type": 1124,
+   "maps_to": "SECRET",
+   "support": 1263
+  },
+  "T:Secret:Auth": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 5,
+   "maps_to": "SECRET",
+   "support": 5
+  },
+  "T:Secret:Auth:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Secret:Dropbox App secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Secret:Key": {
+   "coverage_any_type": 0.8205,
+   "covered_any_type": 32,
+   "maps_to": "SECRET",
+   "support": 39
+  },
+  "T:Secret:OTP / 2FA Secret": {
+   "coverage_any_type": 0.7692,
+   "covered_any_type": 20,
+   "maps_to": "SECRET",
+   "support": 26
+  },
+  "T:Secret:Token": {
+   "coverage_any_type": 0.8462,
+   "covered_any_type": 11,
+   "maps_to": "SECRET",
+   "support": 13
+  },
+  "T:Secret:Token:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Secret:UUID": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Slack Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 4,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:Slack Token:Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 8,
+   "maps_to": "SECRET",
+   "support": 8
+  },
+  "T:Tencent WeChat API App ID": {
+   "coverage_any_type": 0.0213,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 47
+  },
+  "T:Token": {
+   "coverage_any_type": 0.5746,
+   "covered_any_type": 335,
+   "maps_to": "SECRET",
+   "support": 583
+  },
+  "T:Token:API:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Token:API:Key:Google API Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Token:Akamai Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Token:Auth": {
+   "coverage_any_type": 0.4706,
+   "covered_any_type": 8,
+   "maps_to": "SECRET",
+   "support": 17
+  },
+  "T:Token:Auth:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Token:Auth:Secret": {
+   "coverage_any_type": 0.3333,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 6
+  },
+  "T:Token:Bearer Authorization": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Token:Github Classic Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Token:Google OAuth Refresh Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Token:JSON Web Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Token:JSON Web Token:Azure Access Token": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Token:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:Token:OTP / 2FA Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 3
+  },
+  "T:Token:Salesforce Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:Token:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 7,
+   "maps_to": "SECRET",
+   "support": 7
+  },
+  "T:Token:UUID": {
+   "coverage_any_type": 0.929,
+   "covered_any_type": 157,
+   "maps_to": "SECRET",
+   "support": 169
+  },
+  "T:Twilio Credentials": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 30
+  },
+  "T:Twilio Multi": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:URL Credentials": {
+   "coverage_any_type": 0.9624,
+   "covered_any_type": 205,
+   "maps_to": "SECRET",
+   "support": 213
+  },
+  "T:URL Credentials:API:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:UUID": {
+   "coverage_any_type": 0.025,
+   "covered_any_type": 58,
+   "maps_to": "SECRET",
+   "support": 2316
+  },
+  "T:UUID:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:UUID:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 4,
+   "maps_to": "SECRET",
+   "support": 4
+  },
+  "T:UUID:Password": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": "SECRET",
+   "support": 1
+  },
+  "T:UUID:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:UUID:Token": {
+   "coverage_any_type": 0.6154,
+   "covered_any_type": 16,
+   "maps_to": "SECRET",
+   "support": 26
+  },
+  "T:UUID:Token:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 6
+  },
+  "T:WunderGraph API Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": "SECRET",
+   "support": 2
+  },
+  "T:WunderGraph API Key:API:Key": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 9,
+   "maps_to": "SECRET",
+   "support": 9
+  },
+  "X:API:Auth:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:API:Key": {
+   "coverage_any_type": 0.087,
+   "covered_any_type": 12,
+   "maps_to": null,
+   "support": 138
+  },
+  "X:API:Key:Secret": {
+   "coverage_any_type": 0.1429,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 7
+  },
+  "X:API:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 3
+  },
+  "X:API:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 20
+  },
+  "X:API:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 15
+  },
+  "X:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 10
+  },
+  "X:Auth:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 6
+  },
+  "X:Auth:Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 2
+  },
+  "X:Auth:Password": {
+   "coverage_any_type": 0.1429,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 14
+  },
+  "X:Auth:Secret": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 4
+  },
+  "X:Auth:Secret:Token": {
+   "coverage_any_type": 0.25,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 8
+  },
+  "X:Auth:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 32
+  },
+  "X:CMD Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Credential": {
+   "coverage_any_type": 0.0274,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 73
+  },
+  "X:Credential:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Credential:Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Credential:Secret": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Key": {
+   "coverage_any_type": 0.057,
+   "covered_any_type": 9,
+   "maps_to": null,
+   "support": 158
+  },
+  "X:Key:API": {
+   "coverage_any_type": 0.3333,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 3
+  },
+  "X:Key:Password": {
+   "coverage_any_type": 0.0541,
+   "covered_any_type": 2,
+   "maps_to": null,
+   "support": 37
+  },
+  "X:Key:Password:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Key:Secret": {
+   "coverage_any_type": 0.1095,
+   "covered_any_type": 15,
+   "maps_to": null,
+   "support": 137
+  },
+  "X:Key:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:OTP / 2FA Secret:Key": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Other": {
+   "coverage_any_type": 0.5,
+   "covered_any_type": 8,
+   "maps_to": null,
+   "support": 16
+  },
+  "X:Password": {
+   "coverage_any_type": 0.0309,
+   "covered_any_type": 68,
+   "maps_to": null,
+   "support": 2204
+  },
+  "X:Password:Auth": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Password:Key:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 7
+  },
+  "X:Password:Salt": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Password:Secret": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 11
+  },
+  "X:Password:Token": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 5
+  },
+  "X:Password:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 37,
+   "maps_to": null,
+   "support": 37
+  },
+  "X:SQL Password": {
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
+   "maps_to": null,
+   "support": 1
+  },
+  "X:Secret": {
+   "coverage_any_type": 0.0569,
+   "covered_any_type": 33,
+   "maps_to": null,
+   "support": 580
+  },
+  "X:Secret:Token": {
+   "coverage_any_type": 0.0769,
+   "covered_any_type": 1,
+   "maps_to": null,
+   "support": 13
+  },
+  "X:Token": {
+   "coverage_any_type": 0.021,
+   "covered_any_type": 8,
+   "maps_to": null,
+   "support": 381
+  },
+  "X:URL Credentials": {
+   "coverage_any_type": 1.0,
+   "covered_any_type": 144,
+   "maps_to": null,
+   "support": 144
+  }
+ },
+ "by_slice": {
+  "path_kind=other": {
+   "CARD": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0255,
+    "precision_typed": 0.0,
+    "pred_any_label": 10,
+    "pred_typed": 0,
+    "predicted": 392,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "EMAIL": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0026,
+    "precision_typed": 0.0,
+    "pred_any_label": 50,
+    "pred_typed": 0,
+    "predicted": 19366,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IBAN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0,
+    "precision_typed": 0.0,
+    "pred_any_label": 0,
+    "pred_typed": 0,
+    "predicted": 12,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV4": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0144,
+    "precision_typed": 0.0,
+    "pred_any_label": 110,
+    "pred_typed": 0,
+    "predicted": 7632,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV6": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0027,
+    "precision_typed": 0.0,
+    "pred_any_label": 10,
+    "pred_typed": 0,
+    "predicted": 3708,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "PHONE": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0244,
+    "precision_typed": 0.0,
+    "pred_any_label": 162,
+    "pred_typed": 0,
+    "predicted": 6626,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "SECRET": {
+    "f1_overlap": 0.4304,
+    "found_overlap": 1334,
+    "found_strict": 1234,
+    "precision_any_label": 0.8522,
+    "precision_typed": 0.6187,
+    "pred_any_label": 1989,
+    "pred_typed": 1444,
+    "predicted": 2334,
+    "recall_overlap": 0.33,
+    "recall_strict": 0.3052,
+    "support": 4043
+   }
+  },
+  "path_kind=test_or_example": {
+   "CARD": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.1457,
+    "precision_typed": 0.0,
+    "pred_any_label": 22,
+    "pred_typed": 0,
+    "predicted": 151,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "EMAIL": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.068,
+    "precision_typed": 0.0,
+    "pred_any_label": 952,
+    "pred_typed": 0,
+    "predicted": 13996,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IBAN": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.1538,
+    "precision_typed": 0.0,
+    "pred_any_label": 2,
+    "pred_typed": 0,
+    "predicted": 13,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV4": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.015,
+    "precision_typed": 0.0,
+    "pred_any_label": 171,
+    "pred_typed": 0,
+    "predicted": 11420,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "IPV6": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0416,
+    "precision_typed": 0.0,
+    "pred_any_label": 31,
+    "pred_typed": 0,
+    "predicted": 746,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "PHONE": {
+    "f1_overlap": null,
+    "found_overlap": 0,
+    "found_strict": 0,
+    "precision_any_label": 0.0772,
+    "precision_typed": 0.0,
+    "pred_any_label": 299,
+    "pred_typed": 0,
+    "predicted": 3873,
+    "recall_overlap": null,
+    "recall_strict": null,
+    "support": 0
+   },
+   "SECRET": {
+    "f1_overlap": 0.6766,
+    "found_overlap": 7045,
+    "found_strict": 6815,
+    "precision_any_label": 0.9601,
+    "precision_typed": 0.773,
+    "pred_any_label": 8872,
+    "pred_typed": 7143,
+    "predicted": 9241,
+    "recall_overlap": 0.6016,
+    "recall_strict": 0.582,
+    "support": 11710
+   }
+  }
+ },
+ "by_type": {
+  "CARD": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.0589,
+   "precision_typed": 0.0,
+   "pred_any_label": 32,
+   "pred_typed": 0,
+   "predicted": 543,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "EMAIL": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.03,
+   "precision_typed": 0.0,
+   "pred_any_label": 1002,
+   "pred_typed": 0,
+   "predicted": 33362,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "IBAN": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.08,
+   "precision_typed": 0.0,
+   "pred_any_label": 2,
+   "pred_typed": 0,
+   "predicted": 25,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "IPV4": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.0147,
+   "precision_typed": 0.0,
+   "pred_any_label": 281,
+   "pred_typed": 0,
+   "predicted": 19052,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "IPV6": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.0092,
+   "precision_typed": 0.0,
+   "pred_any_label": 41,
+   "pred_typed": 0,
+   "predicted": 4454,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "PHONE": {
+   "f1_overlap": null,
+   "found_overlap": 0,
+   "found_strict": 0,
+   "precision_any_label": 0.0439,
+   "precision_typed": 0.0,
+   "pred_any_label": 461,
+   "pred_typed": 0,
+   "predicted": 10499,
+   "recall_overlap": null,
+   "recall_strict": null,
+   "support": 0
+  },
+  "SECRET": {
+   "f1_overlap": 0.6196,
+   "found_overlap": 8379,
+   "found_strict": 8049,
+   "precision_any_label": 0.9383,
+   "precision_typed": 0.7419,
+   "pred_any_label": 10861,
+   "pred_typed": 8587,
+   "predicted": 11575,
+   "recall_overlap": 0.5319,
+   "recall_strict": 0.511,
+   "support": 15753
+  }
+ },
+ "claimed_types": [
+  "SECRET"
+ ],
+ "compatible": {},
+ "compatible_prefixes": {
+  "SECRET": [
+   "X:"
+  ]
+ },
+ "confusion": {
+  "CARD": {
+   "(no gold span)": 511,
+   "F:API": 2,
+   "F:API:Nonce": 1,
+   "F:Auth": 2,
+   "F:Key": 16,
+   "F:Password": 5,
+   "F:Token": 6
+  },
+  "EMAIL": {
+   "(no gold span)": 32360,
+   "F:API": 4,
+   "F:API:Key": 3,
+   "F:AWS Multi": 1,
+   "F:Auth": 119,
+   "F:Auth:API": 2,
+   "F:Auth:Key": 2,
+   "F:Auth:Secret": 1,
+   "F:Basic Authorization": 6,
+   "F:Basic Authorization:API:Auth:Token": 496,
+   "F:Dropbox App secret": 77,
+   "F:Key": 147,
+   "F:Key:Dropbox App secret:Token": 8,
+   "F:Key:Token": 3,
+   "F:PEM Private Key": 10,
+   "F:Password": 55,
+   "F:Password:API": 1,
+   "F:Password:Auth": 2,
+   "F:Password:Key": 2,
+   "F:Password:Token": 1,
+   "F:Salt": 4,
+   "F:Secret": 2,
+   "F:Token": 26,
+   "F:URL Credentials": 11,
+   "F:URL Credentials:Password": 4,
+   "T:Dropbox App secret": 1,
+   "T:JWK": 9,
+   "T:URL Credentials": 1,
+   "T:UUID": 1,
+   "X:Password": 3
+  },
+  "IBAN": {
+   "(no gold span)": 23,
+   "T:Key": 1,
+   "T:Tencent WeChat API App ID": 1
+  },
+  "IPV4": {
+   "(no gold span)": 18771,
+   "F:API": 108,
+   "F:API:Key": 1,
+   "F:API:Token": 1,
+   "F:Auth": 21,
+   "F:Auth:API": 1,
+   "F:Auth:Key": 5,
+   "F:Auth:Key:Token": 12,
+   "F:Credential": 1,
+   "F:Key": 27,
+   "F:Key:Token": 44,
+   "F:Password": 39,
+   "F:Password:API": 1,
+   "F:Password:Auth": 1,
+   "F:Password:URL Credentials": 2,
+   "F:Secret": 1,
+   "F:Token": 5,
+   "F:URL Credentials": 6,
+   "F:URL Credentials:Auth:Password": 1,
+   "F:URL Credentials:Password": 2,
+   "X:Key:Password": 2
+  },
+  "IPV6": {
+   "(no gold span)": 4413,
+   "F:API": 11,
+   "F:Auth": 12,
+   "F:Key": 6,
+   "F:Password": 10,
+   "F:Token": 2
+  },
+  "PHONE": {
+   "(no gold span)": 10038,
+   "F:API": 14,
+   "F:API:Auth": 2,
+   "F:API:Key": 3,
+   "F:API:Nonce": 1,
+   "F:Auth": 61,
+   "F:Auth:API": 1,
+   "F:Auth:Key": 1,
+   "F:Auth:Password": 1,
+   "F:Auth:Token": 1,
+   "F:Credential": 2,
+   "F:Dropbox App secret": 34,
+   "F:Key": 160,
+   "F:Key:Auth": 1,
+   "F:Key:Dropbox App secret:Token": 16,
+   "F:Key:Token": 5,
+   "F:Nonce": 1,
+   "F:PEM Private Key": 2,
+   "F:Password": 42,
+   "F:Password:API:Auth": 2,
+   "F:Password:Key": 1,
+   "F:Secret": 9,
+   "F:Secret:API:Token": 1,
+   "F:Secret:Key:Password": 12,
+   "F:Token": 9,
+   "F:Token:Auth": 2,
+   "T:Auth:Secret:Token": 2,
+   "T:Nonce": 10,
+   "T:Password": 1,
+   "T:Token": 2,
+   "T:Token:Auth": 1,
+   "T:UUID": 58,
+   "X:Auth:Secret:Token": 2,
+   "X:Credential": 2
+  },
+  "SECRET": {
+   "(no gold span)": 714,
+   "F:API": 47,
+   "F:API:Key": 2,
+   "F:API:Secret:Key": 1,
+   "F:API:Token": 1,
+   "F:AWS Client ID": 20,
+   "F:AWS Client ID:AWS Multi": 1,
+   "F:AWS Client ID:Credential": 1,
+   "F:AWS Multi": 63,
+   "F:Auth": 23,
+   "F:Auth:Secret:Token": 1,
+   "F:Auth:Token": 5,
+   "F:Auth:UUID": 1,
+   "F:Basic Authorization:API:Auth:Token": 1,
+   "F:CMD Secret:AWS Client ID:AWS Multi": 1,
+   "F:CURL User Password": 2,
+   "F:Credential": 5,
+   "F:Grafana Access Policy Token": 2,
+   "F:JSON Web Token": 6,
+   "F:Key": 1305,
+   "F:Key:AWS Client ID": 1,
+   "F:Key:AWS Multi:AWS Client ID": 2,
+   "F:Key:Token": 5,
+   "F:Key:URL Credentials": 1,
+   "F:PEM Private Key": 45,
+   "F:PEM Private Key:Key": 1,
+   "F:Password": 205,
+   "F:Password:AWS Client ID:AWS Multi": 1,
+   "F:Password:Salt": 1,
+   "F:Password:Secret": 1,
+   "F:Password:Secret:URL Credentials": 1,
+   "F:Password:URL Credentials": 75,
+   "F:Secret": 99,
+   "F:Secret:URL Credentials": 1,
+   "F:Slack Token": 1,
+   "F:Token": 252,
+   "F:Token:URL Credentials": 1,
+   "F:URL Credentials": 141,
+   "F:URL Credentials:Auth:Password": 1,
+   "F:URL Credentials:Password": 29,
+   "F:URL Credentials:Secret": 2,
+   "F:UUID:Key": 2,
+   "T:API": 6,
+   "T:API:Anthropic API Key:Key": 1,
+   "T:API:Google API Key:Key": 1,
+   "T:API:Key": 58,
+   "T:API:Key:Grafana Provisioned API Key": 1,
+   "T:API:Key:Perplexity API Key": 2,
+   "T:API:Key:Secret": 1,
+   "T:API:Password": 5,
+   "T:API:Token": 6,
+   "T:AWS Client ID": 113,
+   "T:AWS Client ID:Key": 35,
+   "T:AWS Multi": 59,
+   "T:Akamai Credentials:Token": 4,
+   "T:Alibaba Multi": 1,
+   "T:Auth": 37,
+   "T:Auth:API:Key:Google API Key": 1,
+   "T:Auth:Azure Access Token:JSON Web Token:Bearer Authorization": 1,
+   "T:Auth:Basic Authorization": 5,
+   "T:Auth:Bearer Authorization": 5,
+   "T:Auth:Dropbox App secret:Key": 1,
+   "T:Auth:Grafana Provisioned API Key:Bearer Authorization": 1,
+   "T:Auth:JSON Web Token": 3,
+   "T:Auth:JSON Web Token:Bearer Authorization": 3,
+   "T:Auth:Key": 17,
+   "T:Auth:Key:Password": 2,
+   "T:Auth:Nonce": 11,
+   "T:Auth:Password": 4,
+   "T:Auth:Salt": 2,
+   "T:Auth:Secret": 8,
+   "T:Auth:Secret:Token": 10,
+   "T:Auth:Slack Token:Token": 1,
+   "T:Auth:Token": 37,
+   "T:Auth:Token:UUID": 1,
+   "T:Auth:URL Credentials": 3,
+   "T:Azure Access Token:JSON Web Token": 11,
+   "T:Azure Access Token:Key:JSON Web Token": 2,
+   "T:Azure Access Token:Token:JSON Web Token": 5,
+   "T:BASE64 Private Key": 27,
+   "T:BASE64 Private Key:Key": 1,
+   "T:Bearer Authorization:Slack Token:Auth": 2,
+   "T:CURL User Password": 5,
+   "T:Credential": 61,
+   "T:Credential:AWS Multi": 3,
+   "T:Credential:Key": 1,
+   "T:Credential:Secret": 2,
+   "T:Dropbox App secret:Password": 28,
+   "T:Dropbox App secret:Secret": 1,
+   "T:Dropbox App secret:URL Credentials": 1,
+   "T:Google API Key:API:Key": 1,
+   "T:Google API Key:Key": 8,
+   "T:Google Multi": 9,
+   "T:Grafana Provisioned API Key": 2,
+   "T:Grafana Provisioned API Key:Auth": 1,
+   "T:Grafana Provisioned API Key:Key": 1,
+   "T:Grafana Service Account Token": 2,
+   "T:Grafana Service Account Token:Key": 1,
+   "T:JSON Web Token": 83,
+   "T:JSON Web Token:Azure Access Token": 1,
+   "T:JSON Web Token:Azure Access Token:Token": 2,
+   "T:JSON Web Token:Bearer Authorization": 17,
+   "T:JSON Web Token:Token": 48,
+   "T:Key": 3378,
+   "T:Key:API": 5,
+   "T:Key:AWS Client ID": 10,
+   "T:Key:Auth": 9,
+   "T:Key:BASE64 Private Key": 3,
+   "T:Key:Google API Key": 1,
+   "T:Key:Grafana Provisioned API Key": 1,
+   "T:Key:NKEY Seed": 1,
+   "T:Key:Nonce": 1,
+   "T:Key:Password": 6,
+   "T:Key:Product Activation Key": 3,
+   "T:Key:Secret": 96,
+   "T:Key:Secret:UUID": 1,
+   "T:Key:Stripe Credentials": 2,
+   "T:Key:Token": 1,
+   "T:Key:UUID": 5,
+   "T:OTP / 2FA Secret:Secret": 5,
+   "T:PEM Private Key": 1161,
+   "T:PEM Private Key:Key": 9,
+   "T:PEM Private Key:Key:Secret": 23,
+   "T:Password": 909,
+   "T:Password:API": 4,
+   "T:Password:Auth": 1,
+   "T:Password:Auth:Dropbox App secret": 1,
+   "T:Password:Key": 4,
+   "T:Password:Key:Secret": 1,
+   "T:Password:OTP / 2FA Secret": 1,
+   "T:Password:SQL Password": 1,
+   "T:Password:Salt": 1,
+   "T:Password:Secret": 14,
+   "T:Password:Token": 1,
+   "T:Password:URL Credentials": 9,
+   "T:PostHog Credentials:API:Key": 1,
+   "T:Postman Credentials": 1,
+   "T:Postman Credentials:API:Key": 1,
+   "T:Secret": 1124,
+   "T:Secret:Auth": 5,
+   "T:Secret:Auth:Token": 1,
+   "T:Secret:Dropbox App secret": 1,
+   "T:Secret:Key": 32,
+   "T:Secret:OTP / 2FA Secret": 20,
+   "T:Secret:Token": 11,
+   "T:Secret:UUID": 1,
+   "T:Slack Token": 4,
+   "T:Slack Token:Token": 8,
+   "T:Token": 333,
+   "T:Token:API:Key": 2,
+   "T:Token:API:Key:Google API Key": 1,
+   "T:Token:Akamai Credentials": 2,
+   "T:Token:Auth": 7,
+   "T:Token:Auth:Secret": 2,
+   "T:Token:Github Classic Token": 1,
+   "T:Token:JSON Web Token": 2,
+   "T:Token:JSON Web Token:Azure Access Token": 2,
+   "T:Token:Key": 2,
+   "T:Token:Secret": 7,
+   "T:Token:UUID": 157,
+   "T:Twilio Multi": 1,
+   "T:URL Credentials": 204,
+   "T:URL Credentials:API:Key": 1,
+   "T:UUID": 1,
+   "T:UUID:Key": 4,
+   "T:UUID:Password": 1,
+   "T:UUID:Secret": 2,
+   "T:UUID:Token": 16,
+   "T:WunderGraph API Key:API:Key": 9,
+   "X:API:Key": 12,
+   "X:API:Key:Secret": 1,
+   "X:Auth:Password": 2,
+   "X:Auth:Secret": 1,
+   "X:Credential:Secret": 1,
+   "X:Key": 9,
+   "X:Key:API": 1,
+   "X:Key:Secret": 15,
+   "X:Other": 8,
+   "X:Password": 65,
+   "X:Password:URL Credentials": 37,
+   "X:Secret": 33,
+   "X:Secret:Token": 1,
+   "X:Token": 8,
+   "X:URL Credentials": 144
+  }
+ },
+ "dataset": {
+  "attribution": "CredData (Credential Dataset), Samsung, https://github.com/Samsung/CredData. Labels are Apache-2.0; every file is under its original project's licence. Only aggregate counts derived from it are published here; no file content, paths or values.",
+  "file_sha256": "8fce8386db5380f7cb768c8ff63083f5114b87fec577766ef2d96e27cf685aa8",
+  "licence": "Apache-2.0 (labels and scripts); each source file keeps its own project's licence",
+  "name": "creddata",
+  "notes": [
+   "At this revision 10 of 67,896 labels do not lie inside their file (6 with an empty value, 4 past the line or file end; all F or X, no T); they are dropped and counted in the report.",
+   "Labels are lines from 337 open-source repositories that several secret scanners flagged, reviewed by people: T credential, F not a credential, X undecided. A finding on an unlabelled line counts as a false positive, though no tool flagged that line and it may hold an unlabelled credential.",
+   "A label with value offsets is scored on the value; without them (most F, a few T), on its whole line(s). Precision any-label counts spans on F lines as hits: use typed precision.",
+   "True credentials were replaced by seeded random look-alikes of the same shape (CredData's obfuscation), so prefix and length rules see realistic values; checksums are not kept.",
+   "Files are scored in a fixed order of the SHA-256 of their path, so `--limit N` is a spread sample across repositories, the same for every system.",
+   "Slice path_kind: test_or_example when the dataset's path scope names test, mock, fixture, example or sample; other otherwise."
+  ],
+  "repo": "Samsung/CredData",
+  "revision": "218aa1708441b2edbd006b98f143c267a16850f0",
+  "split": "all"
+ },
+ "docs": 11030,
+ "gold_dropped_out_of_range": {
+  "F:PEM Private Key": 1,
+  "F:Password": 3,
+  "X:Key": 1,
+  "X:Other": 1,
+  "X:Password": 4
+ },
+ "label_map": {},
+ "label_prefixes": {
+  "T:": "SECRET"
+ },
+ "limit": null,
+ "micro_all_mapped_types": {
+  "f1_overlap": 0.6196,
+  "found_overlap": 8379,
+  "found_strict": 8049,
+  "precision_any_label": 0.9383,
+  "precision_typed": 0.7419,
+  "pred_any_label": 10861,
+  "pred_typed": 8587,
+  "predicted": 11575,
+  "recall_overlap": 0.5319,
+  "recall_strict": 0.511,
+  "support": 15753
+ },
+ "micro_claimed_types": {
+  "f1_overlap": 0.6196,
+  "found_overlap": 8379,
+  "found_strict": 8049,
+  "precision_any_label": 0.9383,
+  "precision_typed": 0.7419,
+  "pred_any_label": 10861,
+  "pred_typed": 8587,
+  "predicted": 11575,
+  "recall_overlap": 0.5319,
+  "recall_strict": 0.511,
+  "support": 15753
+ },
+ "system": {
+  "min_score": 0.0,
+  "name": "ppe-rules",
+  "phone_context": "optional",
+  "ppe": "0.1.0.dev1",
+  "secret_rules": "ppe v2 + gitleaks 8.30.1"
+ }
+}
