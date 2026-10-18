@@ -49,8 +49,8 @@ def test_c01_stage0_folds_fullwidth_zero_width_and_bidi() -> None:
 
 
 def test_c03_twelve_secret_rules() -> None:
-    """C-03 (README 'Built and designed'): 12 PPE secret rules plus 217 imported Gitleaks 8.30.1 rules."""
-    assert len(SECRET_RULES) == 12
+    """C-03 (README 'Built and designed'): 15 PPE secret rules plus 217 imported Gitleaks 8.30.1 rules."""
+    assert len(SECRET_RULES) == 15
     assert len(gitleaks.rule_set().rules) == 217
 
 
@@ -95,11 +95,19 @@ _CODE = {
 
 # Fixed 2026-10-16 (IPv6 not inside a word, found on the Gretel finance run): the four `::` cases
 # joined to words. Fixed 2026-10-18 (assignment values with a Gitleaks placeholder word dropped): the
-# two placeholder assignment cases. Still open under F-02: a bare `::`, IMEI, an ssh algorithm name, and
-# an assignment from an environment lookup.
-_C07_FIXED = {"rust use", "cpp scope", "ruby const", "css pseudo", "py password field", "py token var"}
+# two placeholder assignment cases. Fixed 2026-10-18 (secret rules v3: code references dropped): the
+# environment lookup. Still open under F-02: a bare `::`, IMEI, an ssh algorithm name.
+_C07_FIXED = {
+    "rust use",
+    "cpp scope",
+    "ruby const",
+    "css pseudo",
+    "py password field",
+    "py token var",
+    "py env lookup",
+}
 _C07_OPEN = pytest.mark.xfail(
-    strict=True, reason="F-02: Stage 1 false positives on source code (bare '::', IMEI, ssh name, env lookup)"
+    strict=True, reason="F-02: Stage 1 false positives on source code (bare '::', IMEI, ssh algorithm name)"
 )
 
 

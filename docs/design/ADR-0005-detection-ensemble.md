@@ -42,9 +42,10 @@ active models) is flagged `opaque_content` → policy (ADR-0002 table).
   entropy in secret-shaped contexts. Rules owned and versioned by PPE (sourced from MIT/Apache rule
   sets after licence check). **Never live-validate** a secret (that sends it out).
   *Built 2026-10-18:* PPE's own rules plus Gitleaks 8.30.1's default rule file (MIT), vendored unchanged
-  and pinned by SHA-256, run on RE2 (`google-re2`) with Gitleaks' matching semantics; placeholder values
-  of PPE's `KEY=value` rule dropped by Gitleaks' word list (`detectors/gitleaks.py`; measured on CredData
-  in `bench/2026-10-17-creddata.md`).
+  and pinned by SHA-256, run on RE2 (`google-re2`) with Gitleaks' matching semantics
+  (`detectors/gitleaks.py`). PPE's own rules v3 (same day): value checks per rule, a placeholder filter
+  for `KEY=value` (placeholder and credential-kind words, templates, code), and Basic, Bearer and
+  NTLM/Negotiate authorization rules (measured on CredData in `bench/2026-10-17-creddata.md`).
 - Checksummed identifiers: SG NRIC/FIN (weights + check letter, incl. M-series FIN), UEN, cards (Luhn
   + IIN ranges), IBAN (mod-97), e-mail (RFC 5322 subset), phones (libphonenumber, region hints),
   IPv4/IPv6, SG postal codes in address context.

@@ -56,9 +56,14 @@ M = [
  ('gitleaks: path checks pass for a prompt', 'src/prompt_privacy/detectors/gitleaks.py', 'checks = [False] if self.needs_path_or_commit else []', 'checks = []'),
  ('gitleaks: generic findings not deduplicated', 'src/prompt_privacy/detectors/gitleaks.py', 'if "generic" not in rid.lower() or not any(r != rid and sec in s2 for r, s2 in specific.get(ls, ()))', 'if True'),
  ('detect: Gitleaks rules not run', 'src/prompt_privacy/detectors/base.py', 'for s, e, rule_id in gitleaks.find(shadow.text):', 'for s, e, rule_id in []:'),
- ('detect: assignment placeholders kept', 'src/prompt_privacy/detectors/base.py', 'if rule_id in PLACEHOLDER_FILTERED and gitleaks.has_stopword(shadow.text[s:e]):', 'if False:'),
+ ('detect: value checks skipped', 'src/prompt_privacy/detectors/base.py', 'if check is not None and not check(shadow.text[s:e], shadow.text[s - 1 : s]):', 'if False:'),
+ ('secrets: credential-kind words ignored', 'src/prompt_privacy/detectors/secrets.py', 'any(w in low for w in PLACEHOLDER_WORDS + CREDENTIAL_KIND_WORDS)', 'any(w in low for w in PLACEHOLDER_WORDS)'),
+ ('secrets: code checked on quoted values', 'src/prompt_privacy/detectors/secrets.py', 'or (not quoted and _CODE_REFERENCE.search(value) is not None)', 'or _CODE_REFERENCE.search(value) is not None'),
+ ('secrets: template check off', 'src/prompt_privacy/detectors/secrets.py', 'or _TEMPLATE.search(value) is not None', 'or False'),
+ ('secrets: Basic without user:password', 'src/prompt_privacy/detectors/secrets.py', 'return bool(sep and user and password) and text.isprintable()', 'return text.isprintable()'),
+ ('secrets: bearer token without a digit', 'src/prompt_privacy/detectors/secrets.py', 'return any(c.isdigit() for c in value) and any(c.isalpha() for c in value)', 'return True'),
 ]
-tests = ["tests/evaluation", "tests/unit/test_checksums_stdnum.py", "tests/detectors/test_patterns.py", "tests/detectors/test_gitleaks.py", "tests/unit/test_checksums.py"]
+tests = ["tests/evaluation", "tests/unit/test_checksums_stdnum.py", "tests/detectors/test_patterns.py", "tests/detectors/test_gitleaks.py", "tests/detectors/test_secret_checks.py", "tests/unit/test_checksums.py"]
 try:
     import presidio_analyzer  # noqa: F401
     have_presidio = bool(os.environ.get("PPE_PRESIDIO_MODEL"))

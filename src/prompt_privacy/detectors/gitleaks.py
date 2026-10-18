@@ -159,19 +159,6 @@ def rule_set() -> RuleSet:
     return parse(raw)
 
 
-@cache
-def stopwords() -> tuple[str, ...]:
-    """Gitleaks' placeholder words: the global allow-list's and the `generic-api-key` rule's."""
-    rs = rule_set()
-    generic = next(r for r in rs.rules if r.id == "generic-api-key")
-    return tuple(sorted({w for a in (*rs.allowlists, *generic.allowlists) for w in a.stopwords}))
-
-
-def has_stopword(value: str) -> bool:
-    low = value.lower()
-    return any(w in low for w in stopwords())
-
-
 def find(text: str, rs: RuleSet | None = None) -> list[tuple[int, int, str]]:
     """(start, end, rule id) of every secret the Gitleaks rules (`rs`, default the pinned set) report."""
     rs = rs or rule_set()
