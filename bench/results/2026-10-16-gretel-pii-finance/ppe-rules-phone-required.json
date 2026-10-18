@@ -12,8 +12,8 @@
    "support": 143
   },
   "api_key": {
-   "coverage_any_type": 0.5556,
-   "covered_any_type": 50,
+   "coverage_any_type": 0.5667,
+   "covered_any_type": 51,
    "maps_to": "SECRET",
    "support": 90
   },
@@ -138,8 +138,8 @@
    "support": 136
   },
   "password": {
-   "coverage_any_type": 0.0594,
-   "covered_any_type": 6,
+   "coverage_any_type": 0.0495,
+   "covered_any_type": 5,
    "maps_to": "SECRET",
    "support": 101
   },
@@ -458,16 +458,16 @@
     "support": 532
    },
    "SECRET": {
-    "f1_overlap": 0.4265,
-    "found_overlap": 29,
-    "found_strict": 28,
-    "precision_any_label": 0.8286,
-    "precision_typed": 0.8286,
-    "pred_any_label": 29,
-    "pred_typed": 29,
+    "f1_overlap": 0.4118,
+    "found_overlap": 28,
+    "found_strict": 27,
+    "precision_any_label": 0.8,
+    "precision_typed": 0.8,
+    "pred_any_label": 28,
+    "pred_typed": 28,
     "predicted": 35,
-    "recall_overlap": 0.2871,
-    "recall_strict": 0.2772,
+    "recall_overlap": 0.2772,
+    "recall_strict": 0.2673,
     "support": 101
    }
   },
@@ -1183,16 +1183,16 @@
     "support": 75
    },
    "SECRET": {
-    "f1_overlap": 0.4286,
-    "found_overlap": 6,
-    "found_strict": 6,
+    "f1_overlap": 0.4828,
+    "found_overlap": 7,
+    "found_strict": 7,
     "precision_any_label": 1.0,
     "precision_typed": 1.0,
-    "pred_any_label": 6,
-    "pred_typed": 6,
-    "predicted": 6,
-    "recall_overlap": 0.2727,
-    "recall_strict": 0.2727,
+    "pred_any_label": 7,
+    "pred_typed": 7,
+    "predicted": 7,
+    "recall_overlap": 0.3182,
+    "recall_strict": 0.3182,
     "support": 22
    }
   }
@@ -1329,14 +1329,14 @@
    "support": 946
   },
   "SECRET": {
-   "f1_overlap": 0.4427,
+   "f1_overlap": 0.4409,
    "found_overlap": 56,
    "found_strict": 54,
-   "precision_any_label": 0.9032,
-   "precision_typed": 0.9032,
+   "precision_any_label": 0.8889,
+   "precision_typed": 0.8889,
    "pred_any_label": 56,
    "pred_typed": 56,
-   "predicted": 62,
+   "predicted": 63,
    "recall_overlap": 0.2932,
    "recall_strict": 0.2827,
    "support": 191
@@ -1385,9 +1385,9 @@
    "phone_number": 560
   },
   "SECRET": {
-   "(no gold span)": 6,
-   "api_key": 50,
-   "password": 6
+   "(no gold span)": 7,
+   "api_key": 51,
+   "password": 5
   }
  },
  "dataset": {
@@ -1438,24 +1438,24 @@
   "f1_overlap": 0.1306,
   "found_overlap": 2473,
   "found_strict": 2326,
-  "precision_any_label": 0.9365,
-  "precision_typed": 0.9186,
+  "precision_any_label": 0.9361,
+  "precision_typed": 0.9182,
   "pred_any_label": 2507,
   "pred_typed": 2459,
-  "predicted": 2677,
+  "predicted": 2678,
   "recall_overlap": 0.0703,
   "recall_strict": 0.0661,
   "support": 35169
  },
  "micro_claimed_types": {
-  "f1_overlap": 0.8426,
+  "f1_overlap": 0.8424,
   "found_overlap": 2473,
   "found_strict": 2326,
-  "precision_any_label": 0.9365,
-  "precision_typed": 0.9186,
+  "precision_any_label": 0.9361,
+  "precision_typed": 0.9182,
   "pred_any_label": 2507,
   "pred_typed": 2459,
-  "predicted": 2677,
+  "predicted": 2678,
   "recall_overlap": 0.7782,
   "recall_strict": 0.7319,
   "support": 3178
@@ -1464,7 +1464,7 @@
   "min_score": 0.0,
   "name": "ppe-rules",
   "phone_context": "required",
-  "ppe": "0.1.0.dev1",
-  "secret_rules": "ppe v2 + gitleaks 8.30.1"
+  "ppe": "0.1.0.dev2",
+  "secret_rules": "ppe v3 + gitleaks 8.30.1"
  }
 }

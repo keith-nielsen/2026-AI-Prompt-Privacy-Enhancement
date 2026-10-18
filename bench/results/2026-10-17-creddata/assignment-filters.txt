@@ -1,0 +1,22 @@
+`assignment` spans kept per filter (secret rules v3)
+
+creddata:         T          F          X   no label
+  none                                 2304       2807        595       2623
+  Gitleaks stop words (v2)             2285       1284        136        363
+  short list                           2302       2125        490       1297
+  short + credential kinds (v3)        2299       1445        117        306
+  v3 + letters-only (rejected)         2081       1292        105        214
+
+nemotron-pii:  password    api_key    no gold
+  none                                  246         68          5
+  Gitleaks stop words (v2)              202         60          1
+  short list                            246         67          3
+  short + credential kinds (v3)         244         67          2
+  v3 + letters-only (rejected)          244         67          2
+
+gretel-pii-finance:  password    api_key    no gold
+  none                                    6          3          3
+  Gitleaks stop words (v2)                6          2          3
+  short list                              5          3          3
+  short + credential kinds (v3)           5          3          3
+  v3 + letters-only (rejected)            5          3          3

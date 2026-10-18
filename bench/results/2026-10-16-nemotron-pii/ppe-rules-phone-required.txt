@@ -1,4 +1,4 @@
-nemotron-pii/test (100000 docs, 1026 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=required secret_rules=ppe v2 + gitleaks 8.30.1
+nemotron-pii/test (100000 docs, 937 docs/s), ppe-rules ppe=0.1.0.dev2 phone_context=required secret_rules=ppe v3 + gitleaks 8.30.1
 
 min_score=0.0
 
@@ -16,15 +16,15 @@ NRIC                0       n/a       n/a       3    1.000   1.000     n/a
 ORGANIZATION    54837     0.000     0.000       0      n/a     n/a     n/a
 PERSON         143639     0.000     0.000       0      n/a     n/a     n/a
 PHONE           30353     0.822     0.813   25114    0.993   0.996   0.900
-SECRET          11652     0.131     0.108    2594    0.980   0.992   0.230
+SECRET          11652     0.151     0.128    2834    0.981   0.992   0.262
 URL             37847     0.000     0.000       0      n/a     n/a     n/a
 US_SSN           6062     0.000     0.000       0      n/a     n/a     n/a
-micro†         118019     0.767     0.762   95643    0.957   0.996   0.852
-micro‡         586978     0.154     0.153   95643    0.957   0.996   0.266
+micro†         118019     0.769     0.764   95883    0.958   0.996   0.853
+micro‡         586978     0.155     0.154   95883    0.958   0.996   0.266
   † micro over the system's claimed types that dataset labels map to: CARD, EMAIL, IPV4, IPV6, PHONE, SECRET
   ‡ micro over every type that dataset labels map to (same denominator for every system)
 
-any-type coverage, all 55 dataset labels: 95378/850340 = 0.112
+any-type coverage, all 55 dataset labels: 95617/850340 = 0.112
 
 dataset label                     support      maps_to  covered
 ipv4                                 6078         IPV4    1.000
@@ -32,12 +32,12 @@ email                               53930        EMAIL    0.995
 ipv6                                 3139         IPV6    0.906
 fax_number                           6423        PHONE    0.883
 phone_number                        23930        PHONE    0.806
-api_key                              4667       SECRET    0.280
+api_key                              4667       SECRET    0.323
 http_cookie                          4892            -    0.209
 credit_debit_card                   12867         CARD    0.118
 device_identifier                    2507            -    0.118
 url                                 37847          URL    0.081
-password                             6985       SECRET    0.031
+password                             6985       SECRET    0.037
 national_id                          2847            -    0.017
 unique_id                            1777            -    0.010
 account_number                      16693            -    0.009
@@ -91,6 +91,6 @@ system spans by overlapped gold label (top 6 per type):
   IPV6         ipv6 2842, (no gold span) 43
   NRIC         national_id 3
   PHONE        phone_number 19278, fax_number 5671, (no gold span) 102, customer_id 39, account_number 11, biometric_identifier 4
-  SECRET       api_key 1306, http_cookie 1020, password 215, (no gold span) 21, unique_id 16, url 11
+  SECRET       api_key 1503, http_cookie 1020, password 257, (no gold span) 22, unique_id 16, url 11
 
 report (labels and counts only) -> bench/results/2026-10-16-nemotron-pii/ppe-rules-phone-required.json

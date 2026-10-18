@@ -12,11 +12,11 @@ T:API:Google API Key:Key (1)
   vendor-prefix found                            1
 
 T:API:Key (66)
-  generic-len32+ found                          28
+  generic-len32+ found                          29
   generic-len16+ found                          24
   generic-len0+ found                            5
   generic-len16+ MISSED                          5
-  generic-len32+ MISSED                          2
+  generic-len32+ MISSED                          1
   generic-len0+ MISSED                           1
   generic-len64+ found                           1
 
@@ -78,12 +78,12 @@ T:Alibaba Multi (1)
 T:Auth (174)
   generic-len0+ MISSED                          49
   generic-len48+ MISSED                         39
-  generic-len16+ found                          23
+  generic-len16+ found                          28
   generic-len64+ MISSED                         20
-  generic-len16+ MISSED                         18
+  generic-len16+ MISSED                         13
   generic-len32+ found                          12
   generic-len32+ MISSED                          9
-  vendor-prefix MISSED                           2
+  vendor-prefix found                            2
   generic-len64+ found                           1
   generic-len0+ found                            1
 
@@ -97,21 +97,17 @@ T:Auth:BASE64 encoded PEM Private Key (2)
   generic-len64+ MISSED                          2
 
 T:Auth:Basic Authorization (601)
-  generic-len48+ MISSED                        248
-  generic-len32+ MISSED                        238
-  generic-len16+ MISSED                        103
-  generic-len0+ MISSED                           6
-  generic-len16+ found                           5
-  generic-len64+ MISSED                          1
+  generic-len48+ found                         248
+  generic-len32+ found                         238
+  generic-len16+ found                         108
+  generic-len0+ found                            6
+  generic-len64+ found                           1
 
 T:Auth:Bearer Authorization (79)
-  vendor-prefix MISSED                          69
-  generic-len64+ MISSED                          3
-  generic-len32+ found                           2
-  vendor-prefix found                            2
-  generic-len64+ found                           1
-  generic-len48+ MISSED                          1
-  generic-len32+ MISSED                          1
+  vendor-prefix found                           71
+  generic-len64+ found                           4
+  generic-len32+ found                           3
+  generic-len48+ found                           1
 
 T:Auth:Credential (1)
   generic-len16+ MISSED                          1
@@ -190,8 +186,8 @@ T:Auth:Token (85)
   generic-len64+ MISSED                          8
   generic-len32+ MISSED                          7
   generic-len0+ MISSED                           7
-  generic-len48+ found                           4
-  generic-len48+ MISSED                          3
+  generic-len48+ found                           5
+  generic-len48+ MISSED                          2
 
 T:Auth:Token:Google OAuth Access Token (1)
   generic-len64+ MISSED                          1
@@ -236,23 +232,25 @@ T:BASE64 encoded PEM Private Key:Auth:Key (1)
   generic-len64+ MISSED                          1
 
 T:BASE64 encoded PEM Private Key:Key (2)
-  generic-len64+ MISSED                          2
+  generic-len64+ MISSED                          1
+  generic-len64+ found                           1
 
 T:Basic Authorization (89)
-  generic-len16+ MISSED                         46
-  generic-len64+ MISSED                         33
-  generic-len0+ MISSED                           7
-  generic-len48+ MISSED                          3
+  generic-len16+ found                          43
+  generic-len64+ found                          33
+  generic-len0+ found                            7
+  generic-len16+ MISSED                          3
+  generic-len48+ found                           3
 
 T:Basic Authorization:Auth (2)
-  generic-len0+ MISSED                           2
+  generic-len0+ found                            2
 
 T:Bearer Authorization (75)
-  generic-len64+ MISSED                         74
-  generic-len32+ MISSED                          1
+  generic-len64+ found                          74
+  generic-len32+ found                           1
 
 T:Bearer Authorization:Auth (2)
-  generic-len48+ MISSED                          2
+  generic-len48+ found                           2
 
 T:Bearer Authorization:Slack Token:Auth (2)
   vendor-prefix found                            2
@@ -442,15 +440,15 @@ T:Key:Product Activation Key (3)
   generic-len16+ found                           3
 
 T:Key:Secret (124)
-  generic-len64+ found                          46
+  generic-len64+ found                          47
   generic-len32+ found                          28
   generic-len16+ found                          12
   generic-len32+ MISSED                         11
   generic-len0+ MISSED                           9
   generic-len48+ found                           8
   generic-len16+ MISSED                          6
-  generic-len64+ MISSED                          2
   generic-len0+ found                            2
+  generic-len64+ MISSED                          1
 
 T:Key:Secret:Token (4)
   generic-len32+ MISSED                          2
@@ -483,10 +481,10 @@ T:NTLM Token (18)
   generic-len64+ MISSED                         18
 
 T:NTLM Token:Bearer Authorization (3)
-  generic-len64+ MISSED                          3
+  generic-len64+ found                           3
 
 T:NTLM Token:Bearer Authorization:Auth (105)
-  generic-len64+ MISSED                        105
+  generic-len64+ found                         105
 
 T:Nonce (148)
   generic-len32+ MISSED                         61
@@ -530,10 +528,10 @@ T:PEM Private Key:Key:Secret (23)
   vendor-prefix found                           23
 
 T:Password (2573)
-  generic-len0+ MISSED                        1474
-  generic-len0+ found                          638
-  generic-len16+ found                         203
-  generic-len16+ MISSED                        136
+  generic-len0+ MISSED                        1472
+  generic-len0+ found                          640
+  generic-len16+ found                         205
+  generic-len16+ MISSED                        134
   generic-len32+ found                          59
   generic-len48+ MISSED                         40
   generic-len32+ MISSED                         13
@@ -630,15 +628,15 @@ T:Salt (85)
   generic-len48+ MISSED                          1
 
 T:Secret (1263)
-  generic-len64+ found                         423
+  generic-len64+ found                         424
   generic-len48+ found                         275
-  generic-len32+ found                         261
-  generic-len16+ found                         130
+  generic-len32+ found                         264
+  generic-len16+ found                         131
   generic-len0+ MISSED                          53
-  generic-len16+ MISSED                         47
+  generic-len16+ MISSED                         46
   generic-len0+ found                           32
-  generic-len32+ MISSED                         30
-  generic-len64+ MISSED                          7
+  generic-len32+ MISSED                         27
+  generic-len64+ MISSED                          6
   vendor-prefix found                            3
   generic-len48+ MISSED                          2
 
@@ -696,11 +694,11 @@ T:Tencent WeChat API App ID (47)
 
 T:Token (583)
   generic-len16+ MISSED                        132
-  generic-len64+ found                          94
+  generic-len64+ found                          96
   generic-len16+ found                          86
   generic-len32+ found                          72
   generic-len48+ found                          61
-  generic-len64+ MISSED                         50
+  generic-len64+ MISSED                         48
   generic-len0+ MISSED                          39
   generic-len32+ MISSED                         15
   generic-len0+ found                           15
@@ -734,7 +732,7 @@ T:Token:Auth:Secret (6)
   generic-len0+ found                            1
 
 T:Token:Bearer Authorization (1)
-  generic-len32+ MISSED                          1
+  generic-len32+ found                           1
 
 T:Token:Github Classic Token (1)
   vendor-prefix found                            1

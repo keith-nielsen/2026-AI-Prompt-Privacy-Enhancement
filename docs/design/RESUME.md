@@ -1,6 +1,26 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-18, latest): v0.1.0.dev2 RELEASED — GITLEAKS RULES IN PPE + CREDDATA SECRETS BENCHMARK
+## Status (2026-10-18, latest): SECRET RULES v3 (AUTH HEADERS, NARROWER PLACEHOLDER FILTER), LOCAL ON `feat/external-bench-creddata`
+
+- **Not committed yet** (operator reviews first). Branch `feat/external-bench-creddata` after `16b0dcc`
+  (= `main` on GitHub, v0.1.0.dev2 + resume card).
+- **Secret rules v3** (operator's go: "1 and 2 are targets"): `secrets.VALUE_CHECKS` per rule.
+  (1) `assignment` placeholder filter `is_placeholder`: short placeholder list + credential-kind words
+  (`token`, `passw`, `secret`, `auth`, `access`, `credential`) + templates + <=3 distinct chars +
+  unquoted code (`(`/`[`). Replaces Gitleaks' 1,448 words (which cost 44 Nemotron passwords; v3 costs
+  2). Gitleaks stop-word helpers removed. (2) `basic_auth` (base64 `user:password` check),
+  `bearer_token` (16+ chars, letters+digits), `ntlm_negotiate` (`TlRMTVNTUA`/`YII` prefix). 15 PPE rules.
+- **Results (all regenerated):** CredData without the test-vector file 0.516 / P 0.686 (dev2 0.441 /
+  0.664; Gitleaks 0.338 / 0.762); all files 0.593 / 0.753. Basic 689/692, Bearer 289/289, NTLM 108/126.
+  Nemotron SECRET 0.151 (passwords 257), Gretel 0.293 (passwords 5: one unquoted bracket password now
+  code). Decision table: `assignment-filters.txt` (`assignment_filters.py`, 25 s).
+- Gate 346 passed, 1 skipped, 21 xfailed (C-07 env lookup fixed); verify 10/10. Mutation, leak scans:
+  see `bench/2026-10-17-creddata.md` "Checks".
+- **Housekeeping done 2026-10-18:** raw bench files moved to `~/Documents/ppe-private/`; `refs/original`
+  + reflog cleaned (4 unredacted local commits gone). F-14 public-history purge still needs the
+  operator's go. Dogfooding (real client through `ppe serve`) and hardening: later (operator).
+
+## Earlier status (2026-10-18): v0.1.0.dev2 RELEASED — GITLEAKS RULES IN PPE + CREDDATA SECRETS BENCHMARK
 
 - **Released 2026-10-18 (operator's go):** PR #1 approved by the operator and merged by fast-forward;
   `main` = `f96c168` on GitHub, tag `v0.1.0.dev2` (annotated), GitHub pre-release. Commits: `302ff5e`
@@ -163,7 +183,7 @@ cd ~/Documents/repo/prompt-privacy-enhancement
 .venv/bin/ppe bench         # Stage 1 rates (regression floor, not real-world evidence)
 ```
 
-Expected on `feat/external-bench-creddata`: ruff + strict mypy clean, **319 passed, 1 skipped, 22 xfailed** (skip = the
+Expected on `feat/external-bench-creddata`: ruff + strict mypy clean, **346 passed, 1 skipped, 21 xfailed** (skip = the
 Presidio-gated test; xfails =
 open review findings + the IBAN registry gap), **10/10 self-checks**. External run (needs `.[bench]` and
 the dataset): `ppe evaluate run nemotron-pii --data-dir /media/administrator/DATA/datasets`.

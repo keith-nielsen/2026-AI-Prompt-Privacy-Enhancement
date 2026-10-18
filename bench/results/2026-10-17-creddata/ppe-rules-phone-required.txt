@@ -1,4 +1,4 @@
-creddata/all (11030 docs, 12 docs/s), ppe-rules ppe=0.1.0.dev1 phone_context=required secret_rules=ppe v2 + gitleaks 8.30.1
+creddata/all (11030 docs, 12 docs/s), ppe-rules ppe=0.1.0.dev2 phone_context=required secret_rules=ppe v3 + gitleaks 8.30.1
 
 min_score=0.0
 
@@ -9,13 +9,13 @@ IBAN            0       n/a       n/a      25    0.000   0.080     n/a
 IPV4            0       n/a       n/a   19052    0.000   0.015     n/a
 IPV6            0       n/a       n/a    4454    0.000   0.009     n/a
 PHONE           0       n/a       n/a     327    0.000   0.024     n/a
-SECRET      15753     0.532     0.511   11575    0.742   0.938   0.620
-micro†      15753     0.532     0.511   11575    0.742   0.938   0.620
-micro‡      15753     0.532     0.511   11575    0.742   0.938   0.620
+SECRET      15753     0.593     0.572   12668    0.753   0.945   0.663
+micro†      15753     0.593     0.572   12668    0.753   0.945   0.663
+micro‡      15753     0.593     0.572   12668    0.753   0.945   0.663
   † micro over the system's claimed types that dataset labels map to: SECRET
   ‡ micro over every type that dataset labels map to (same denominator for every system)
 
-any-type coverage, all 390 dataset labels: 11576/67886 = 0.171
+any-type coverage, all 390 dataset labels: 12685/67886 = 0.187
 gold spans dropped (outside their text, not scored): {'F:PEM Private Key': 1, 'F:Password': 3, 'X:Key': 1, 'X:Other': 1, 'X:Password': 4}
 
 dataset label                     support  maps_to  covered
@@ -24,6 +24,7 @@ F:AWS Client ID:AWS Multi               1        -    1.000
 F:AWS Client ID:Credential              1        -    1.000
 F:AWS Multi                            61        -    1.000
 F:Auth:API                              1        -    1.000
+F:Auth:JSON Web Token                   1        -    1.000
 F:Basic Authorization:API:Auth:Token        1        -    1.000
 F:CMD Secret:AWS Client ID:AWS Multi        1        -    1.000
 F:CURL User Password                    2        -    1.000
@@ -50,6 +51,8 @@ T:Akamai Credentials:Token              4   SECRET    1.000
 T:Alibaba Multi                         1   SECRET    1.000
 T:Auth:API:Key:Google API Key           1   SECRET    1.000
 T:Auth:Azure Access Token:JSON Web Token:Bearer Authorization        1   SECRET    1.000
+T:Auth:Basic Authorization            601   SECRET    1.000
+T:Auth:Bearer Authorization            79   SECRET    1.000
 T:Auth:Grafana Provisioned API Key:Bearer Authorization        1   SECRET    1.000
 T:Auth:JSON Web Token                   3   SECRET    1.000
 T:Auth:JSON Web Token:Bearer Authorization        3   SECRET    1.000
@@ -61,6 +64,9 @@ T:Azure Access Token:JSON Web Token       11   SECRET    1.000
 T:Azure Access Token:Key:JSON Web Token        2   SECRET    1.000
 T:Azure Access Token:Token:JSON Web Token        5   SECRET    1.000
 T:BASE64 Private Key:Key                1   SECRET    1.000
+T:Basic Authorization:Auth              2   SECRET    1.000
+T:Bearer Authorization                 75   SECRET    1.000
+T:Bearer Authorization:Auth             2   SECRET    1.000
 T:Bearer Authorization:Slack Token:Auth        2   SECRET    1.000
 T:Credential:AWS Multi                  3   SECRET    1.000
 T:Credential:Secret                     2   SECRET    1.000
@@ -86,6 +92,8 @@ T:Key:Secret:UUID                       1   SECRET    1.000
 T:Key:Stripe Credentials                2   SECRET    1.000
 T:Key:Token                             1   SECRET    1.000
 T:Key:UUID                              5   SECRET    1.000
+T:NTLM Token:Bearer Authorization        3   SECRET    1.000
+T:NTLM Token:Bearer Authorization:Auth      105   SECRET    1.000
 T:PEM Private Key                    1161   SECRET    1.000
 T:PEM Private Key:Key                   9   SECRET    1.000
 T:PEM Private Key:Key:Secret           23   SECRET    1.000
@@ -103,6 +111,7 @@ T:Slack Token:Token                     8   SECRET    1.000
 T:Token:API:Key                         2   SECRET    1.000
 T:Token:API:Key:Google API Key          1   SECRET    1.000
 T:Token:Akamai Credentials              2   SECRET    1.000
+T:Token:Bearer Authorization            1   SECRET    1.000
 T:Token:Github Classic Token            1   SECRET    1.000
 T:Token:JSON Web Token                  2   SECRET    1.000
 T:Token:JSON Web Token:Azure Access Token        2   SECRET    1.000
@@ -120,22 +129,23 @@ X:URL Credentials                     144        -    1.000
 T:JSON Web Token                       84   SECRET    0.988
 F:URL Credentials                     144        -    0.986
 T:AWS Client ID:Key                    36   SECRET    0.972
+T:Basic Authorization                  89   SECRET    0.966
 T:URL Credentials                     213   SECRET    0.962
 T:Token:UUID                          169   SECRET    0.929
 T:BASE64 Private Key                   30   SECRET    0.900
 T:Password:URL Credentials             10   SECRET    0.900
-T:Secret                             1263   SECRET    0.890
+T:API:Key                              66   SECRET    0.894
+T:Secret                             1263   SECRET    0.894
 F:Password:URL Credentials             80        -    0.887
 T:Key                                3822   SECRET    0.884
-T:API:Key                              66   SECRET    0.879
 F:Auth:Key:Token                       14        -    0.857
 T:Secret:Token                         13   SECRET    0.846
 T:Secret:Key                           39   SECRET    0.821
 T:Google Multi                         11   SECRET    0.818
 T:Key:Auth                             11   SECRET    0.818
 T:Credential                           76   SECRET    0.803
+T:Key:Secret                          124   SECRET    0.782
 T:Password:Secret                      18   SECRET    0.778
-T:Key:Secret                          124   SECRET    0.774
 T:Secret:OTP / 2FA Secret              26   SECRET    0.769
 T:Auth:Secret                          11   SECRET    0.727
 T:CURL User Password                    7   SECRET    0.714
@@ -146,21 +156,22 @@ T:Auth:Secret:Token                    15   SECRET    0.667
 T:Key:AWS Client ID                    15   SECRET    0.667
 T:Dropbox App secret:Password          44   SECRET    0.636
 T:UUID:Token                           26   SECRET    0.615
-T:Token                               583   SECRET    0.571
+T:Token                               583   SECRET    0.575
 F:Auth:Secret:Token                     2        -    0.500
 F:Key:AWS Client ID                     2        -    0.500
 T:Auth:Dropbox App secret:Key           2   SECRET    0.500
 T:Auth:Token:UUID                       2   SECRET    0.500
+T:BASE64 encoded PEM Private Key:Key        2   SECRET    0.500
 T:Password:Auth:Dropbox App secret        2   SECRET    0.500
 T:Password:OTP / 2FA Secret             2   SECRET    0.500
 X:Other                                16        -    0.500
-T:Auth:Token                           85   SECRET    0.435
+T:Auth:Token                           85   SECRET    0.447
 T:Key:BASE64 Private Key                7   SECRET    0.429
 T:Token:Auth                           17   SECRET    0.412
 T:Auth:Nonce                           27   SECRET    0.407
 T:Password:Key                         10   SECRET    0.400
+T:Password                           2573   SECRET    0.355
 T:Auth:Key                             48   SECRET    0.354
-T:Password                           2573   SECRET    0.353
 F:Auth:UUID                             3        -    0.333
 T:Token:Auth:Secret                     6   SECRET    0.333
 X:Key:API                               3        -    0.333
@@ -169,54 +180,50 @@ T:OTP / 2FA Secret:Secret              16   SECRET    0.312
 T:API                                  21   SECRET    0.286
 T:API:Password                         18   SECRET    0.278
 F:Dropbox App secret                  112        -    0.268
+T:Auth                                174   SECRET    0.253
 T:Dropbox App secret:Secret             4   SECRET    0.250
 T:Password:SQL Password                 4   SECRET    0.250
 T:Password:Token                        4   SECRET    0.250
-X:Auth:Secret                           4        -    0.250
-T:Auth                                174   SECRET    0.213
 T:Password:Key:Secret                   5   SECRET    0.200
-F:Key:Token                           262        -    0.187
+F:Key:Token                           262        -    0.191
+X:Password:Secret                      11        -    0.182
 T:Credential:Key                        6   SECRET    0.167
 F:Auth:Key                             21        -    0.143
-F:Password:Secret                       7        -    0.143
-X:API:Key:Secret                        7        -    0.143
-X:Auth:Password                        14        -    0.143
 T:Auth:Password                        31   SECRET    0.129
 F:Auth:Secret                           8        -    0.125
 T:JWK                                  78   SECRET    0.115
+F:API:Key                              63        -    0.111
 F:Password:Salt                         9        -    0.111
 T:Password:Auth                         9   SECRET    0.111
-X:Key:Secret                          137        -    0.109
+X:API:Key                             138        -    0.109
 F:JSON Web Token                       60        -    0.100
-F:API:Key                              63        -    0.095
 F:API:Token                            22        -    0.091
-X:API:Key                             138        -    0.087
+F:Token                              4213        -    0.079
+F:Key                               19770        -    0.077
 F:API:Secret:Key                       13        -    0.077
-X:Secret:Token                         13        -    0.077
-F:Key                               19770        -    0.073
-F:Token                              4213        -    0.069
+X:Auth:Password                        14        -    0.071
 F:Password:API                         30        -    0.067
 F:Password:Auth                        30        -    0.067
-F:Secret                             1595        -    0.063
-T:Auth:Bearer Authorization            79   SECRET    0.063
 T:Dropbox App secret                   16   SECRET    0.062
 X:Key                                 158        -    0.057
-X:Secret                              580        -    0.057
 F:UUID:Key                             37        -    0.054
 X:Key:Password                         37        -    0.054
+F:Secret                             1595        -    0.054
 T:API:Token                           112   SECRET    0.054
 F:Password:Token                       19        -    0.053
+X:Key:Secret                          137        -    0.051
 F:Password:Key                         25        -    0.040
 F:Salt                                105        -    0.038
+F:Secret:Key                           27        -    0.037
+X:Password                           2204        -    0.034
+F:Password                           8730        -    0.033
 F:Auth                               3253        -    0.033
-F:Password                           8730        -    0.032
-X:Password                           2204        -    0.031
-F:API                                3598        -    0.024
+F:API                                3598        -    0.031
+F:Auth:Token                          236        -    0.030
+X:Secret                              580        -    0.026
 T:Tencent WeChat API App ID            47   SECRET    0.021
-F:Auth:Token                          236        -    0.021
 X:Token                               381        -    0.021
 F:Credential                          474        -    0.013
-T:Auth:Basic Authorization            601   SECRET    0.008
 F:Basic Authorization                 538        -    0.004
 T:UUID                               2316   SECRET    0.001
 F:API:Auth                             15        -    0.000
@@ -232,7 +239,6 @@ F:Auth:API:Dropbox App secret           1        -    0.000
 F:Auth:API:Key                          1        -    0.000
 F:Auth:Basic Authorization             16        -    0.000
 F:Auth:Credential                      12        -    0.000
-F:Auth:JSON Web Token                   1        -    0.000
 F:Auth:Key:Password                     1        -    0.000
 F:Auth:Key:Secret                       1        -    0.000
 F:Auth:Nonce                            3        -    0.000
@@ -293,6 +299,7 @@ F:Password:Key:CMD Password             3        -    0.000
 F:Password:Key:Salt                     1        -    0.000
 F:Password:Key:Secret                   1        -    0.000
 F:Password:SQL Password                 3        -    0.000
+F:Password:Secret                       7        -    0.000
 F:SQL Password                          8        -    0.000
 F:SQL Password:Password                 2        -    0.000
 F:Salt:Auth:Password                    1        -    0.000
@@ -302,7 +309,6 @@ F:Salt:Token                            1        -    0.000
 F:Secret:API:Credential:Key             1        -    0.000
 F:Secret:API:Token                      1        -    0.000
 F:Secret:Auth:Token                     1        -    0.000
-F:Secret:Key                           27        -    0.000
 F:Secret:Key:Password                   1        -    0.000
 F:Secret:Key:Token                      2        -    0.000
 F:Secret:Token                         18        -    0.000
@@ -333,11 +339,6 @@ T:Auth:Token:Secret                     2   SECRET    0.000
 T:BASE64 Private Key:Secret             1   SECRET    0.000
 T:BASE64 encoded PEM Private Key        1   SECRET    0.000
 T:BASE64 encoded PEM Private Key:Auth:Key        1   SECRET    0.000
-T:BASE64 encoded PEM Private Key:Key        2   SECRET    0.000
-T:Basic Authorization                  89   SECRET    0.000
-T:Basic Authorization:Auth              2   SECRET    0.000
-T:Bearer Authorization                 75   SECRET    0.000
-T:Bearer Authorization:Auth             2   SECRET    0.000
 T:CMD ConvertTo-SecureString           13   SECRET    0.000
 T:CMD Password                         25   SECRET    0.000
 T:CMD Secret                            1   SECRET    0.000
@@ -358,8 +359,6 @@ T:MailGun API Key                       8   SECRET    0.000
 T:NKEY Seed                            58   SECRET    0.000
 T:NKEY Seed:Key                         1   SECRET    0.000
 T:NTLM Token                           18   SECRET    0.000
-T:NTLM Token:Bearer Authorization        3   SECRET    0.000
-T:NTLM Token:Bearer Authorization:Auth      105   SECRET    0.000
 T:Nonce                               148   SECRET    0.000
 T:Nonce:Salt                            1   SECRET    0.000
 T:OTP / 2FA Secret                     16   SECRET    0.000
@@ -379,7 +378,6 @@ T:Salesforce Credentials                5   SECRET    0.000
 T:Salt                                 85   SECRET    0.000
 T:Secret:Token:Auth                     1   SECRET    0.000
 T:Token:Auth:Key                        2   SECRET    0.000
-T:Token:Bearer Authorization            1   SECRET    0.000
 T:Token:Google OAuth Refresh Token        1   SECRET    0.000
 T:Token:OTP / 2FA Secret                3   SECRET    0.000
 T:Token:Salesforce Credentials          1   SECRET    0.000
@@ -388,12 +386,14 @@ T:UUID:Auth                             1   SECRET    0.000
 T:UUID:Token:Auth                       6   SECRET    0.000
 T:WunderGraph API Key                   2   SECRET    0.000
 X:API:Auth:Token                        1        -    0.000
+X:API:Key:Secret                        7        -    0.000
 X:API:Password                          3        -    0.000
 X:API:Secret                           20        -    0.000
 X:API:Token                            15        -    0.000
 X:Auth                                 10        -    0.000
 X:Auth:Key                              6        -    0.000
 X:Auth:Key:Secret                       2        -    0.000
+X:Auth:Secret                           4        -    0.000
 X:Auth:Secret:Token                     8        -    0.000
 X:Auth:Token                           32        -    0.000
 X:CMD Password                          1        -    0.000
@@ -406,9 +406,9 @@ X:OTP / 2FA Secret:Key                  1        -    0.000
 X:Password:Auth                         1        -    0.000
 X:Password:Key:Secret                   7        -    0.000
 X:Password:Salt                         1        -    0.000
-X:Password:Secret                      11        -    0.000
 X:Password:Token                        5        -    0.000
 X:SQL Password                          1        -    0.000
+X:Secret:Token                         13        -    0.000
 
 system spans by overlapped gold label (top 6 per type):
   CARD     (no gold span) 511, F:Key 16, F:Token 6, F:Password 5, F:API 2, F:Auth 2
@@ -417,6 +417,6 @@ system spans by overlapped gold label (top 6 per type):
   IPV4     (no gold span) 18771, F:API 108, F:Key:Token 44, F:Password 39, F:Key 27, F:Auth 21
   IPV6     (no gold span) 4413, F:Auth 12, F:API 11, F:Password 10, F:Key 6, F:Token 2
   PHONE    (no gold span) 319, F:Password 8
-  SECRET   T:Key 3378, F:Key 1305, T:PEM Private Key 1161, T:Secret 1124, T:Password 909, (no gold span) 714
+  SECRET   T:Key 3378, F:Key 1401, T:PEM Private Key 1161, T:Secret 1129, T:Password 913, (no gold span) 698
 
 report (labels and counts only) -> bench/results/2026-10-17-creddata/ppe-rules-phone-required.json

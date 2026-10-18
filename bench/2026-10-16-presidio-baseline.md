@@ -76,11 +76,11 @@ every row above (`head-to-head.txt`).
 
 | | PPE optional | PPE required | Presidio ≥0 | Presidio ≥0.5 |
 |---|---|---|---|---|
-| micro over own claimed types (R / P / F1) | 0.792 / 0.771 / 0.781 | 0.767 / 0.957 / 0.852 | 0.820 / 0.559 / 0.664 | 0.802 / 0.576 / 0.670 |
-| micro over every mapped type (R / P / F1) | 0.159 / 0.771 / 0.264 | 0.154 / 0.957 / 0.266 | 0.803 / 0.559 / 0.659 | 0.786 / 0.576 / 0.665 |
-| any-type coverage, 850,340 gold spans | 0.143 | 0.112 | **0.747** | 0.666 |
-| system spans | 122,626 | 95,705 | 949,280 | 748,177 |
-| … overlapping no gold span | 545 (0.4%) | 353 (0.4%) | 146,162 (15.4%) | 136,785 (18.3%) |
+| micro over own claimed types (R / P / F1) | 0.794 / 0.771 / 0.782 | 0.769 / 0.958 / 0.853 | 0.820 / 0.559 / 0.664 | 0.802 / 0.576 / 0.670 |
+| micro over every mapped type (R / P / F1) | 0.160 / 0.771 / 0.264 | 0.155 / 0.958 / 0.266 | 0.803 / 0.559 / 0.659 | 0.786 / 0.576 / 0.665 |
+| any-type coverage, 850,340 gold spans | 0.144 | 0.112 | **0.747** | 0.666 |
+| system spans | 122,866 | 95,945 | 949,280 | 748,177 |
+| … overlapping no gold span | 546 (0.4%) | 354 (0.4%) | 146,162 (15.4%) | 136,785 (18.3%) |
 
 The all-mapped row has the same denominator (586,978 mapped gold spans) for every system. PPE's
 rules claim nothing for names, places, dates, organisations, URLs or SSNs, so most of those spans
@@ -106,7 +106,7 @@ count against it. Presidio's spaCy model covers them:
 | Presidio's URL recogniser matches the domain inside an email address. | 64,495 URL spans overlap `email` spans (typed URL precision 0.333). The address is still covered by the EMAIL span; as a URL it is a false positive. |
 | Nine-digit routing numbers read as SSNs. | 7,837 US_SSN spans on `bank_routing_number`; the ≥0.5 threshold removes most (precision 0.316 → 0.809). |
 | Names: the dataset labels first and last names separately. | Presidio's PERSON span usually covers the full name: overlap recall 0.858, strict 0.166. Strict matching undercounts any full-name detector here. |
-| Neither system detects secrets well; Presidio has no secret recogniser. | SECRET recall: PPE 0.131 since the Gitleaks import of 2026-10-18 (0.062 before; vendor-prefixed API keys 418/447), Presidio 0. Coverage of `api_key`: PPE 0.281, Presidio 0.061. Of `password`: PPE 0.031, Presidio 0.218; the Presidio spans on passwords are mostly US_DRIVER_LICENSE (687), ORGANIZATION (455) and LOCATION (219). |
+| Neither system detects secrets well; Presidio has no secret recogniser. | SECRET recall: PPE 0.151 with the 2026-10-18 secret rules (0.062 before; vendor-prefixed API keys 422/447), Presidio 0. Coverage of `api_key`: PPE 0.323, Presidio 0.061. Of `password`: PPE 0.037, Presidio 0.218; the Presidio spans on passwords are mostly US_DRIVER_LICENSE (687), ORGANIZATION (455) and LOCATION (219). |
 | Precision cost of coverage | 15.4% of Presidio's spans overlap no gold span, against 0.4% of PPE's. In a proxy that masks spans, a false positive costs utility (a non-sensitive value hidden from the model), not leakage. |
 
 **For PPE.** On the pattern types the rules match a widely used baseline, and on phone numbers

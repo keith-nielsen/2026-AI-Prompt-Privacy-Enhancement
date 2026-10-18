@@ -89,15 +89,15 @@ CARD, EMAIL, IBAN, IPV4, IPV6 and PHONE (R = typed recall, overlap; P = typed pr
 
 | | PPE optional | PPE required | Presidio ≥0 | Presidio ≥0.5 |
 |---|---|---|---|---|
-| micro over own claimed types (R / P / F1) | 0.818 / 0.761 / 0.788 | 0.778 / 0.919 / 0.843 | 0.646 / 0.288 / 0.398 | 0.633 / 0.292 / 0.399 |
-| micro over every mapped type (R / P / F1) | 0.074 / 0.761 / 0.135 | 0.070 / 0.919 / 0.131 | 0.642 / 0.288 / 0.398 | 0.630 / 0.292 / 0.399 |
+| micro over own claimed types (R / P / F1) | 0.818 / 0.760 / 0.788 | 0.778 / 0.918 / 0.842 | 0.646 / 0.288 / 0.398 | 0.633 / 0.292 / 0.399 |
+| micro over every mapped type (R / P / F1) | 0.074 / 0.760 / 0.135 | 0.070 / 0.918 / 0.131 | 0.642 / 0.288 / 0.398 | 0.630 / 0.292 / 0.399 |
 | any-type coverage, 36,990 gold spans | 0.074 | 0.068 | **0.758** | 0.727 |
-| system spans | 3,401 | 2,677 | 106,870 | 85,276 |
-| … overlapping no gold span | 667 (19.6%) | 170 (6.4%) | 72,218 (67.6%) | 53,753 (63.0%) |
+| system spans | 3,402 | 2,678 | 106,870 | 85,276 |
+| … overlapping no gold span | 668 (19.6%) | 171 (6.4%) | 72,218 (67.6%) | 53,753 (63.0%) |
 
-PPE's claimed scope here also includes SECRET (191 gold spans; recall 0.293 since the Gitleaks import of
-2026-10-18, 0.178 before: 27 of the 32 vendor-prefixed API keys, 23 of the 58 generic keys and 6 of the
-101 passwords; the 5 prefixed keys missed are 41-character `AIza…` strings, two characters longer than
+PPE's claimed scope here also includes SECRET (191 gold spans; recall 0.293 with the 2026-10-18 secret
+rules, 0.178 before: 27 of the 32 vendor-prefixed API keys, 24 of the 58 generic keys and 5 of the 101
+passwords (one unquoted password with a bracket in it now counts as code); the 5 prefixed keys missed are 41-character `AIza…` strings, two characters longer than
 real Google keys). Presidio has no secret recogniser. The no-gold share is far
 higher than on Nemotron (PPE 0.4%, Presidio 15.4%) for both systems: part of it is real noise, part is
 values the machine-made labels missed (the card says so; for example, 10 PPE IBAN findings with valid
