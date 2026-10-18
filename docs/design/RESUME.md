@@ -18,8 +18,10 @@
 - Gate 346 passed, 1 skipped, 21 xfailed (C-07 env lookup fixed); verify 10/10. Mutation, leak scans:
   see `bench/2026-10-17-creddata.md` "Checks".
 - **Housekeeping done 2026-10-18:** raw bench files moved to `~/Documents/ppe-private/`; `refs/original`
-  + reflog cleaned (4 unredacted local commits gone). F-14 public-history purge still needs the
-  operator's go. Dogfooding (real client through `ppe serve`) and hardening: later (operator).
+  + reflog cleaned (4 unredacted local commits gone). F-14 public-history purge done the same day
+  (history rewritten, all hashes since 2026-10-12 changed: see `history-rewrite-2026-10-18.md`; `main`
+  was `65f6b06`, now `bf2d6d0`); GitHub Support request for PR refs pending (operator). Dogfooding (real
+  client through `ppe serve`) and hardening: later (operator).
 
 ## Earlier status (2026-10-18): v0.1.0.dev2 RELEASED — GITLEAKS RULES IN PPE + CREDDATA SECRETS BENCHMARK
 
@@ -114,9 +116,11 @@
   `ppe verify` 10/10; `ppe serve` smoke-tested on spare ports 18787/18788; review mutation script 30/32
   (same survivors: M08 equivalent, M32 needs F-07), `results/mutation_after_now_fixes.txt`.
 - **Operator direction (2026-10-16):** do the fixing, push, *then* clean up. Clean-up still pending:
-  (1) purge F-14 raw files (`bench/results/2026-10-03/raw_10kb_doc1700.txt`, `raw_1kb.json`) from
-  public history = rewrite `main` and re-issue/move tag `v0.1.0.dev1` (GitHub's auto-generated tag source
-  archives hold them; no sdist/wheel was ever uploaded, nothing on PyPI);
+  (1) *done 2026-10-18 (operator's go):* F-14 raw files (`bench/results/2026-10-03/raw_10kb_doc1700.txt`,
+  `raw_1kb.json`) removed from all history with `git filter-repo`; 7 branches and tags `v0.1.0.dev1`-`dev3`
+  force-pushed (releases kept); old→new hashes in `history-rewrite-2026-10-18.md`. Still reachable on
+  GitHub by old commit ID through PR #1/#2 refs and caches until GitHub Support purges them (operator
+  to request); pre-rewrite backup bundle in `~/Documents/ppe-private/`;
   (2) *done 2026-10-18 (operator's go):* both `refs/original/` refs deleted, reflog expired, `gc
   --prune=now`; the 4 commits only they held (unredacted Kent text, never pushed) are gone, `fsck`
   clean. Local copies of the raw files moved out of the repository (operator, 2026-10-18) to
