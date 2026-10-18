@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest. PPE is pre-alpha (v0.1.0.dev2): phase 1 and a shadow-mode proxy are built,
+Thanks for your interest. PPE is pre-alpha (v0.1.0.dev3): phase 1 and a shadow-mode proxy are built,
 much of the design in `docs/design/` is not. Bug reports, tests that pin a documented claim
 (`tests/conformance/`), and discussion of the ADRs are all useful.
 
