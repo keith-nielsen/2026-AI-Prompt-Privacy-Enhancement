@@ -1,9 +1,10 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
-## Status (2026-10-18, latest): SECRET RULES v3 (AUTH HEADERS, NARROWER PLACEHOLDER FILTER), LOCAL ON `feat/external-bench-creddata`
+## Status (2026-10-18, latest): v0.1.0.dev3 RELEASED — SECRET RULES v3 (AUTH HEADERS, NARROWER PLACEHOLDER FILTER)
 
-- **Not committed yet** (operator reviews first). Branch `feat/external-bench-creddata` after `16b0dcc`
-  (= `main` on GitHub, v0.1.0.dev2 + resume card).
+- **Released 2026-10-18 (operator approved the process):** PR #2 merged by fast-forward; `main` =
+  `b1b28ed` on GitHub, tag `v0.1.0.dev3` (annotated), GitHub pre-release. Commits: `76305e6` (rules v3),
+  `f35d2a7` (bench + docs), `b1b28ed` (version bump). This resume-card update follows on `main`.
 - **Secret rules v3** (operator's go: "1 and 2 are targets"): `secrets.VALUE_CHECKS` per rule.
   (1) `assignment` placeholder filter `is_placeholder`: short placeholder list + credential-kind words
   (`token`, `passw`, `secret`, `auth`, `access`, `credential`) + templates + <=3 distinct chars +
