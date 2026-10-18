@@ -1,5 +1,36 @@
 # Resume card — Prompt Privacy Enhancement (PPE)
 
+## Start here (next session, written 2026-10-18 at session end)
+
+- **State:** working tree clean; `main` = `feat/external-bench-creddata` = `becb096` on GitHub. Latest
+  release `v0.1.0.dev3`. **History was rewritten on 2026-10-18** (F-14 purge): any clone made before
+  then must be re-cloned, not pulled; old commit hashes map to new ones in `history-rewrite-2026-10-18.md`.
+- **Checklist:** `git status`; gate `.venv/bin/ruff check src tests && .venv/bin/ruff format --check src
+  tests && .venv/bin/mypy && .venv/bin/pytest` → expect **346 passed, 1 skipped, 21 xfailed**; `ppe verify`
+  10/10. The venv needs `google-re2` (`uv pip install --python .venv/bin/python -e ".[bench]"`; also in
+  `bench/harness/pvenv`). Heavy runs: cap and pin (`systemd-run --user --scope -q -p MemoryMax=6G -p
+  MemorySwapMax=0 nice -n 19 taskset -c 5-7 …`), independent steps in parallel lanes (three at a time),
+  check Kent (:8080) and :8081 are idle first. Never edit a shell script while it runs.
+- **Operator to-dos:** (1) GitHub Support sensitive-data request for
+  `keith-nielsen/2026-AI-Prompt-Privacy-Enhancement`: dereference `refs/pull/1/head` (old head
+  `f96c1687b422c9e084d13a32f847cc5bc99dd42e`) and `refs/pull/2/head` (old head
+  `b1b28ed739f3f68ec3086898147c2e43c9245dc5`), gc, purge caches; files
+  `bench/results/2026-10-03/raw_10kb_doc1700.txt` and `raw_1kb.json`, added in
+  `b913b99f93a7a940e99ff2451e06f9adccefb7f3`, deleted in `8972e319d82c04691b8dbcd70ed71666da37ffab`.
+  (2) After Support confirms, delete `~/Documents/ppe-private/history-before-f14-purge-2026-10-18.bundle`
+  (pre-rewrite backup; it holds the files).
+- **Data and tools outside the repo:** CredData at `/media/administrator/DATA/datasets/Samsung-CredData/
+  repo/{data,meta}` (checkouts deleted, manifest verified); Gitleaks/detect-secrets in
+  `bench/harness/{tools,dsvenv}` (git-ignored, `install_secret_scanners.sh`). The scanners' CredData spans
+  lived in the session scratchpad and are gone: `run_secret_scanners.sh` rebuilds them (Gitleaks 29 s,
+  detect-secrets ~30-45 min on three workers) before any re-run of `creddata_overlap.py`.
+- **Queue (operator's order: detectors now; dogfooding and hardening later):** detector items left from
+  the benchmarks: card issuer ranges (ADR-0005, Gretel), decoding base64/hex/percent text before
+  matching, phone formats beyond English-speaking countries, generic secrets without a key word (research,
+  likely a model), PASERK/PASETO/NKEY rules. Later: real Claude Code client through `ppe serve` (phase 2
+  exit check), review §8 hardening (F-13 CI/lock/CHANGELOG/SBOM, now with a compiled dependency; F-02 code
+  false positives; F-19; F-07; F-03), Kent short-answer test (script not written).
+
 ## Status (2026-10-18, latest): v0.1.0.dev3 RELEASED — SECRET RULES v3 (AUTH HEADERS, NARROWER PLACEHOLDER FILTER)
 
 - **Released 2026-10-18 (operator approved the process):** PR #2 merged by fast-forward; `main` =
