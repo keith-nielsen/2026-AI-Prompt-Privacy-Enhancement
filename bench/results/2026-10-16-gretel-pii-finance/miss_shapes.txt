@@ -6,10 +6,10 @@ api_key (90)
   generic-len32+ found                          11
   generic-len0+ MISSED                           8
   generic-len64+ MISSED                          8
-  generic-len16+ found                           7
+  generic-len16+ found                           8
   vendor-prefix MISSED                           5
-  generic-len16+ MISSED                          5
   generic-len64+ found                           5
+  generic-len16+ MISSED                          4
 
 credit_card_number (120)
   luhn-invalid MISSED                           59
@@ -43,9 +43,9 @@ ipv6 (134)
 
 password (101)
   generic-len16+ MISSED                         48
-  generic-len0+ MISSED                          47
+  generic-len0+ MISSED                          48
   generic-len16+ found                           3
-  generic-len0+ found                            3
+  generic-len0+ found                            2
 
 phone_number (946)
   intl+,digits=11 found                        254

@@ -45,6 +45,11 @@ CAUGHT  gitleaks: AND allow-list treated as OR     ['test_allowlists']
 CAUGHT  gitleaks: path checks pass for a prompt    ['test_allowlists']
 CAUGHT  gitleaks: generic findings not deduplicated ['test_generic_finding_gives_way_to_a_specific_rule']
 CAUGHT  detect: Gitleaks rules not run             ['test_generic_api_key_in_detect']
-CAUGHT  detect: assignment placeholders kept       ['test_assignment_placeholders_are_dropped_by_gitleaks_words']
+CAUGHT  detect: value checks skipped               ['test_assignment_in_detect_uses_the_checks']
+CAUGHT  secrets: credential-kind words ignored     ['test_placeholders_and_references']
+CAUGHT  secrets: code checked on quoted values     ['test_real_looking_values_are_kept']
+CAUGHT  secrets: template check off                ['test_placeholders_and_references']
+CAUGHT  secrets: Basic without user:password       ['test_basic_credentials']
+CAUGHT  secrets: bearer token without a digit      ['test_bearer_token_rule']
 
-47/47 mutations caught (0 not run)
+52/52 mutations caught (0 not run)

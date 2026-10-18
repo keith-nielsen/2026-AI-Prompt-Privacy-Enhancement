@@ -1,13 +1,13 @@
 {
  "any_type_coverage_all_labels": {
-  "covered": 11576,
+  "covered": 12685,
   "gold_spans": 67886,
-  "rate": 0.1705
+  "rate": 0.1869
  },
  "by_label": {
   "F:API": {
-   "coverage_any_type": 0.0245,
-   "covered_any_type": 88,
+   "coverage_any_type": 0.0311,
+   "covered_any_type": 112,
    "maps_to": null,
    "support": 3598
   },
@@ -24,8 +24,8 @@
    "support": 3
   },
   "F:API:Key": {
-   "coverage_any_type": 0.0952,
-   "covered_any_type": 6,
+   "coverage_any_type": 0.1111,
+   "covered_any_type": 7,
    "maps_to": null,
    "support": 63
   },
@@ -150,8 +150,8 @@
    "support": 12
   },
   "F:Auth:JSON Web Token": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
    "maps_to": null,
    "support": 1
   },
@@ -210,8 +210,8 @@
    "support": 2
   },
   "F:Auth:Token": {
-   "coverage_any_type": 0.0212,
-   "covered_any_type": 5,
+   "coverage_any_type": 0.0297,
+   "covered_any_type": 7,
    "maps_to": null,
    "support": 236
   },
@@ -390,8 +390,8 @@
    "support": 4
   },
   "F:Key": {
-   "coverage_any_type": 0.0725,
-   "covered_any_type": 1434,
+   "coverage_any_type": 0.0774,
+   "covered_any_type": 1530,
    "maps_to": null,
    "support": 19770
   },
@@ -498,8 +498,8 @@
    "support": 1
   },
   "F:Key:Token": {
-   "coverage_any_type": 0.187,
-   "covered_any_type": 49,
+   "coverage_any_type": 0.1908,
+   "covered_any_type": 50,
    "maps_to": null,
    "support": 262
   },
@@ -582,8 +582,8 @@
    "support": 1
   },
   "F:Password": {
-   "coverage_any_type": 0.0321,
-   "covered_any_type": 280,
+   "coverage_any_type": 0.0332,
+   "covered_any_type": 290,
    "maps_to": null,
    "support": 8730
   },
@@ -684,8 +684,8 @@
    "support": 9
   },
   "F:Password:Secret": {
-   "coverage_any_type": 0.1429,
-   "covered_any_type": 1,
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
    "maps_to": null,
    "support": 7
   },
@@ -750,8 +750,8 @@
    "support": 1
   },
   "F:Secret": {
-   "coverage_any_type": 0.0633,
-   "covered_any_type": 101,
+   "coverage_any_type": 0.0539,
+   "covered_any_type": 86,
    "maps_to": null,
    "support": 1595
   },
@@ -774,8 +774,8 @@
    "support": 1
   },
   "F:Secret:Key": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 0.037,
+   "covered_any_type": 1,
    "maps_to": null,
    "support": 27
   },
@@ -810,8 +810,8 @@
    "support": 1
   },
   "F:Token": {
-   "coverage_any_type": 0.0691,
-   "covered_any_type": 291,
+   "coverage_any_type": 0.079,
+   "covered_any_type": 333,
    "maps_to": null,
    "support": 4213
   },
@@ -936,8 +936,8 @@
    "support": 1
   },
   "T:API:Key": {
-   "coverage_any_type": 0.8788,
-   "covered_any_type": 58,
+   "coverage_any_type": 0.8939,
+   "covered_any_type": 59,
    "maps_to": "SECRET",
    "support": 66
   },
@@ -1032,8 +1032,8 @@
    "support": 1
   },
   "T:Auth": {
-   "coverage_any_type": 0.2126,
-   "covered_any_type": 37,
+   "coverage_any_type": 0.2529,
+   "covered_any_type": 44,
    "maps_to": "SECRET",
    "support": 174
   },
@@ -1056,14 +1056,14 @@
    "support": 2
   },
   "T:Auth:Basic Authorization": {
-   "coverage_any_type": 0.0083,
-   "covered_any_type": 5,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 601,
    "maps_to": "SECRET",
    "support": 601
   },
   "T:Auth:Bearer Authorization": {
-   "coverage_any_type": 0.0633,
-   "covered_any_type": 5,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 79,
    "maps_to": "SECRET",
    "support": 79
   },
@@ -1164,8 +1164,8 @@
    "support": 1
   },
   "T:Auth:Token": {
-   "coverage_any_type": 0.4353,
-   "covered_any_type": 37,
+   "coverage_any_type": 0.4471,
+   "covered_any_type": 38,
    "maps_to": "SECRET",
    "support": 85
   },
@@ -1248,32 +1248,32 @@
    "support": 1
   },
   "T:BASE64 encoded PEM Private Key:Key": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 0.5,
+   "covered_any_type": 1,
    "maps_to": "SECRET",
    "support": 2
   },
   "T:Basic Authorization": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 0.9663,
+   "covered_any_type": 86,
    "maps_to": "SECRET",
    "support": 89
   },
   "T:Basic Authorization:Auth": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
    "maps_to": "SECRET",
    "support": 2
   },
   "T:Bearer Authorization": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 75,
    "maps_to": "SECRET",
    "support": 75
   },
   "T:Bearer Authorization:Auth": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 2,
    "maps_to": "SECRET",
    "support": 2
   },
@@ -1578,8 +1578,8 @@
    "support": 3
   },
   "T:Key:Secret": {
-   "coverage_any_type": 0.7742,
-   "covered_any_type": 96,
+   "coverage_any_type": 0.7823,
+   "covered_any_type": 97,
    "maps_to": "SECRET",
    "support": 124
   },
@@ -1638,14 +1638,14 @@
    "support": 18
   },
   "T:NTLM Token:Bearer Authorization": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 3,
    "maps_to": "SECRET",
    "support": 3
   },
   "T:NTLM Token:Bearer Authorization:Auth": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 105,
    "maps_to": "SECRET",
    "support": 105
   },
@@ -1716,8 +1716,8 @@
    "support": 23
   },
   "T:Password": {
-   "coverage_any_type": 0.3533,
-   "covered_any_type": 909,
+   "coverage_any_type": 0.3548,
+   "covered_any_type": 913,
    "maps_to": "SECRET",
    "support": 2573
   },
@@ -1866,8 +1866,8 @@
    "support": 85
   },
   "T:Secret": {
-   "coverage_any_type": 0.8899,
-   "covered_any_type": 1124,
+   "coverage_any_type": 0.8939,
+   "covered_any_type": 1129,
    "maps_to": "SECRET",
    "support": 1263
   },
@@ -1938,8 +1938,8 @@
    "support": 47
   },
   "T:Token": {
-   "coverage_any_type": 0.5712,
-   "covered_any_type": 333,
+   "coverage_any_type": 0.5746,
+   "covered_any_type": 335,
    "maps_to": "SECRET",
    "support": 583
   },
@@ -1980,8 +1980,8 @@
    "support": 6
   },
   "T:Token:Bearer Authorization": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 1.0,
+   "covered_any_type": 1,
    "maps_to": "SECRET",
    "support": 1
   },
@@ -2124,14 +2124,14 @@
    "support": 1
   },
   "X:API:Key": {
-   "coverage_any_type": 0.087,
-   "covered_any_type": 12,
+   "coverage_any_type": 0.1087,
+   "covered_any_type": 15,
    "maps_to": null,
    "support": 138
   },
   "X:API:Key:Secret": {
-   "coverage_any_type": 0.1429,
-   "covered_any_type": 1,
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
    "maps_to": null,
    "support": 7
   },
@@ -2172,14 +2172,14 @@
    "support": 2
   },
   "X:Auth:Password": {
-   "coverage_any_type": 0.1429,
-   "covered_any_type": 2,
+   "coverage_any_type": 0.0714,
+   "covered_any_type": 1,
    "maps_to": null,
    "support": 14
   },
   "X:Auth:Secret": {
-   "coverage_any_type": 0.25,
-   "covered_any_type": 1,
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
    "maps_to": null,
    "support": 4
   },
@@ -2250,8 +2250,8 @@
    "support": 1
   },
   "X:Key:Secret": {
-   "coverage_any_type": 0.1095,
-   "covered_any_type": 15,
+   "coverage_any_type": 0.0511,
+   "covered_any_type": 7,
    "maps_to": null,
    "support": 137
   },
@@ -2274,8 +2274,8 @@
    "support": 16
   },
   "X:Password": {
-   "coverage_any_type": 0.0309,
-   "covered_any_type": 68,
+   "coverage_any_type": 0.0336,
+   "covered_any_type": 74,
    "maps_to": null,
    "support": 2204
   },
@@ -2298,8 +2298,8 @@
    "support": 1
   },
   "X:Password:Secret": {
-   "coverage_any_type": 0.0,
-   "covered_any_type": 0,
+   "coverage_any_type": 0.1818,
+   "covered_any_type": 2,
    "maps_to": null,
    "support": 11
   },
@@ -2322,14 +2322,14 @@
    "support": 1
   },
   "X:Secret": {
-   "coverage_any_type": 0.0569,
-   "covered_any_type": 33,
+   "coverage_any_type": 0.0259,
+   "covered_any_type": 15,
    "maps_to": null,
    "support": 580
   },
   "X:Secret:Token": {
-   "coverage_any_type": 0.0769,
-   "covered_any_type": 1,
+   "coverage_any_type": 0.0,
+   "covered_any_type": 0,
    "maps_to": null,
    "support": 13
   },
@@ -2427,16 +2427,16 @@
     "support": 0
    },
    "SECRET": {
-    "f1_overlap": 0.4304,
-    "found_overlap": 1334,
-    "found_strict": 1234,
-    "precision_any_label": 0.8522,
-    "precision_typed": 0.6187,
-    "pred_any_label": 1989,
-    "pred_typed": 1444,
-    "predicted": 2334,
-    "recall_overlap": 0.33,
-    "recall_strict": 0.3052,
+    "f1_overlap": 0.4818,
+    "found_overlap": 1545,
+    "found_strict": 1445,
+    "precision_any_label": 0.8866,
+    "precision_typed": 0.6519,
+    "pred_any_label": 2267,
+    "pred_typed": 1667,
+    "predicted": 2557,
+    "recall_overlap": 0.3821,
+    "recall_strict": 0.3574,
     "support": 4043
    }
   },
@@ -2520,16 +2520,16 @@
     "support": 0
    },
    "SECRET": {
-    "f1_overlap": 0.6766,
-    "found_overlap": 7045,
-    "found_strict": 6815,
-    "precision_any_label": 0.9601,
-    "precision_typed": 0.773,
-    "pred_any_label": 8872,
-    "pred_typed": 7143,
-    "predicted": 9241,
-    "recall_overlap": 0.6016,
-    "recall_strict": 0.582,
+    "f1_overlap": 0.7177,
+    "found_overlap": 7800,
+    "found_strict": 7562,
+    "precision_any_label": 0.9596,
+    "precision_typed": 0.7781,
+    "pred_any_label": 9703,
+    "pred_typed": 7867,
+    "predicted": 10111,
+    "recall_overlap": 0.6661,
+    "recall_strict": 0.6458,
     "support": 11710
    }
   }
@@ -2614,16 +2614,16 @@
    "support": 0
   },
   "SECRET": {
-   "f1_overlap": 0.6196,
-   "found_overlap": 8379,
-   "found_strict": 8049,
-   "precision_any_label": 0.9383,
-   "precision_typed": 0.7419,
-   "pred_any_label": 10861,
-   "pred_typed": 8587,
-   "predicted": 11575,
-   "recall_overlap": 0.5319,
-   "recall_strict": 0.511,
+   "f1_overlap": 0.6635,
+   "found_overlap": 9345,
+   "found_strict": 9007,
+   "precision_any_label": 0.9449,
+   "precision_typed": 0.7526,
+   "pred_any_label": 11970,
+   "pred_typed": 9534,
+   "predicted": 12668,
+   "recall_overlap": 0.5932,
+   "recall_strict": 0.5718,
    "support": 15753
   }
  },
@@ -2719,9 +2719,9 @@
    "F:Password": 8
   },
   "SECRET": {
-   "(no gold span)": 714,
-   "F:API": 47,
-   "F:API:Key": 2,
+   "(no gold span)": 698,
+   "F:API": 71,
+   "F:API:Key": 3,
    "F:API:Secret:Key": 1,
    "F:API:Token": 1,
    "F:AWS Client ID": 20,
@@ -2729,8 +2729,9 @@
    "F:AWS Client ID:Credential": 1,
    "F:AWS Multi": 63,
    "F:Auth": 23,
+   "F:Auth:JSON Web Token": 1,
    "F:Auth:Secret:Token": 1,
-   "F:Auth:Token": 5,
+   "F:Auth:Token": 7,
    "F:Auth:UUID": 1,
    "F:Basic Authorization:API:Auth:Token": 1,
    "F:CMD Secret:AWS Client ID:AWS Multi": 1,
@@ -2738,23 +2739,23 @@
    "F:Credential": 5,
    "F:Grafana Access Policy Token": 2,
    "F:JSON Web Token": 6,
-   "F:Key": 1305,
+   "F:Key": 1401,
    "F:Key:AWS Client ID": 1,
    "F:Key:AWS Multi:AWS Client ID": 2,
-   "F:Key:Token": 5,
+   "F:Key:Token": 6,
    "F:Key:URL Credentials": 1,
    "F:PEM Private Key": 45,
    "F:PEM Private Key:Key": 1,
-   "F:Password": 205,
+   "F:Password": 215,
    "F:Password:AWS Client ID:AWS Multi": 1,
    "F:Password:Salt": 1,
-   "F:Password:Secret": 1,
    "F:Password:Secret:URL Credentials": 1,
    "F:Password:URL Credentials": 75,
-   "F:Secret": 99,
+   "F:Secret": 84,
+   "F:Secret:Key": 1,
    "F:Secret:URL Credentials": 1,
    "F:Slack Token": 1,
-   "F:Token": 252,
+   "F:Token": 294,
    "F:Token:URL Credentials": 1,
    "F:URL Credentials": 141,
    "F:URL Credentials:Auth:Password": 1,
@@ -2764,7 +2765,7 @@
    "T:API": 6,
    "T:API:Anthropic API Key:Key": 1,
    "T:API:Google API Key:Key": 1,
-   "T:API:Key": 58,
+   "T:API:Key": 59,
    "T:API:Key:Grafana Provisioned API Key": 1,
    "T:API:Key:Perplexity API Key": 2,
    "T:API:Key:Secret": 1,
@@ -2775,11 +2776,11 @@
    "T:AWS Multi": 59,
    "T:Akamai Credentials:Token": 4,
    "T:Alibaba Multi": 1,
-   "T:Auth": 37,
+   "T:Auth": 44,
    "T:Auth:API:Key:Google API Key": 1,
    "T:Auth:Azure Access Token:JSON Web Token:Bearer Authorization": 1,
-   "T:Auth:Basic Authorization": 5,
-   "T:Auth:Bearer Authorization": 5,
+   "T:Auth:Basic Authorization": 601,
+   "T:Auth:Bearer Authorization": 79,
    "T:Auth:Dropbox App secret:Key": 1,
    "T:Auth:Grafana Provisioned API Key:Bearer Authorization": 1,
    "T:Auth:JSON Web Token": 3,
@@ -2792,7 +2793,7 @@
    "T:Auth:Secret": 8,
    "T:Auth:Secret:Token": 10,
    "T:Auth:Slack Token:Token": 1,
-   "T:Auth:Token": 37,
+   "T:Auth:Token": 38,
    "T:Auth:Token:UUID": 1,
    "T:Auth:URL Credentials": 3,
    "T:Azure Access Token:JSON Web Token": 11,
@@ -2800,6 +2801,11 @@
    "T:Azure Access Token:Token:JSON Web Token": 5,
    "T:BASE64 Private Key": 27,
    "T:BASE64 Private Key:Key": 1,
+   "T:BASE64 encoded PEM Private Key:Key": 1,
+   "T:Basic Authorization": 86,
+   "T:Basic Authorization:Auth": 2,
+   "T:Bearer Authorization": 75,
+   "T:Bearer Authorization:Auth": 2,
    "T:Bearer Authorization:Slack Token:Auth": 2,
    "T:CURL User Password": 5,
    "T:Credential": 61,
@@ -2833,16 +2839,18 @@
    "T:Key:Nonce": 1,
    "T:Key:Password": 6,
    "T:Key:Product Activation Key": 3,
-   "T:Key:Secret": 96,
+   "T:Key:Secret": 97,
    "T:Key:Secret:UUID": 1,
    "T:Key:Stripe Credentials": 2,
    "T:Key:Token": 1,
    "T:Key:UUID": 5,
+   "T:NTLM Token:Bearer Authorization": 3,
+   "T:NTLM Token:Bearer Authorization:Auth": 105,
    "T:OTP / 2FA Secret:Secret": 5,
    "T:PEM Private Key": 1161,
    "T:PEM Private Key:Key": 9,
    "T:PEM Private Key:Key:Secret": 23,
-   "T:Password": 909,
+   "T:Password": 913,
    "T:Password:API": 4,
    "T:Password:Auth": 1,
    "T:Password:Auth:Dropbox App secret": 1,
@@ -2857,7 +2865,7 @@
    "T:PostHog Credentials:API:Key": 1,
    "T:Postman Credentials": 1,
    "T:Postman Credentials:API:Key": 1,
-   "T:Secret": 1124,
+   "T:Secret": 1129,
    "T:Secret:Auth": 5,
    "T:Secret:Auth:Token": 1,
    "T:Secret:Dropbox App secret": 1,
@@ -2867,12 +2875,13 @@
    "T:Secret:UUID": 1,
    "T:Slack Token": 4,
    "T:Slack Token:Token": 8,
-   "T:Token": 333,
+   "T:Token": 335,
    "T:Token:API:Key": 2,
    "T:Token:API:Key:Google API Key": 1,
    "T:Token:Akamai Credentials": 2,
    "T:Token:Auth": 7,
    "T:Token:Auth:Secret": 2,
+   "T:Token:Bearer Authorization": 1,
    "T:Token:Github Classic Token": 1,
    "T:Token:JSON Web Token": 2,
    "T:Token:JSON Web Token:Azure Access Token": 2,
@@ -2888,19 +2897,17 @@
    "T:UUID:Secret": 2,
    "T:UUID:Token": 16,
    "T:WunderGraph API Key:API:Key": 9,
-   "X:API:Key": 12,
-   "X:API:Key:Secret": 1,
-   "X:Auth:Password": 2,
-   "X:Auth:Secret": 1,
+   "X:API:Key": 15,
+   "X:Auth:Password": 1,
    "X:Credential:Secret": 1,
    "X:Key": 9,
    "X:Key:API": 1,
-   "X:Key:Secret": 15,
+   "X:Key:Secret": 7,
    "X:Other": 8,
-   "X:Password": 65,
+   "X:Password": 71,
+   "X:Password:Secret": 2,
    "X:Password:URL Credentials": 37,
-   "X:Secret": 33,
-   "X:Secret:Token": 1,
+   "X:Secret": 15,
    "X:Token": 8,
    "X:URL Credentials": 144
   }
@@ -2936,36 +2943,36 @@
  },
  "limit": null,
  "micro_all_mapped_types": {
-  "f1_overlap": 0.6196,
-  "found_overlap": 8379,
-  "found_strict": 8049,
-  "precision_any_label": 0.9383,
-  "precision_typed": 0.7419,
-  "pred_any_label": 10861,
-  "pred_typed": 8587,
-  "predicted": 11575,
-  "recall_overlap": 0.5319,
-  "recall_strict": 0.511,
+  "f1_overlap": 0.6635,
+  "found_overlap": 9345,
+  "found_strict": 9007,
+  "precision_any_label": 0.9449,
+  "precision_typed": 0.7526,
+  "pred_any_label": 11970,
+  "pred_typed": 9534,
+  "predicted": 12668,
+  "recall_overlap": 0.5932,
+  "recall_strict": 0.5718,
   "support": 15753
  },
  "micro_claimed_types": {
-  "f1_overlap": 0.6196,
-  "found_overlap": 8379,
-  "found_strict": 8049,
-  "precision_any_label": 0.9383,
-  "precision_typed": 0.7419,
-  "pred_any_label": 10861,
-  "pred_typed": 8587,
-  "predicted": 11575,
-  "recall_overlap": 0.5319,
-  "recall_strict": 0.511,
+  "f1_overlap": 0.6635,
+  "found_overlap": 9345,
+  "found_strict": 9007,
+  "precision_any_label": 0.9449,
+  "precision_typed": 0.7526,
+  "pred_any_label": 11970,
+  "pred_typed": 9534,
+  "predicted": 12668,
+  "recall_overlap": 0.5932,
+  "recall_strict": 0.5718,
   "support": 15753
  },
  "system": {
   "min_score": 0.0,
   "name": "ppe-rules",
   "phone_context": "required",
-  "ppe": "0.1.0.dev1",
-  "secret_rules": "ppe v2 + gitleaks 8.30.1"
+  "ppe": "0.1.0.dev2",
+  "secret_rules": "ppe v3 + gitleaks 8.30.1"
  }
 }

@@ -58,7 +58,7 @@ One protocol for every system, so Presidio (done) or a later span-model run is s
 - **Any-type coverage:** for every one of the 55 labels, the share of gold spans overlapped by any
   finding: what the rules protect today, including labels they do not claim.
 
-## Results (`ppe-rules` 0.1.0.dev1, after the IPv4 fix below, the three detector fixes from the Gretel run and the Gitleaks rule import of 2026-10-18)
+## Results (`ppe-rules` 0.1.0.dev1, after the IPv4 fix below, the three detector fixes from the Gretel run, and the 2026-10-18 secret rules: Gitleaks import, v3)
 
 `phone_context=optional` (the shipped default in all three profiles):
 
@@ -69,19 +69,19 @@ One protocol for every system, so Presidio (done) or a later span-model run is s
 | IPV4 | 6,078 | **1.000** | 1.000 | 9,284 | 0.655 | 0.983 | 0.791 |
 | IPV6 | 3,139 | 0.905 | 0.905 | 2,885 | 0.985 | 0.985 | 0.944 |
 | PHONE | 30,353 | 0.917 | 0.906 | 52,035 | 0.535 | 0.994 | 0.676 |
-| SECRET | 11,652 | 0.131 | 0.108 | 2,594 | 0.980 | 0.992 | 0.230 |
+| SECRET | 11,652 | 0.151 | 0.128 | 2,834 | 0.981 | 0.992 | 0.262 |
 | IBAN | (no label) | | | 59 | 0.373 | 0.932 | |
 | NRIC | (no label) | | | 3 | 1.000 | 1.000 | |
-| **micro, claimed types** | 118,019 | 0.792 | 0.786 | 122,564 | 0.771 | 0.996 | 0.781 |
-| micro, all mapped types | 586,978 | 0.159 | 0.158 | 122,564 | 0.771 | 0.996 | 0.264 |
+| **micro, claimed types** | 118,019 | 0.794 | 0.788 | 122,804 | 0.771 | 0.996 | 0.782 |
+| micro, all mapped types | 586,978 | 0.160 | 0.158 | 122,804 | 0.771 | 0.996 | 0.264 |
 
 `phone_context=required` changes PHONE only: recall 0.822, typed precision **0.993**, F1 0.900;
-micro over claimed types: recall 0.767, precision 0.957, F1 0.852 (all mapped types: 0.154 / 0.957 /
+micro over claimed types: recall 0.769, precision 0.958, F1 0.853 (all mapped types: 0.155 / 0.958 /
 0.266). The all-mapped micro counts names, places, dates and the other spaCy-style types against
 the rules, which claim none of them; Presidio's numbers on the same denominator are in
 [`2026-10-16-presidio-baseline.md`](2026-10-16-presidio-baseline.md).
 
-Any-type coverage over all 850,340 gold spans: **0.143** (optional) / 0.112 (required). Names,
+Any-type coverage over all 850,340 gold spans: **0.144** (optional) / 0.112 (required). Names,
 addresses, dates, SSNs, account numbers and the like need span models (phase 4) or rules not yet
 written; the per-label table is in the `.txt` results.
 
@@ -102,7 +102,7 @@ IPv6 (`…:abcd:efgh`), where the old pattern matched a valid-looking prefix. Ca
 | Type | Finding | Kind |
 |---|---|---|
 | CARD | 11,271 of 12,867 gold card numbers (88%) **fail the Luhn check**. Real card numbers cannot. PPE's strict detector rejects them by design (and G2 surrogates rely on invalid check digits). On the 1,525 Luhn-valid gold cards, recall is **0.995** (1,517). | dataset property |
-| SECRET | 4,220 of 4,667 `api_key` spans are generic random strings with no vendor prefix: 888 found since the Gitleaks import (64 before; its generic rule matches a key word and a random value). Vendor-prefixed keys: 418 of 447 found (0.935; 409 before). `password` values are found in assignment or URL form only: 215 of 6,985, against 246 before. The import added 13; the placeholder filter on PPE's `assignment` rule (values with a Gitleaks stop word are dropped) removed 44 real passwords that contain such a word (259 without the filter). | scope of Stage 1 |
+| SECRET | 4,220 of 4,667 `api_key` spans are generic random strings with no vendor prefix: 1,081 found with the 2026-10-18 secret rules (64 before; Gitleaks' generic rule matches a key word and a random value, and the Bearer rule adds tokens after `Bearer`). Vendor-prefixed keys: 422 of 447 found (0.944; 409 before). `password` values are found in assignment or URL form only: 257 of 6,985 (246 before). v0.1.0.dev2 found 215: its placeholder filter (Gitleaks' 1,448 stop words) dropped 44 real passwords; rules v3 drop only placeholders, values naming a kind of credential (2 real `Password123`-style passwords lost), templates and code. | scope of Stage 1 |
 | IPV4 | **Bug, fixed here.** An address that ends a sentence (`… 192.0.2.10.`) was never detected: the regex refused any following dot. That was 1,233 of the 1,234 misses. Now 6,077 of 6,078 (the one left has an octet above 255). Typed precision 0.655 because 3,041 findings sit inside URLs labelled `url`; they count under P any. | PPE bug |
 | IPV6 | 287 of the 297 missed gold values are not valid IPv6 addresses (Python's `ipaddress` rejects them). | dataset property |
 | PHONE | Misses (2,525): international numbers with a one-digit group (`+353 1 …`, `+33 6 12 …`; 802), other international (50), and national formats outside SG/NANP/UK (1,673; 9-digit and others). With `optional`, nearly half of all phone findings land on other numeric IDs (biometric IDs, customer IDs, MRNs); `required` removes nearly all of them at a 9.5-point recall cost. This is the `detection.phone_context` trade-off, now measured on external data. | scope and knob |
