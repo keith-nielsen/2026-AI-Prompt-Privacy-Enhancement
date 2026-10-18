@@ -2,7 +2,7 @@
 
 ## Start here (next session, written 2026-10-18 at session end)
 
-- **State:** working tree clean; `main` = `feat/external-bench-creddata` = `becb096` on GitHub. Latest
+- **State:** working tree clean; `main` = `feat/external-bench-creddata` on GitHub (this card's commit). Latest
   release `v0.1.0.dev3`. **History was rewritten on 2026-10-18** (F-14 purge): any clone made before
   then must be re-cloned, not pulled; old commit hashes map to new ones in `history-rewrite-2026-10-18.md`.
 - **Checklist:** `git status`; gate `.venv/bin/ruff check src tests && .venv/bin/ruff format --check src
