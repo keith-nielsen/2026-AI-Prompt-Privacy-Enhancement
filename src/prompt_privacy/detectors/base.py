@@ -10,7 +10,7 @@ from prompt_privacy.core.shadow import build_shadow
 from prompt_privacy.core.types import EntityType, Finding
 from prompt_privacy.detectors import gitleaks
 from prompt_privacy.detectors.patterns import find_structured
-from prompt_privacy.detectors.secrets import PLACEHOLDER_FILTERED, SECRET_RULES
+from prompt_privacy.detectors.secrets import SECRET_RULES, VALUE_CHECKS
 
 # When spans overlap: secrets win, then checksummed types, then the rest; then the longer span.
 _PRIORITY: dict[EntityType, int] = {
@@ -60,9 +60,8 @@ def detect(
     for rule_id, rx in SECRET_RULES:
         for m in rx.finditer(shadow.text):
             s, e = m.span("s") if "s" in rx.groupindex else m.span()
-            # `NAME = value` has no entropy floor (short real passwords count), so placeholders are
-            # dropped by Gitleaks' word list instead (CredData: a third fewer spans, 21 hits lost).
-            if rule_id in PLACEHOLDER_FILTERED and gitleaks.has_stopword(shadow.text[s:e]):
+            check = VALUE_CHECKS.get(rule_id)
+            if check is not None and not check(shadow.text[s:e], shadow.text[s - 1 : s]):
                 continue
             add(s, e, EntityType.SECRET, "rules.secrets", rule_id)
     for s, e, rule_id in gitleaks.find(shadow.text):

@@ -154,10 +154,3 @@ def test_every_keyword_with_long_input_stays_fast() -> None:
     t0 = time.perf_counter()
     gitleaks.find(text)
     assert time.perf_counter() - t0 < 5.0
-
-
-def test_assignment_placeholders_are_dropped_by_gitleaks_words() -> None:
-    text = "export API_KEY=changeme123\nexport API_KEY=abcd1234efgh5678\n"
-    fs = [(f.subtype, f.value) for f in detect(text) if f.type is T.SECRET]
-    assert fs == [("assignment", "abcd1234efgh5678")]
-    assert len(gitleaks.stopwords()) == 1448 and gitleaks.has_stopword("ChangeMe")
