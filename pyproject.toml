@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "prompt-privacy-enhancement"
-version = "0.1.0.dev2"
+version = "0.1.0.dev3"
 description = "Testable privacy harness for LLM prompts: detect, swap with surrogates, restore, sealed audit."
 readme = "README.md"
 license = "Apache-2.0"

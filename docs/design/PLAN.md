@@ -1,7 +1,7 @@
 # Plan — Prompt Privacy Enhancement (PPE)
 
 GitHub: `keith-nielsen/2026-AI-Prompt-Privacy-Enhancement` · local: `~/Documents/repo/prompt-privacy-enhancement`
-Status: v0.1.0.dev2 pre-alpha (2026-10-18): phase 1 built, phase 2a (shadow-mode proxy) in progress;
+Status: v0.1.0.dev3 pre-alpha (2026-10-18): phase 1 built, phase 2a (shadow-mode proxy) in progress;
 written as the plan on 2026-10-02, so §2 and §5 describe the target, not the repo as it is. Sources: [`../sources/`](../sources/README.md).
 Overnight research pass (2026-10-02): [`../research/2026-10-02-research-report.md`](../research/2026-10-02-research-report.md);
 decisions drafted as ADR-0001…0013 in this folder (status *proposed*); [threat model](../threat-model.md);

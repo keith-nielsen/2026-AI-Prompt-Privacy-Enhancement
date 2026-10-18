@@ -15,7 +15,7 @@ checkpoints are planned; see the limits below).
 > notice or migration. Do not rely on PPE to protect real personal data or secrets yet: shadow mode
 > observes, it does not mask.
 
-> **Status: v0.1.0.dev2, phase 2a.** The deterministic detectors, surrogate swap/restore,
+> **Status: v0.1.0.dev3, phase 2a.** The deterministic detectors, surrogate swap/restore,
 > the fully sealed 2-of-2 post-quantum audit log (hash-chained; signed checkpoints planned), the
 > synthetic corpus, the benchmark and the `ppe` CLI work and are tested. `ppe serve` is a loopback proxy for the Anthropic Messages API in
 > **shadow mode**: it forwards traffic unchanged and records sealed findings; it does **not** mask
@@ -66,7 +66,7 @@ cover English-speaking countries only (French phone recall 0.529, 0.218 with `ph
 
 ## Built and designed
 
-| Area | Built (v0.1.0.dev2) | Designed, not built |
+| Area | Built (v0.1.0.dev3) | Designed, not built |
 |---|---|---|
 | Detection | Stage 0 shadow text; Stage 1 rules: 15 secret types (incl. Basic, Bearer and NTLM authorization) plus 217 rules imported from Gitleaks 8.30.1 (MIT, run on RE2), checksummed identifiers (SG NRIC/FIN, cards, IBAN), e-mail, phone, IP addresses, operator dictionary | span models, arbiter (ADR-0005) |
 | Swap and restore | surrogates with format transfer; closed-world restore (`ppe mask`) | in the proxy; streaming restore R5; context-aware restore (phase 4) |
